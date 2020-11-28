@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [ConsignmentDemo]    Script Date: 11/28/2020 10:07:48 AM ******/
+/****** Object:  Database [ConsignmentDemo]    Script Date: 11/28/2020 11:12:03 AM ******/
 CREATE DATABASE [ConsignmentDemo]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -82,7 +82,7 @@ ALTER DATABASE [ConsignmentDemo] SET QUERY_STORE = OFF
 GO
 USE [ConsignmentDemo]
 GO
-/****** Object:  Table [dbo].[Items]    Script Date: 11/28/2020 10:07:48 AM ******/
+/****** Object:  Table [dbo].[Items]    Script Date: 11/28/2020 11:12:03 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -93,37 +93,54 @@ CREATE TABLE [dbo].[Items](
 	[Price] [money] NOT NULL,
 	[Sold] [bit] NOT NULL,
 	[Owner] [int] NOT NULL,
-	[id] [int] IDENTITY(1,1) NOT NULL,
+	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[PaymentDistributed] [bit] NOT NULL,
  CONSTRAINT [PK_Items] PRIMARY KEY CLUSTERED 
 (
-	[id] ASC
+	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Vendors]    Script Date: 11/28/2020 10:07:48 AM ******/
+/****** Object:  Table [dbo].[Vendors]    Script Date: 11/28/2020 11:12:03 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Vendors](
-	[id] [int] IDENTITY(1,1) NOT NULL,
-	[FirstName] [nchar](100) NOT NULL,
-	[LastName] [nchar](150) NULL,
-	[CommisonRate] [float] NULL,
-	[PaymentDue] [money] NULL,
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[FirstName] [nvarchar](100) NOT NULL,
+	[LastName] [nvarchar](150) NOT NULL,
+	[CommisonRate] [float] NOT NULL,
+	[PaymentDue] [money] NOT NULL,
  CONSTRAINT [PK_Vendor] PRIMARY KEY CLUSTERED 
 (
-	[id] ASC
+	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Items]  WITH CHECK ADD  CONSTRAINT [FK_Items_Vendors] FOREIGN KEY([Owner])
-REFERENCES [dbo].[Vendors] ([id])
+REFERENCES [dbo].[Vendors] ([Id])
 GO
 ALTER TABLE [dbo].[Items] CHECK CONSTRAINT [FK_Items_Vendors]
 GO
-/****** Object:  StoredProcedure [dbo].[spItemInsert]    Script Date: 11/28/2020 10:07:48 AM ******/
+/****** Object:  StoredProcedure [dbo].[spItemGetAll]    Script Date: 11/28/2020 11:12:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[spItemGetAll]
+
+AS
+BEGIN
+
+	SET NOCOUNT ON;
+
+    
+	SELECT * from dbo.Items;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[spItemInsert]    Script Date: 11/28/2020 11:12:03 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -136,7 +153,7 @@ CREATE PROCEDURE [dbo].[spItemInsert]
 	@Sold bit,
 	@Owner int,
 	@PaymentDistributed bit,
-	@id int = 0 output
+	@Id int = 0 output
 AS
 BEGIN
 
@@ -145,7 +162,48 @@ BEGIN
     insert into dbo.Items (Name, Description, Price, Sold, Owner, PaymentDistributed)
 	values (@Name, @Description, @Price, @Sold, @Owner, @PaymentDistributed);
 
-	select id = SCOPE_IDENTITY();
+	select @Id = SCOPE_IDENTITY();
+END
+GO
+/****** Object:  StoredProcedure [dbo].[spVendorGetAll]    Script Date: 11/28/2020 11:12:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[spVendorGetAll]
+
+AS
+BEGIN
+
+	SET NOCOUNT ON;
+
+    
+	SELECT * from dbo.Vendors;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[spVendorInsert]    Script Date: 11/28/2020 11:12:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[spVendorInsert]
+	@FirstName nvarchar(100),
+	@LastName nvarchar(150),
+	@CommisionRate float,
+	@PaymentDue money,
+	@Id int = 0 output
+AS
+BEGIN
+
+	SET NOCOUNT ON;
+
+    
+	insert into Vendors (FirstName, LastName, CommisonRate, PaymentDue)
+	values (@FirstName, @LastName, @CommisionRate, @PaymentDue);
+
+	select @Id = SCOPE_IDENTITY();
 END
 GO
 USE [master]

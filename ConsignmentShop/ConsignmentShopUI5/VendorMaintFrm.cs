@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
 using ConsignmentShopLibrary;
+using ConsignmentShopLibrary.Models;
 
 namespace ConsignmentShopUI
 {

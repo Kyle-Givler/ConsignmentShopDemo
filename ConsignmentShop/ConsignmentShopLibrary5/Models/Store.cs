@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ConsignmentShopLibrary
+namespace ConsignmentShopLibrary.Models
 {
     public class Store
     {

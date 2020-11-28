@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Windows.Forms;
+using ConsignmentShopLibrary.Models;
 
 // TODO Add vendors form
 // TODO Add items form

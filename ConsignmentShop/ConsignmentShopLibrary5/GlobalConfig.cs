@@ -1,6 +1,7 @@
 ﻿using ConsignmentShopLibrary.DataAccess;
 using Microsoft.Extensions.Configuration;
 using System;
+using ConsignmentShopLibrary.Models;
 
 namespace ConsignmentShopLibrary
 {

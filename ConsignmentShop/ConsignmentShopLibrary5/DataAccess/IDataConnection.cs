@@ -1,18 +1,17 @@
-﻿
-
+﻿using ConsignmentShopLibrary.Models;
 using System.Collections.Generic;
 
 namespace ConsignmentShopLibrary.DataAccess
 {
     public interface IDataConnection
     {
-        void SaveVendors(List<Vendor> vendors);
+        void SaveVendor(Vendor vendor);
 
-        List<Vendor> LoadVendors();
+        List<Vendor> LoadAllVendors();
 
-        void SaveItems(List<Item> items);
+        void SaveItem(Item item);
 
-        List<Item> LoadItems();
+        List<Item> LoadAllItems();
 
     }
 }
