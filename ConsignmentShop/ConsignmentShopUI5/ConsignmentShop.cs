@@ -29,6 +29,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using ConsignmentShopLibrary.Models;
 using System.Diagnostics;
+using System.Linq;
 
 // TODO Save to DB / load from DB
 
@@ -88,7 +89,9 @@ namespace ConsignmentShopUI
 
             items.Clear();
 
-            foreach (var it in GlobalConfig.Store.Items)
+            var unsoldItems = GlobalConfig.Store.Items.Where(x => !x.Sold).ToList();
+
+            foreach (var it in unsoldItems)
             {
                 items.Add(it);
             }
