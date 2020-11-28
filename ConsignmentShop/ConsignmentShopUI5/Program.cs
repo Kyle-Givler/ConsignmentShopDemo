@@ -27,6 +27,7 @@ SOFTWARE.
 // Very much extended from the video
 
 using System;
+using System.Configuration;
 using System.Windows.Forms;
 using ConsignmentShopLibrary;
 using ConsignmentShopLibrary.Models;
@@ -44,10 +45,8 @@ namespace ConsignmentShopUI
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            
-
             GlobalConfig.InitializeConnection(GlobalConfig.DatabaseType.MSSQL);
-            GlobalConfig.Store = new Store();
+            GlobalConfig.Store = new Store() { Name = GlobalConfig.Configuration.GetSection("Store:Name").Value };
 
             Application.Run(new ConsignmentShop());
         }

@@ -52,6 +52,7 @@ namespace ConsignmentShopUI
             this.lblPriceValue = new System.Windows.Forms.Label();
             this.lblVendorValue = new System.Windows.Forms.Label();
             this.linkLabelGitHub = new System.Windows.Forms.LinkLabel();
+            this.lblStoreName = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // headerText
@@ -59,7 +60,7 @@ namespace ConsignmentShopUI
             this.headerText.AutoSize = true;
             this.headerText.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.headerText.ForeColor = System.Drawing.Color.DarkBlue;
-            this.headerText.Location = new System.Drawing.Point(28, 29);
+            this.headerText.Location = new System.Drawing.Point(262, 9);
             this.headerText.Name = "headerText";
             this.headerText.Size = new System.Drawing.Size(405, 37);
             this.headerText.TabIndex = 0;
@@ -312,6 +313,17 @@ namespace ConsignmentShopUI
             this.linkLabelGitHub.Text = "http://github.com/JoyfulReaper";
             this.linkLabelGitHub.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelGitHub_LinkClicked);
             // 
+            // lblStoreName
+            // 
+            this.lblStoreName.AutoSize = true;
+            this.lblStoreName.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblStoreName.ForeColor = System.Drawing.Color.DarkBlue;
+            this.lblStoreName.Location = new System.Drawing.Point(31, 57);
+            this.lblStoreName.Name = "lblStoreName";
+            this.lblStoreName.Size = new System.Drawing.Size(197, 33);
+            this.lblStoreName.TabIndex = 0;
+            this.lblStoreName.Text = "{Store name}";
+            // 
             // ConsignmentShop
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -340,6 +352,7 @@ namespace ConsignmentShopUI
             this.Controls.Add(this.itemsListboxLabel);
             this.Controls.Add(this.shoppingCartListBox);
             this.Controls.Add(this.itemsListbox);
+            this.Controls.Add(this.lblStoreName);
             this.Controls.Add(this.headerText);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -375,6 +388,7 @@ namespace ConsignmentShopUI
         private System.Windows.Forms.Label lblPriceValue;
         private System.Windows.Forms.Label lblVendorValue;
         private System.Windows.Forms.LinkLabel linkLabelGitHub;
+        private System.Windows.Forms.Label lblStoreName;
     }
 }
 

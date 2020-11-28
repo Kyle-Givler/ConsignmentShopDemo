@@ -58,6 +58,8 @@ namespace ConsignmentShopUI
             vendorListBox.DataSource = vendors;
             vendorListBox.DisplayMember = "Display";
             vendorListBox.ValueMember = "Display";
+
+            lblStoreName.Text = GlobalConfig.Store.Name;
         }
 
         private void SetupData()
@@ -96,8 +98,6 @@ namespace ConsignmentShopUI
                 Price = 1.50M,
                 Owner = GlobalConfig.Store.Vendors[0]
             });
-
-            GlobalConfig.Store.Name = "Seconds are Better";
 
             vendors.ResetBindings();
             items.ResetBindings();
