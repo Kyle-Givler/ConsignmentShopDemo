@@ -16,13 +16,13 @@ namespace ConsignmentShopLibrary.DataAccess
             throw new System.NotImplementedException();
         }
 
-        public void SaveItems(List<Item> items)
+        public void SaveItems()
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
             {
                 var p = new DynamicParameters();
 
-                foreach (var item in items)
+                foreach (var item in GlobalConfig.Store.Items)
                 {
 
                     p.Add("@Name", item.Name);
@@ -33,11 +33,13 @@ namespace ConsignmentShopLibrary.DataAccess
                     p.Add("@PaymentDistributed", item.PaymentDistrubuted);
 
                     connection.Execute("dbo.spItemInsert", p, commandType: CommandType.StoredProcedure);
+
+                    item.Id = p.Get<int>("@Id");
                 }
             }
         }
 
-        public void SaveVendors(List<Vendor> vendors)
+        public void SaveVendors()
         {
             throw new System.NotImplementedException();
         }
