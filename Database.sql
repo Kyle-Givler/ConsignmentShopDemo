@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [ConsignmentDemo]    Script Date: 11/28/2020 11:12:03 AM ******/
+/****** Object:  Database [ConsignmentDemo]    Script Date: 11/28/2020 1:32:05 PM ******/
 CREATE DATABASE [ConsignmentDemo]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -82,7 +82,7 @@ ALTER DATABASE [ConsignmentDemo] SET QUERY_STORE = OFF
 GO
 USE [ConsignmentDemo]
 GO
-/****** Object:  Table [dbo].[Items]    Script Date: 11/28/2020 11:12:03 AM ******/
+/****** Object:  Table [dbo].[Items]    Script Date: 11/28/2020 1:32:05 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -92,7 +92,7 @@ CREATE TABLE [dbo].[Items](
 	[Description] [nvarchar](2000) NOT NULL,
 	[Price] [money] NOT NULL,
 	[Sold] [bit] NOT NULL,
-	[Owner] [int] NOT NULL,
+	[OwnerId] [int] NOT NULL,
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[PaymentDistributed] [bit] NOT NULL,
  CONSTRAINT [PK_Items] PRIMARY KEY CLUSTERED 
@@ -101,7 +101,7 @@ CREATE TABLE [dbo].[Items](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Vendors]    Script Date: 11/28/2020 11:12:03 AM ******/
+/****** Object:  Table [dbo].[Vendors]    Script Date: 11/28/2020 1:32:05 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -118,12 +118,12 @@ CREATE TABLE [dbo].[Vendors](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[Items]  WITH CHECK ADD  CONSTRAINT [FK_Items_Vendors] FOREIGN KEY([Owner])
+ALTER TABLE [dbo].[Items]  WITH CHECK ADD  CONSTRAINT [FK_Items_Vendors] FOREIGN KEY([OwnerId])
 REFERENCES [dbo].[Vendors] ([Id])
 GO
 ALTER TABLE [dbo].[Items] CHECK CONSTRAINT [FK_Items_Vendors]
 GO
-/****** Object:  StoredProcedure [dbo].[spItemGetAll]    Script Date: 11/28/2020 11:12:03 AM ******/
+/****** Object:  StoredProcedure [dbo].[spItemGetAll]    Script Date: 11/28/2020 1:32:05 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -136,11 +136,11 @@ BEGIN
 
 	SET NOCOUNT ON;
 
-    
-	SELECT * from dbo.Items;
+	select * from
+	dbo.Items;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[spItemInsert]    Script Date: 11/28/2020 11:12:03 AM ******/
+/****** Object:  StoredProcedure [dbo].[spItemInsert]    Script Date: 11/28/2020 1:32:05 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -165,7 +165,32 @@ BEGIN
 	select @Id = SCOPE_IDENTITY();
 END
 GO
-/****** Object:  StoredProcedure [dbo].[spVendorGetAll]    Script Date: 11/28/2020 11:12:03 AM ******/
+/****** Object:  StoredProcedure [dbo].[SpItemUpdate]    Script Date: 11/28/2020 1:32:05 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[SpItemUpdate]
+	@Id int,
+	@Name nvarchar(200),
+	@Description nvarchar(2000),
+	@Price money,
+	@Sold bit,
+	@OwnerId int,
+	@PaymentDistributed bit
+AS
+BEGIN
+
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	UPDATE Items
+	SET Name = @Name, Description = @Description, Price = @Price, Sold = @Sold, OwnerId = @OwnerId, PaymentDistributed = @PaymentDistributed
+	WHERE Id = @Id;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[spVendorGetAll]    Script Date: 11/28/2020 1:32:05 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -182,7 +207,26 @@ BEGIN
 	SELECT * from dbo.Vendors;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[spVendorInsert]    Script Date: 11/28/2020 11:12:03 AM ******/
+/****** Object:  StoredProcedure [dbo].[spVendorGetById]    Script Date: 11/28/2020 1:32:05 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[spVendorGetById]
+	@Id int
+AS
+BEGIN
+
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT * 
+	from  Vendors
+	where Vendors.Id = @id;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[spVendorInsert]    Script Date: 11/28/2020 1:32:05 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
