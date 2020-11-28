@@ -104,7 +104,6 @@ namespace ConsignmentShopUI
             }
 
             items.Add(output);
-
             ClearItemInput();
         }
 

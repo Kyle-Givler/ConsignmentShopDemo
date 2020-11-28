@@ -34,6 +34,7 @@ namespace ConsignmentShopUI
     {
         private readonly BindingList<Vendor> vendors = new BindingList<Vendor>(GlobalConfig.Store.Vendors);
         private bool editing = false;
+        private Vendor editingVendor = null;
 
         public VendorMaintFrm()
         {
@@ -47,33 +48,42 @@ namespace ConsignmentShopUI
 
         private void btnAddIVendor_Click(object sender, System.EventArgs e)
         {
+            Vendor output = null;
+
             if(!ValidateData())
             {
                 return;
             }
 
-            Vendor vendor = new Vendor()
+            if(editing)
             {
-                FirstName = textBoxFirstName.Text,
-                LastName = textBoxLastName.Text,
-                CommisonRate = double.Parse(textBoxCommison.Text) / 100
-            };
+                editingVendor.FirstName = textBoxFirstName.Text;
+                editingVendor.LastName = textBoxLastName.Text;
+                editingVendor.CommisonRate = double.Parse(textBoxCommison.Text);
 
-            GlobalConfig.Connection.SaveVendor(vendor);
-            GlobalConfig.Store.Vendors.Add(vendor);
+                GlobalConfig.Connection.UpdateVendor(editingVendor);
 
-            vendors.ResetBindings();
-
-            ClearVendorTextBoxes();
-
-            if (editing)
-            {
                 btnAddVendor.Text = "Add Vendor";
-                
                 btnEdit.Enabled = true;
-
                 editing = false;
+
+                output = editingVendor;
             }
+            else
+            {
+                output = new Vendor()
+                {
+                    FirstName = textBoxFirstName.Text,
+                    LastName = textBoxLastName.Text,
+                    CommisonRate = double.Parse(textBoxCommison.Text) / 100
+                };
+
+                GlobalConfig.Connection.SaveVendor(output);
+            }
+
+
+            vendors.Add(output);
+            ClearVendorTextBoxes();
         }
 
         private void ClearVendorTextBoxes()
@@ -146,14 +156,21 @@ namespace ConsignmentShopUI
 
         private void btnEdit_Click(object sender, System.EventArgs e)
         {
+            Vendor selectedVendor = (Vendor)listBoxVendors.SelectedItem;
+            editingVendor = selectedVendor;
+
+            if(editingVendor == null)
+            {
+                return;
+            }
+
             editing = true;
-            btnEdit.Enabled = false;
-            btnAddVendor.Text = "Update Vendor";
 
             PopulateVendorTextBoxes();
+            vendors.Remove(selectedVendor);
 
-            vendors.Remove((Vendor)listBoxVendors.SelectedItem);
-            //TODO Update database
+            btnAddVendor.Text = "Update Vendor";
+            btnEdit.Enabled = false;
         }
 
         private void PopulateVendorTextBoxes()

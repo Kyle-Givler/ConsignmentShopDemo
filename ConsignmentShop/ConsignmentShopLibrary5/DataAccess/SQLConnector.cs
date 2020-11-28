@@ -61,6 +61,22 @@ namespace ConsignmentShopLibrary.DataAccess
             return items;
         }
 
+        public void UpdateVendor(Vendor vendor)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
+            {
+                var p = new DynamicParameters();
+
+                p.Add("@FirstName", vendor.FirstName);
+                p.Add("@LastName", vendor.LastName);
+                p.Add("@CommisionRate", vendor.CommisonRate);
+                p.Add("@PaymentDue", vendor.PaymentDue);
+                p.Add("@Id",vendor.Id);
+
+                connection.Execute("dbo.spVendorUpdate", p, commandType: CommandType.StoredProcedure);
+            }
+        }
+
         public List<Vendor> LoadAllVendors()
         {
             List<Vendor> vendors;

@@ -31,6 +31,7 @@ namespace ConsignmentShopLibrary.DataAccess
     public interface IDataConnection
     {
         void SaveVendor(Vendor vendor);
+        void UpdateVendor(Vendor vendor);
 
         List<Vendor> LoadAllVendors();
 
