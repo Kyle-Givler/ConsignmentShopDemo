@@ -27,6 +27,7 @@ using ConsignmentShopLibrary;
 using System.ComponentModel;
 using System.Windows.Forms;
 using ConsignmentShopLibrary.Models;
+using System.Linq;
 
 namespace ConsignmentShopUI
 {

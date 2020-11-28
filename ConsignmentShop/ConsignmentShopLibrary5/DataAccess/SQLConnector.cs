@@ -41,11 +41,20 @@ namespace ConsignmentShopLibrary.DataAccess
             {
                 items = connection.Query<Item>("dbo.spItemGetAll").ToList();
 
+                //foreach (var item in items)
+                //{
+                //    var p = new DynamicParameters();
+                //    p.Add("@Id", item.OwnerId);
+                //    item.Owner = connection.Query<Vendor>("dbo.spVendorGetById", p, commandType: CommandType.StoredProcedure).First();
+                //}
+
+                if(GlobalConfig.Store.Vendors.Count == 0)
+                {
+                    LoadAllVendors();
+                }
                 foreach (var item in items)
                 {
-                    var p = new DynamicParameters();
-                    p.Add("@Id", item.OwnerId);
-                    item.Owner = connection.Query<Vendor>("dbo.spVendorGetById", p, commandType: CommandType.StoredProcedure).First();
+                    item.Owner = GlobalConfig.Store.Vendors.Where(x => x.Id == item.OwnerId).First();
                 }
             }
 
