@@ -8,6 +8,7 @@ namespace ConsignmentShopLibrary
 {
     public class Vendor
     {
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public double CommisonRate { get; set; }

@@ -15,6 +15,8 @@ namespace ConsignmentShopUI
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            
+
             GlobalConfig.InitializeConnection(GlobalConfig.DatabaseType.MSSQL);
             GlobalConfig.Store = new Store();
 

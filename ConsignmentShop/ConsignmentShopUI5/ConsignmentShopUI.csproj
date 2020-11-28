@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ConsignmentShopLibrary5\ConsignmentShopLibrary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ConsignmentShop.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ConsignmentShop.Designer.cs">
+      <DependentUpon>ConsignmentShop.cs</DependentUpon>
+    </Compile>
+    <Compile Update="ItemMaintFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ItemMaintFrm.Designer.cs">
+      <DependentUpon>ItemMaintFrm.cs</DependentUpon>
+    </Compile>
+    <Compile Update="VendorMaintFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="VendorMaintFrm.Designer.cs">
+      <DependentUpon>VendorMaintFrm.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="ConsignmentShop.resx">
+      <DependentUpon>ConsignmentShop.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ItemMaintFrm.resx">
+      <DependentUpon>ItemMaintFrm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="VendorMaintFrm.resx">
+      <DependentUpon>VendorMaintFrm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
