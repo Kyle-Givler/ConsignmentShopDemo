@@ -99,7 +99,7 @@ namespace ConsignmentShopUI
             foreach (Item item in shoppingCart)
             {
                 item.Sold = true;
-                item.Owner.PaymenDue += (decimal)item.Owner.CommisonRate * item.Price;
+                item.Owner.PaymentDue += (decimal)item.Owner.CommisonRate * item.Price;
                 storeProfit += (1 - (decimal)item.Owner.CommisonRate) * item.Price;
             }
 
@@ -140,6 +140,7 @@ namespace ConsignmentShopUI
             if(selectedItem == null)
             {
                 ClearItemLabels();
+                return;
             }
 
             lblNameValue.Text = $"{selectedItem.Name}";
@@ -154,6 +155,13 @@ namespace ConsignmentShopUI
             lblDescValue.Text = string.Empty;
             lblPriceValue.Text = string.Empty;
             lblVendorValue.Text = string.Empty;
+        }
+
+        private void btnVenderMaint_Click(object sender, EventArgs e)
+        {
+            VendorMaintFrm frm = new VendorMaintFrm();
+            frm.ShowDialog(this);
+            vendors.ResetBindings();
         }
     }
 }

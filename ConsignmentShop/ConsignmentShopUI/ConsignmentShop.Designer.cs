@@ -197,6 +197,7 @@ namespace ConsignmentShopUI
             this.btnVenderMaint.TabIndex = 3;
             this.btnVenderMaint.Text = "Vendor Maintenance";
             this.btnVenderMaint.UseVisualStyleBackColor = true;
+            this.btnVenderMaint.Click += new System.EventHandler(this.btnVenderMaint_Click);
             // 
             // btnItemMaint
             // 
