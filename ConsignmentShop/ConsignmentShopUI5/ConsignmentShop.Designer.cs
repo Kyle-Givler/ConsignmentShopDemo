@@ -51,12 +51,13 @@ namespace ConsignmentShopUI
             this.lblNameValue = new System.Windows.Forms.Label();
             this.lblPriceValue = new System.Windows.Forms.Label();
             this.lblVendorValue = new System.Windows.Forms.Label();
+            this.linkLabelGitHub = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // headerText
             // 
             this.headerText.AutoSize = true;
-            this.headerText.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.headerText.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.headerText.ForeColor = System.Drawing.Color.DarkBlue;
             this.headerText.Location = new System.Drawing.Point(28, 29);
             this.headerText.Name = "headerText";
@@ -77,7 +78,7 @@ namespace ConsignmentShopUI
             // itemsListboxLabel
             // 
             this.itemsListboxLabel.AutoSize = true;
-            this.itemsListboxLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.itemsListboxLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.itemsListboxLabel.ForeColor = System.Drawing.Color.RoyalBlue;
             this.itemsListboxLabel.Location = new System.Drawing.Point(31, 94);
             this.itemsListboxLabel.Name = "itemsListboxLabel";
@@ -110,7 +111,7 @@ namespace ConsignmentShopUI
             // shoppingCartListboxLabel
             // 
             this.shoppingCartListboxLabel.AutoSize = true;
-            this.shoppingCartListboxLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shoppingCartListboxLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.shoppingCartListboxLabel.ForeColor = System.Drawing.Color.RoyalBlue;
             this.shoppingCartListboxLabel.Location = new System.Drawing.Point(564, 94);
             this.shoppingCartListboxLabel.Name = "shoppingCartListboxLabel";
@@ -134,7 +135,7 @@ namespace ConsignmentShopUI
             // vendorListBoxLabel
             // 
             this.vendorListBoxLabel.AutoSize = true;
-            this.vendorListBoxLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.vendorListBoxLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.vendorListBoxLabel.ForeColor = System.Drawing.Color.RoyalBlue;
             this.vendorListBoxLabel.Location = new System.Drawing.Point(564, 390);
             this.vendorListBoxLabel.Name = "vendorListBoxLabel";
@@ -154,7 +155,7 @@ namespace ConsignmentShopUI
             // storePayoutLabel
             // 
             this.storePayoutLabel.AutoSize = true;
-            this.storePayoutLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.storePayoutLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.storePayoutLabel.ForeColor = System.Drawing.Color.RoyalBlue;
             this.storePayoutLabel.Location = new System.Drawing.Point(31, 549);
             this.storePayoutLabel.Name = "storePayoutLabel";
@@ -165,7 +166,7 @@ namespace ConsignmentShopUI
             // storeProfitValue
             // 
             this.storeProfitValue.AutoSize = true;
-            this.storeProfitValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.storeProfitValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.storeProfitValue.ForeColor = System.Drawing.Color.DodgerBlue;
             this.storeProfitValue.Location = new System.Drawing.Point(160, 549);
             this.storeProfitValue.Name = "storeProfitValue";
@@ -215,7 +216,7 @@ namespace ConsignmentShopUI
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblName.ForeColor = System.Drawing.Color.RoyalBlue;
             this.lblName.Location = new System.Drawing.Point(31, 391);
             this.lblName.Name = "lblName";
@@ -226,7 +227,7 @@ namespace ConsignmentShopUI
             // lblDesc
             // 
             this.lblDesc.AutoSize = true;
-            this.lblDesc.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDesc.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblDesc.ForeColor = System.Drawing.Color.RoyalBlue;
             this.lblDesc.Location = new System.Drawing.Point(31, 423);
             this.lblDesc.Name = "lblDesc";
@@ -237,7 +238,7 @@ namespace ConsignmentShopUI
             // lblPrice
             // 
             this.lblPrice.AutoSize = true;
-            this.lblPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblPrice.ForeColor = System.Drawing.Color.RoyalBlue;
             this.lblPrice.Location = new System.Drawing.Point(31, 455);
             this.lblPrice.Name = "lblPrice";
@@ -248,7 +249,7 @@ namespace ConsignmentShopUI
             // lblVendor
             // 
             this.lblVendor.AutoSize = true;
-            this.lblVendor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVendor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblVendor.ForeColor = System.Drawing.Color.RoyalBlue;
             this.lblVendor.Location = new System.Drawing.Point(31, 487);
             this.lblVendor.Name = "lblVendor";
@@ -259,7 +260,7 @@ namespace ConsignmentShopUI
             // lblDescValue
             // 
             this.lblDescValue.AutoSize = true;
-            this.lblDescValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDescValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblDescValue.ForeColor = System.Drawing.Color.DeepSkyBlue;
             this.lblDescValue.Location = new System.Drawing.Point(142, 422);
             this.lblDescValue.Name = "lblDescValue";
@@ -270,7 +271,7 @@ namespace ConsignmentShopUI
             // lblNameValue
             // 
             this.lblNameValue.AutoSize = true;
-            this.lblNameValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNameValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblNameValue.ForeColor = System.Drawing.Color.DeepSkyBlue;
             this.lblNameValue.Location = new System.Drawing.Point(143, 390);
             this.lblNameValue.Name = "lblNameValue";
@@ -281,7 +282,7 @@ namespace ConsignmentShopUI
             // lblPriceValue
             // 
             this.lblPriceValue.AutoSize = true;
-            this.lblPriceValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPriceValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblPriceValue.ForeColor = System.Drawing.Color.DeepSkyBlue;
             this.lblPriceValue.Location = new System.Drawing.Point(142, 454);
             this.lblPriceValue.Name = "lblPriceValue";
@@ -292,7 +293,7 @@ namespace ConsignmentShopUI
             // lblVendorValue
             // 
             this.lblVendorValue.AutoSize = true;
-            this.lblVendorValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVendorValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblVendorValue.ForeColor = System.Drawing.Color.DeepSkyBlue;
             this.lblVendorValue.Location = new System.Drawing.Point(142, 486);
             this.lblVendorValue.Name = "lblVendorValue";
@@ -300,12 +301,24 @@ namespace ConsignmentShopUI
             this.lblVendorValue.TabIndex = 2;
             this.lblVendorValue.Text = "{vendor}";
             // 
+            // linkLabelGitHub
+            // 
+            this.linkLabelGitHub.AutoSize = true;
+            this.linkLabelGitHub.Location = new System.Drawing.Point(692, 653);
+            this.linkLabelGitHub.Name = "linkLabelGitHub";
+            this.linkLabelGitHub.Size = new System.Drawing.Size(225, 20);
+            this.linkLabelGitHub.TabIndex = 9;
+            this.linkLabelGitHub.TabStop = true;
+            this.linkLabelGitHub.Text = "http://github.com/JoyfulReaper";
+            this.linkLabelGitHub.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelGitHub_LinkClicked);
+            // 
             // ConsignmentShop
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FloralWhite;
             this.ClientSize = new System.Drawing.Size(929, 682);
+            this.Controls.Add(this.linkLabelGitHub);
             this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.storeProfitValue);
             this.Controls.Add(this.storePayoutLabel);
@@ -328,7 +341,7 @@ namespace ConsignmentShopUI
             this.Controls.Add(this.shoppingCartListBox);
             this.Controls.Add(this.itemsListbox);
             this.Controls.Add(this.headerText);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "ConsignmentShop";
             this.Text = "Consignment Shop Demo";
@@ -361,6 +374,7 @@ namespace ConsignmentShopUI
         private System.Windows.Forms.Label lblNameValue;
         private System.Windows.Forms.Label lblPriceValue;
         private System.Windows.Forms.Label lblVendorValue;
+        private System.Windows.Forms.LinkLabel linkLabelGitHub;
     }
 }
 
