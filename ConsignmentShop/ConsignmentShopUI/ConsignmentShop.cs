@@ -1,27 +1,24 @@
 ﻿using ConsignmentShopLibrary;
 using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 
-// TODO Add vendors
-// TODO Add items
-// TODO Save to DB
-// TODO Fix the items staying in left side when adding to cart
-// TODO use a BindingList<T> instead of BindingSource
+// TODO Add vendors form
+// TODO Add items form
+// TODO Save to DB / load from DB
 // TODO other moderinzations
 
 namespace ConsignmentShopUI
 {
     public partial class ConsignmentShop : Form
     {
-        private Store store = new Store();
-        private List<Item> shoppingCartData = new List<Item>();
+        private readonly Store store = new Store();
 
-        BindingSource itemsBinding = new BindingSource();
-        BindingSource cartBinding = new BindingSource();
-        BindingSource vendorsBinding = new BindingSource();
+        readonly BindingList<Item> shoppingCart = new BindingList<Item>();
+        BindingList<Vendor> vendors;
+        readonly BindingList<Item> items = new BindingList<Item>();
 
         private decimal storeProfit = 0;
 
@@ -30,21 +27,15 @@ namespace ConsignmentShopUI
             InitializeComponent();
             SetupData();
 
-            itemsBinding.DataSource = store.Items.Where (x => x.Sold == false).ToList();
-            itemsListbox.DataSource = itemsBinding;
-
+            itemsListbox.DataSource = items;
             itemsListbox.DisplayMember = "Display";
             itemsListbox.ValueMember = "Display";
 
-            cartBinding.DataSource = shoppingCartData;
-            shoppingCartListBox.DataSource = cartBinding;
-
+            shoppingCartListBox.DataSource = shoppingCart;
             shoppingCartListBox.DisplayMember = "Display";
             shoppingCartListBox.ValueMember = "Display";
 
-            vendorsBinding.DataSource = store.Vendors;
-            vendorListBox.DataSource = vendorsBinding;
-
+            vendorListBox.DataSource = vendors;
             vendorListBox.DisplayMember = "Display";
             vendorListBox.ValueMember = "Display";
         }
@@ -87,6 +78,14 @@ namespace ConsignmentShopUI
             });
 
             store.Name = "Seconds are Better";
+
+            vendors = new BindingList<Vendor>(store.Vendors);
+            vendors.ResetBindings();
+
+            foreach (Item i in store.Items.Where(x => x.Sold == false))
+            {
+                items.Add(i);
+            }
         }
 
         private void addToCart_Click(object sender, EventArgs e)
@@ -96,9 +95,8 @@ namespace ConsignmentShopUI
             // Do we remove the items from the items list? - no
             Item selectedItem = (Item)itemsListbox.SelectedItem;
 
-            shoppingCartData.Add(selectedItem);
-
-            cartBinding.ResetBindings(false); //true if the entire list changed (Items to Vendors)
+            items.Remove(selectedItem);
+            shoppingCart.Add(selectedItem);
         }
 
         private void makePurchase_Click(object sender, EventArgs e)
@@ -106,22 +104,16 @@ namespace ConsignmentShopUI
             // Mark each item in the cart as sold
             // Clear the cart
 
-            foreach (Item item in shoppingCartData)
+            foreach (Item item in shoppingCart)
             {
                 item.Sold = true;
                 item.Owner.PaymenDue += (decimal)item.Owner.CommisonRate * item.Price;
                 storeProfit += (1 - (decimal)item.Owner.CommisonRate) * item.Price;
             }
 
-            shoppingCartData.Clear();
-
-            itemsBinding.DataSource = store.Items.Where(x => x.Sold == false).ToList();
-
+            shoppingCart.Clear();
+            vendors.ResetBindings();
             storeProfitValue.Text = string.Format("{0:C2}", storeProfit);
-
-            cartBinding.ResetBindings(false);
-            itemsBinding.ResetBindings(false);
-            vendorsBinding.ResetBindings(false);
         }
     }
 }
