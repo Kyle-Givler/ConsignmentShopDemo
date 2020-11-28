@@ -36,6 +36,8 @@ namespace ConsignmentShopLibrary.DataAccess
 
         void SaveItem(Item item);
 
+        void UpdateItem(Item item);
+
         List<Item> LoadAllItems();
 
     }

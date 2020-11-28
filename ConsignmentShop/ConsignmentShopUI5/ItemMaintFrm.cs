@@ -37,6 +37,7 @@ namespace ConsignmentShopUI
         private readonly BindingList<Vendor> vendors = new BindingList<Vendor>(GlobalConfig.Store.Vendors);
 
         private bool editing = false;
+        private Item editingItem = null;
 
         public ItemMaintFrm()
         {
@@ -67,34 +68,44 @@ namespace ConsignmentShopUI
 
         private void btmAddItem_Click(object sender, System.EventArgs e)
         {
+            Item output = null;
+
             if (!validateData())
             {
                 return;
             }
 
-            Item newItem = new Item()
-            {
-                Name = textBoxName.Text,
-                Price = decimal.Parse(textBoxPrice.Text),
-                Description = textBoxDesc.Text,
-                Owner = (Vendor)listBoxVendors.SelectedItem
-            };
-
-            GlobalConfig.Store.Items.Add(newItem);
-            GlobalConfig.Connection.SaveItem(newItem);
-
-            items.ResetBindings();
-
-            ClearItemInput();
-
             if(editing)
             {
+                editingItem.Name = textBoxName.Text;
+                editingItem.Price = decimal.Parse(textBoxPrice.Text);
+                editingItem.Description = textBoxDesc.Text;
+                editingItem.Owner = (Vendor)listBoxVendors.SelectedItem;
+
+                GlobalConfig.Connection.UpdateItem(editingItem);
+
                 btnAddItem.Text = "Add Item";
-
                 btnEdit.Enabled = true;
-
                 editing = false;
+
+                output = editingItem;
             }
+            else
+            {
+                output = new Item()
+                {
+                    Name = textBoxName.Text,
+                    Price = decimal.Parse(textBoxPrice.Text),
+                    Description = textBoxDesc.Text,
+                    Owner = (Vendor)listBoxVendors.SelectedItem
+                };
+
+                GlobalConfig.Connection.SaveItem(output);
+            }
+
+            items.Add(output);
+
+            ClearItemInput();
         }
 
         private void ClearItemInput()
@@ -145,6 +156,7 @@ namespace ConsignmentShopUI
         private void btnEdit_Click(object sender, System.EventArgs e)
         {
             Item selectedItem = (Item)allItemsListBox.SelectedItem;
+            editingItem = selectedItem;
 
             if(selectedItem == null)
             {
@@ -171,7 +183,7 @@ namespace ConsignmentShopUI
 
             textBoxName.Text = selectedItem.Name;
             textBoxDesc.Text = selectedItem.Description;
-            textBoxPrice.Text = selectedItem.Price.ToString();
+            textBoxPrice.Text = $"{selectedItem.Price:F2}";
 
             listBoxVendors.SelectedItem = selectedItem.Owner;
             vendors.ResetBindings();

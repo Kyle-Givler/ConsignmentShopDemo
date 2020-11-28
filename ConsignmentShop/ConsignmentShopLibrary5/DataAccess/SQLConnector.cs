@@ -83,13 +83,31 @@ namespace ConsignmentShopLibrary.DataAccess
                 p.Add("@Description", item.Description);
                 p.Add("@Price", item.Price);
                 p.Add("@Sold", item.Sold);
-                p.Add("@Owner", item.Owner.Id);
+                p.Add("@OwnerId", item.Owner.Id);
                 p.Add("@PaymentDistributed", item.PaymentDistrubuted);
                 p.Add("@Id", 0, DbType.Int32, direction: ParameterDirection.Output);
 
                 connection.Execute("dbo.spItemInsert", p, commandType: CommandType.StoredProcedure);
 
                 item.Id = p.Get<int>("@Id");
+            }
+        }
+
+        public void UpdateItem(Item item)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
+            {
+                var p = new DynamicParameters();
+
+                p.Add("@Name", item.Name);
+                p.Add("@Description", item.Description);
+                p.Add("@Price", item.Price);
+                p.Add("@Sold", item.Sold);
+                p.Add("@OwnerId", item.Owner.Id);
+                p.Add("@PaymentDistributed", item.PaymentDistrubuted);
+                p.Add("@Id", item.Id);
+
+                connection.Execute("dbo.spItemUpdate", p, commandType: CommandType.StoredProcedure);
             }
         }
 

@@ -204,7 +204,7 @@ namespace ConsignmentShopUI
 
             lblNameValue.Text = $"{selectedItem.Name}";
             lblDescValue.Text = $"{selectedItem.Description}";
-            lblPriceValue.Text = $"${selectedItem.Price}";
+            lblPriceValue.Text = $"{selectedItem.Price:C2}";
             lblVendorValue.Text = $"{selectedItem.Owner.FullName}";
         }
 
