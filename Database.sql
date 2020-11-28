@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [ConsignmentDemo]    Script Date: 11/28/2020 1:32:05 PM ******/
+/****** Object:  Database [ConsignmentDemo]    Script Date: 11/28/2020 1:57:12 PM ******/
 CREATE DATABASE [ConsignmentDemo]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -82,7 +82,7 @@ ALTER DATABASE [ConsignmentDemo] SET QUERY_STORE = OFF
 GO
 USE [ConsignmentDemo]
 GO
-/****** Object:  Table [dbo].[Items]    Script Date: 11/28/2020 1:32:05 PM ******/
+/****** Object:  Table [dbo].[Items]    Script Date: 11/28/2020 1:57:12 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -101,7 +101,7 @@ CREATE TABLE [dbo].[Items](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Vendors]    Script Date: 11/28/2020 1:32:05 PM ******/
+/****** Object:  Table [dbo].[Vendors]    Script Date: 11/28/2020 1:57:12 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -123,7 +123,7 @@ REFERENCES [dbo].[Vendors] ([Id])
 GO
 ALTER TABLE [dbo].[Items] CHECK CONSTRAINT [FK_Items_Vendors]
 GO
-/****** Object:  StoredProcedure [dbo].[spItemGetAll]    Script Date: 11/28/2020 1:32:05 PM ******/
+/****** Object:  StoredProcedure [dbo].[spItemGetAll]    Script Date: 11/28/2020 1:57:12 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -140,7 +140,7 @@ BEGIN
 	dbo.Items;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[spItemInsert]    Script Date: 11/28/2020 1:32:05 PM ******/
+/****** Object:  StoredProcedure [dbo].[spItemInsert]    Script Date: 11/28/2020 1:57:12 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -151,7 +151,7 @@ CREATE PROCEDURE [dbo].[spItemInsert]
 	@Description nvarchar(2000),
 	@Price money,
 	@Sold bit,
-	@Owner int,
+	@OwnerId int,
 	@PaymentDistributed bit,
 	@Id int = 0 output
 AS
@@ -159,13 +159,13 @@ BEGIN
 
 	SET NOCOUNT ON;
 
-    insert into dbo.Items (Name, Description, Price, Sold, Owner, PaymentDistributed)
-	values (@Name, @Description, @Price, @Sold, @Owner, @PaymentDistributed);
+    insert into dbo.Items (Name, Description, Price, Sold, OwnerId, PaymentDistributed)
+	values (@Name, @Description, @Price, @Sold, @OwnerId, @PaymentDistributed);
 
 	select @Id = SCOPE_IDENTITY();
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SpItemUpdate]    Script Date: 11/28/2020 1:32:05 PM ******/
+/****** Object:  StoredProcedure [dbo].[SpItemUpdate]    Script Date: 11/28/2020 1:57:12 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -190,7 +190,7 @@ BEGIN
 	WHERE Id = @Id;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[spVendorGetAll]    Script Date: 11/28/2020 1:32:05 PM ******/
+/****** Object:  StoredProcedure [dbo].[spVendorGetAll]    Script Date: 11/28/2020 1:57:12 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -207,7 +207,7 @@ BEGIN
 	SELECT * from dbo.Vendors;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[spVendorGetById]    Script Date: 11/28/2020 1:32:05 PM ******/
+/****** Object:  StoredProcedure [dbo].[spVendorGetById]    Script Date: 11/28/2020 1:57:12 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -226,7 +226,7 @@ BEGIN
 	where Vendors.Id = @id;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[spVendorInsert]    Script Date: 11/28/2020 1:32:05 PM ******/
+/****** Object:  StoredProcedure [dbo].[spVendorInsert]    Script Date: 11/28/2020 1:57:12 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -248,6 +248,32 @@ BEGIN
 	values (@FirstName, @LastName, @CommisionRate, @PaymentDue);
 
 	select @Id = SCOPE_IDENTITY();
+END
+GO
+/****** Object:  StoredProcedure [dbo].[spVendorUpdate]    Script Date: 11/28/2020 1:57:12 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<JoyfulReaper>
+-- Create date: <11/28/20>
+-- Description:	<Update the vendor!>
+-- =============================================
+CREATE PROCEDURE [dbo].[spVendorUpdate]
+	@Id int,
+	@FirstName nvarchar(100),
+	@LastName nvarchar(150),
+	@CommisionRate float,
+	@PaymentDue money
+AS
+BEGIN
+
+	SET NOCOUNT ON;
+
+    UPDATE Vendors
+	SET FirstName = @FirstName, LastName = @LastName, CommisonRate = @CommisionRate, PaymentDue = @PaymentDue
+	WHERE id = @id;
 END
 GO
 USE [master]

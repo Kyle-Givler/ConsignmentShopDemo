@@ -59,7 +59,7 @@ namespace ConsignmentShopUI
             {
                 editingVendor.FirstName = textBoxFirstName.Text;
                 editingVendor.LastName = textBoxLastName.Text;
-                editingVendor.CommisonRate = double.Parse(textBoxCommison.Text);
+                editingVendor.CommisonRate = double.Parse(textBoxCommison.Text) / 100;
 
                 GlobalConfig.Connection.UpdateVendor(editingVendor);
 

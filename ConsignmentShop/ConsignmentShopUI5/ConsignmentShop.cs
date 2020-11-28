@@ -159,12 +159,14 @@ namespace ConsignmentShopUI
                 item.Sold = true;
                 item.Owner.PaymentDue += (decimal)item.Owner.CommisonRate * item.Price;
                 storeProfit += (1 - (decimal)item.Owner.CommisonRate) * item.Price;
+
+                GlobalConfig.Connection.UpdateItem(item);
+                GlobalConfig.Connection.UpdateVendor(item.Owner);
             }
 
             shoppingCart.Clear();
 
             vendors.ResetBindings();
-            
 
             storeProfitValue.Text = string.Format("{0:C2}", storeProfit);
 
