@@ -46,13 +46,14 @@ namespace ConsignmentShopUI
             this.groupBoxAddItem = new System.Windows.Forms.GroupBox();
             this.btnAddItem = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
+            this.checkBoxSold = new System.Windows.Forms.CheckBox();
             this.groupBoxAddItem.SuspendLayout();
             this.SuspendLayout();
             // 
             // headerText
             // 
             this.headerText.AutoSize = true;
-            this.headerText.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.headerText.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.headerText.ForeColor = System.Drawing.Color.DarkBlue;
             this.headerText.Location = new System.Drawing.Point(18, 14);
             this.headerText.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -86,7 +87,7 @@ namespace ConsignmentShopUI
             // lblAllItems
             // 
             this.lblAllItems.AutoSize = true;
-            this.lblAllItems.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAllItems.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblAllItems.ForeColor = System.Drawing.Color.RoyalBlue;
             this.lblAllItems.Location = new System.Drawing.Point(472, 114);
             this.lblAllItems.Name = "lblAllItems";
@@ -120,7 +121,7 @@ namespace ConsignmentShopUI
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblName.ForeColor = System.Drawing.Color.RoyalBlue;
             this.lblName.Location = new System.Drawing.Point(6, 30);
             this.lblName.Name = "lblName";
@@ -131,7 +132,7 @@ namespace ConsignmentShopUI
             // lblDesc
             // 
             this.lblDesc.AutoSize = true;
-            this.lblDesc.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDesc.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblDesc.ForeColor = System.Drawing.Color.RoyalBlue;
             this.lblDesc.Location = new System.Drawing.Point(6, 60);
             this.lblDesc.Name = "lblDesc";
@@ -142,7 +143,7 @@ namespace ConsignmentShopUI
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label3.ForeColor = System.Drawing.Color.RoyalBlue;
             this.label3.Location = new System.Drawing.Point(-527, 163);
             this.label3.Name = "label3";
@@ -153,7 +154,7 @@ namespace ConsignmentShopUI
             // lblPrice
             // 
             this.lblPrice.AutoSize = true;
-            this.lblPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblPrice.ForeColor = System.Drawing.Color.RoyalBlue;
             this.lblPrice.Location = new System.Drawing.Point(6, 149);
             this.lblPrice.Name = "lblPrice";
@@ -164,7 +165,7 @@ namespace ConsignmentShopUI
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label5.ForeColor = System.Drawing.Color.RoyalBlue;
             this.label5.Location = new System.Drawing.Point(-519, 247);
             this.label5.Name = "label5";
@@ -175,7 +176,7 @@ namespace ConsignmentShopUI
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label6.ForeColor = System.Drawing.Color.RoyalBlue;
             this.label6.Location = new System.Drawing.Point(-1057, 283);
             this.label6.Name = "label6";
@@ -194,6 +195,7 @@ namespace ConsignmentShopUI
             // 
             // groupBoxAddItem
             // 
+            this.groupBoxAddItem.Controls.Add(this.checkBoxSold);
             this.groupBoxAddItem.Controls.Add(this.btnAddItem);
             this.groupBoxAddItem.Controls.Add(this.lblDesc);
             this.groupBoxAddItem.Controls.Add(this.listBoxVendors);
@@ -235,6 +237,16 @@ namespace ConsignmentShopUI
             this.btnEdit.UseVisualStyleBackColor = true;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
+            // checkBoxSold
+            // 
+            this.checkBoxSold.AutoSize = true;
+            this.checkBoxSold.Location = new System.Drawing.Point(234, 148);
+            this.checkBoxSold.Name = "checkBoxSold";
+            this.checkBoxSold.Size = new System.Drawing.Size(60, 24);
+            this.checkBoxSold.TabIndex = 10;
+            this.checkBoxSold.Text = "Sold";
+            this.checkBoxSold.UseVisualStyleBackColor = true;
+            // 
             // ItemMaintFrm
             // 
             this.AcceptButton = this.btnAddItem;
@@ -251,7 +263,7 @@ namespace ConsignmentShopUI
             this.Controls.Add(this.allItemsListBox);
             this.Controls.Add(this.btnItemDelete);
             this.Controls.Add(this.headerText);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "ItemMaintFrm";
             this.Text = "Item Maintance";
@@ -281,5 +293,6 @@ namespace ConsignmentShopUI
         private System.Windows.Forms.GroupBox groupBoxAddItem;
         private System.Windows.Forms.Button btnAddItem;
         private System.Windows.Forms.Button btnEdit;
+        private System.Windows.Forms.CheckBox checkBoxSold;
     }
 }

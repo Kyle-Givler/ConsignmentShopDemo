@@ -81,6 +81,7 @@ namespace ConsignmentShopUI
                 editingItem.Price = decimal.Parse(textBoxPrice.Text);
                 editingItem.Description = textBoxDesc.Text;
                 editingItem.Owner = (Vendor)listBoxVendors.SelectedItem;
+                editingItem.Sold = checkBoxSold.Checked;
 
                 GlobalConfig.Connection.UpdateItem(editingItem);
 
@@ -97,7 +98,8 @@ namespace ConsignmentShopUI
                     Name = textBoxName.Text,
                     Price = decimal.Parse(textBoxPrice.Text),
                     Description = textBoxDesc.Text,
-                    Owner = (Vendor)listBoxVendors.SelectedItem
+                    Owner = (Vendor)listBoxVendors.SelectedItem,
+                    Sold = checkBoxSold.Checked
                 };
 
                 GlobalConfig.Connection.SaveItem(output);
@@ -183,6 +185,7 @@ namespace ConsignmentShopUI
             textBoxName.Text = selectedItem.Name;
             textBoxDesc.Text = selectedItem.Description;
             textBoxPrice.Text = $"{selectedItem.Price:F2}";
+            checkBoxSold.Checked = selectedItem.Sold;
 
             listBoxVendors.SelectedItem = selectedItem.Owner;
             vendors.ResetBindings();
