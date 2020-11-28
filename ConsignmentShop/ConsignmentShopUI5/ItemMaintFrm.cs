@@ -110,6 +110,7 @@ namespace ConsignmentShopUI
             if ((Vendor)listBoxVendors.SelectedItem == null)
             {
                 ErrorMessage += "Please select a valid vendor.\n";
+                valid = false;
             }
 
             if (textBoxName.Text == "")
