@@ -20,6 +20,14 @@ namespace ConsignmentShopLibrary
             }
         }
 
+        public string FullName
+        {
+            get
+            {
+                return $"{FirstName} {LastName}";
+            }
+        }
+
         public Vendor()
         {
             CommisonRate = .5;

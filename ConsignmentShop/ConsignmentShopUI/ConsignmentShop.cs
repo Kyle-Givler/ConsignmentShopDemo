@@ -1,8 +1,6 @@
 ﻿using ConsignmentShopLibrary;
 using System;
 using System.ComponentModel;
-using System.Data;
-using System.Linq;
 using System.Windows.Forms;
 
 // TODO Add vendors form
@@ -45,7 +43,7 @@ namespace ConsignmentShopUI
 
             GlobalConfig.Store.Items.Add(new Item
             {
-                Title = "Moby Dick",
+                Name = "Moby Dick",
                 Description = "A book about a whale",
                 Price = 4.50M,
                 Owner = GlobalConfig.Store.Vendors[0]
@@ -53,7 +51,7 @@ namespace ConsignmentShopUI
 
             GlobalConfig.Store.Items.Add(new Item
             {
-                Title = "A Tale of Two Cities",
+                Name = "A Tale of Two Cities",
                 Description = "A book about a revolution",
                 Price = 3.80M,
                 Owner = GlobalConfig.Store.Vendors[1]
@@ -61,7 +59,7 @@ namespace ConsignmentShopUI
 
             GlobalConfig.Store.Items.Add(new Item
             {
-                Title = "Harry Potter Book1",
+                Name = "Harry Potter Book 1",
                 Description = "A book about a boy",
                 Price = 5.20M,
                 Owner = GlobalConfig.Store.Vendors[1]
@@ -69,7 +67,7 @@ namespace ConsignmentShopUI
 
             GlobalConfig.Store.Items.Add(new Item
             {
-                Title = "Jane Eyre",
+                Name = "Jane Eyre",
                 Description = "A book about a girl",
                 Price = 1.50M,
                 Owner = GlobalConfig.Store.Vendors[0]
@@ -83,10 +81,12 @@ namespace ConsignmentShopUI
 
         private void addToCart_Click(object sender, EventArgs e)
         {
-            // Figure out what is selected in the items list
-            // Copy that item to the shopping cart
-            // Do we remove the items from the items list? - no
             Item selectedItem = (Item)itemsListbox.SelectedItem;
+
+            if(selectedItem == null)
+            {
+                return;
+            }
 
             items.Remove(selectedItem);
             shoppingCart.Add(selectedItem);
@@ -94,9 +94,6 @@ namespace ConsignmentShopUI
 
         private void makePurchase_Click(object sender, EventArgs e)
         {
-            // Mark each item in the cart as sold
-            // Clear the cart
-
             foreach (Item item in shoppingCart)
             {
                 item.Sold = true;
@@ -113,8 +110,20 @@ namespace ConsignmentShopUI
         {
             Item selectedItem = (Item)shoppingCartListBox.SelectedItem;
 
+            if(selectedItem == null)
+            {
+                return;
+            }
+
             items.Add(selectedItem);
             shoppingCart.Remove(selectedItem);
+        }
+
+        private void btnItemMaint_Click(object sender, EventArgs e)
+        {
+            ItemMaintFrm frm = new ItemMaintFrm();
+            frm.ShowDialog();
+            items.ResetBindings();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace ConsignmentShopLibrary
 {
     public class Item
     {
-        public string Title { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
         public bool Sold { get; set; }
@@ -18,7 +18,7 @@ namespace ConsignmentShopLibrary
         {
             get
             {
-                return string.Format("{0} - ${1}", Title, Price);
+                return string.Format("{0} - ${1}", Name, Price);
             }
         }
     }
