@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using ConsignmentShopLibrary;
 
 namespace ConsignmentShopUI
 {
@@ -16,6 +14,10 @@ namespace ConsignmentShopUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            GlobalConfig.InitializeConnection(GlobalConfig.DatabaseType.MSSQL);
+            GlobalConfig.Store = new Store();
+
             Application.Run(new ConsignmentShop());
         }
     }

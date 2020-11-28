@@ -14,11 +14,9 @@ namespace ConsignmentShopUI
 {
     public partial class ConsignmentShop : Form
     {
-        private readonly Store store = new Store();
-
         readonly BindingList<Item> shoppingCart = new BindingList<Item>();
-        BindingList<Vendor> vendors;
-        readonly BindingList<Item> items = new BindingList<Item>();
+        readonly BindingList<Vendor> vendors = new BindingList<Vendor>(GlobalConfig.Store.Vendors);
+        readonly BindingList<Item> items = new BindingList<Item>(GlobalConfig.Store.Items);
 
         private decimal storeProfit = 0;
 
@@ -42,50 +40,45 @@ namespace ConsignmentShopUI
 
         private void SetupData()
         {
-            store.Vendors.Add(new Vendor { FirstName = "Bill", LastName = "Smith" });
-            store.Vendors.Add(new Vendor { FirstName = "Sue", LastName = "Jones" });
+            GlobalConfig.Store.Vendors.Add(new Vendor { FirstName = "Bill", LastName = "Smith" });
+            GlobalConfig.Store.Vendors.Add(new Vendor { FirstName = "Sue", LastName = "Jones" });
 
-            store.Items.Add(new Item
+            GlobalConfig.Store.Items.Add(new Item
             {
                 Title = "Moby Dick",
                 Description = "A book about a whale",
                 Price = 4.50M,
-                Owner = store.Vendors[0]
+                Owner = GlobalConfig.Store.Vendors[0]
             });
 
-            store.Items.Add(new Item
+            GlobalConfig.Store.Items.Add(new Item
             {
                 Title = "A Tale of Two Cities",
                 Description = "A book about a revolution",
                 Price = 3.80M,
-                Owner = store.Vendors[1]
+                Owner = GlobalConfig.Store.Vendors[1]
             });
 
-            store.Items.Add(new Item
+            GlobalConfig.Store.Items.Add(new Item
             {
                 Title = "Harry Potter Book1",
                 Description = "A book about a boy",
                 Price = 5.20M,
-                Owner = store.Vendors[1]
+                Owner = GlobalConfig.Store.Vendors[1]
             });
 
-            store.Items.Add(new Item
+            GlobalConfig.Store.Items.Add(new Item
             {
                 Title = "Jane Eyre",
                 Description = "A book about a girl",
                 Price = 1.50M,
-                Owner = store.Vendors[0]
+                Owner = GlobalConfig.Store.Vendors[0]
             });
 
-            store.Name = "Seconds are Better";
+            GlobalConfig.Store.Name = "Seconds are Better";
 
-            vendors = new BindingList<Vendor>(store.Vendors);
             vendors.ResetBindings();
-
-            foreach (Item i in store.Items.Where(x => x.Sold == false))
-            {
-                items.Add(i);
-            }
+            items.ResetBindings();
         }
 
         private void addToCart_Click(object sender, EventArgs e)
@@ -114,6 +107,14 @@ namespace ConsignmentShopUI
             shoppingCart.Clear();
             vendors.ResetBindings();
             storeProfitValue.Text = string.Format("{0:C2}", storeProfit);
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            Item selectedItem = (Item)shoppingCartListBox.SelectedItem;
+
+            items.Add(selectedItem);
+            shoppingCart.Remove(selectedItem);
         }
     }
 }

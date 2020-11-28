@@ -40,6 +40,7 @@ namespace ConsignmentShopUI
             this.vendorListBox = new System.Windows.Forms.ListBox();
             this.storePayoutLabel = new System.Windows.Forms.Label();
             this.storeProfitValue = new System.Windows.Forms.Label();
+            this.btnRemove = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // headerText
@@ -149,11 +150,22 @@ namespace ConsignmentShopUI
             this.storeProfitValue.TabIndex = 8;
             this.storeProfitValue.Text = "$0.00";
             // 
+            // btnRemove
+            // 
+            this.btnRemove.Location = new System.Drawing.Point(380, 273);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(168, 48);
+            this.btnRemove.TabIndex = 9;
+            this.btnRemove.Text = "<- Remove Item";
+            this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+            // 
             // ConsignmentShop
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(929, 699);
+            this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.storeProfitValue);
             this.Controls.Add(this.storePayoutLabel);
             this.Controls.Add(this.vendorListBoxLabel);
@@ -187,6 +199,7 @@ namespace ConsignmentShopUI
         private System.Windows.Forms.ListBox vendorListBox;
         private System.Windows.Forms.Label storePayoutLabel;
         private System.Windows.Forms.Label storeProfitValue;
+        private System.Windows.Forms.Button btnRemove;
     }
 }
 
