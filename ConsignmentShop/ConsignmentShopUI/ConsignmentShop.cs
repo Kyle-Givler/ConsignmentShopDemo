@@ -90,6 +90,8 @@ namespace ConsignmentShopUI
 
             items.Remove(selectedItem);
             shoppingCart.Add(selectedItem);
+
+            itemsListbox_SelectedIndexChanged(this, EventArgs.Empty);
         }
 
         private void makePurchase_Click(object sender, EventArgs e)
@@ -102,8 +104,13 @@ namespace ConsignmentShopUI
             }
 
             shoppingCart.Clear();
+
             vendors.ResetBindings();
+            
+
             storeProfitValue.Text = string.Format("{0:C2}", storeProfit);
+
+            ClearItemLabels();
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
@@ -124,6 +131,29 @@ namespace ConsignmentShopUI
             ItemMaintFrm frm = new ItemMaintFrm();
             frm.ShowDialog();
             items.ResetBindings();
+        }
+
+        private void itemsListbox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Item selectedItem = (Item)itemsListbox.SelectedItem;
+
+            if(selectedItem == null)
+            {
+                ClearItemLabels();
+            }
+
+            lblNameValue.Text = $"{selectedItem.Name}";
+            lblDescValue.Text = $"{selectedItem.Description}";
+            lblPriceValue.Text = $"${selectedItem.Price}";
+            lblVendorValue.Text = $"{selectedItem.Owner.FullName}";
+        }
+
+        private void ClearItemLabels()
+        {
+            lblNameValue.Text = string.Empty;
+            lblDescValue.Text = string.Empty;
+            lblPriceValue.Text = string.Empty;
+            lblVendorValue.Text = string.Empty;
         }
     }
 }

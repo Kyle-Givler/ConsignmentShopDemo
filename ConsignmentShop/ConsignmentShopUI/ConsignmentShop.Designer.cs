@@ -47,6 +47,10 @@ namespace ConsignmentShopUI
             this.lblDesc = new System.Windows.Forms.Label();
             this.lblPrice = new System.Windows.Forms.Label();
             this.lblVendor = new System.Windows.Forms.Label();
+            this.lblDescValue = new System.Windows.Forms.Label();
+            this.lblNameValue = new System.Windows.Forms.Label();
+            this.lblPriceValue = new System.Windows.Forms.Label();
+            this.lblVendorValue = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // headerText
@@ -68,6 +72,7 @@ namespace ConsignmentShopUI
             this.itemsListbox.Name = "itemsListbox";
             this.itemsListbox.Size = new System.Drawing.Size(329, 224);
             this.itemsListbox.TabIndex = 1;
+            this.itemsListbox.SelectedIndexChanged += new System.EventHandler(this.itemsListbox_SelectedIndexChanged);
             // 
             // itemsListboxLabel
             // 
@@ -131,7 +136,7 @@ namespace ConsignmentShopUI
             this.vendorListBoxLabel.AutoSize = true;
             this.vendorListBoxLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.vendorListBoxLabel.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.vendorListBoxLabel.Location = new System.Drawing.Point(31, 347);
+            this.vendorListBoxLabel.Location = new System.Drawing.Point(564, 390);
             this.vendorListBoxLabel.Name = "vendorListBoxLabel";
             this.vendorListBoxLabel.Size = new System.Drawing.Size(76, 20);
             this.vendorListBoxLabel.TabIndex = 6;
@@ -141,7 +146,7 @@ namespace ConsignmentShopUI
             // 
             this.vendorListBox.FormattingEnabled = true;
             this.vendorListBox.ItemHeight = 20;
-            this.vendorListBox.Location = new System.Drawing.Point(33, 370);
+            this.vendorListBox.Location = new System.Drawing.Point(566, 413);
             this.vendorListBox.Name = "vendorListBox";
             this.vendorListBox.Size = new System.Drawing.Size(329, 224);
             this.vendorListBox.TabIndex = 5;
@@ -151,7 +156,7 @@ namespace ConsignmentShopUI
             this.storePayoutLabel.AutoSize = true;
             this.storePayoutLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.storePayoutLabel.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.storePayoutLabel.Location = new System.Drawing.Point(31, 611);
+            this.storePayoutLabel.Location = new System.Drawing.Point(31, 549);
             this.storePayoutLabel.Name = "storePayoutLabel";
             this.storePayoutLabel.Size = new System.Drawing.Size(106, 20);
             this.storePayoutLabel.TabIndex = 7;
@@ -162,7 +167,7 @@ namespace ConsignmentShopUI
             this.storeProfitValue.AutoSize = true;
             this.storeProfitValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.storeProfitValue.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.storeProfitValue.Location = new System.Drawing.Point(160, 611);
+            this.storeProfitValue.Location = new System.Drawing.Point(160, 549);
             this.storeProfitValue.Name = "storeProfitValue";
             this.storeProfitValue.Size = new System.Drawing.Size(54, 20);
             this.storeProfitValue.TabIndex = 8;
@@ -186,7 +191,7 @@ namespace ConsignmentShopUI
             this.btnVenderMaint.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Aquamarine;
             this.btnVenderMaint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnVenderMaint.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.btnVenderMaint.Location = new System.Drawing.Point(35, 639);
+            this.btnVenderMaint.Location = new System.Drawing.Point(35, 577);
             this.btnVenderMaint.Name = "btnVenderMaint";
             this.btnVenderMaint.Size = new System.Drawing.Size(168, 48);
             this.btnVenderMaint.TabIndex = 3;
@@ -198,7 +203,7 @@ namespace ConsignmentShopUI
             this.btnItemMaint.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Aquamarine;
             this.btnItemMaint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnItemMaint.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.btnItemMaint.Location = new System.Drawing.Point(219, 639);
+            this.btnItemMaint.Location = new System.Drawing.Point(219, 577);
             this.btnItemMaint.Name = "btnItemMaint";
             this.btnItemMaint.Size = new System.Drawing.Size(168, 48);
             this.btnItemMaint.TabIndex = 4;
@@ -211,7 +216,7 @@ namespace ConsignmentShopUI
             this.lblName.AutoSize = true;
             this.lblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblName.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.lblName.Location = new System.Drawing.Point(564, 432);
+            this.lblName.Location = new System.Drawing.Point(31, 391);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(60, 20);
             this.lblName.TabIndex = 2;
@@ -222,7 +227,7 @@ namespace ConsignmentShopUI
             this.lblDesc.AutoSize = true;
             this.lblDesc.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDesc.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.lblDesc.Location = new System.Drawing.Point(564, 464);
+            this.lblDesc.Location = new System.Drawing.Point(31, 423);
             this.lblDesc.Name = "lblDesc";
             this.lblDesc.Size = new System.Drawing.Size(105, 20);
             this.lblDesc.TabIndex = 2;
@@ -233,7 +238,7 @@ namespace ConsignmentShopUI
             this.lblPrice.AutoSize = true;
             this.lblPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPrice.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.lblPrice.Location = new System.Drawing.Point(564, 496);
+            this.lblPrice.Location = new System.Drawing.Point(31, 455);
             this.lblPrice.Name = "lblPrice";
             this.lblPrice.Size = new System.Drawing.Size(59, 20);
             this.lblPrice.TabIndex = 2;
@@ -244,18 +249,62 @@ namespace ConsignmentShopUI
             this.lblVendor.AutoSize = true;
             this.lblVendor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblVendor.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.lblVendor.Location = new System.Drawing.Point(564, 528);
+            this.lblVendor.Location = new System.Drawing.Point(31, 487);
             this.lblVendor.Name = "lblVendor";
             this.lblVendor.Size = new System.Drawing.Size(72, 20);
             this.lblVendor.TabIndex = 2;
             this.lblVendor.Text = "Vendor:";
+            // 
+            // lblDescValue
+            // 
+            this.lblDescValue.AutoSize = true;
+            this.lblDescValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDescValue.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.lblDescValue.Location = new System.Drawing.Point(142, 422);
+            this.lblDescValue.Name = "lblDescValue";
+            this.lblDescValue.Size = new System.Drawing.Size(59, 20);
+            this.lblDescValue.TabIndex = 2;
+            this.lblDescValue.Text = "{desc}";
+            // 
+            // lblNameValue
+            // 
+            this.lblNameValue.AutoSize = true;
+            this.lblNameValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNameValue.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.lblNameValue.Location = new System.Drawing.Point(143, 390);
+            this.lblNameValue.Name = "lblNameValue";
+            this.lblNameValue.Size = new System.Drawing.Size(65, 20);
+            this.lblNameValue.TabIndex = 2;
+            this.lblNameValue.Text = "{name}";
+            // 
+            // lblPriceValue
+            // 
+            this.lblPriceValue.AutoSize = true;
+            this.lblPriceValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPriceValue.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.lblPriceValue.Location = new System.Drawing.Point(142, 454);
+            this.lblPriceValue.Name = "lblPriceValue";
+            this.lblPriceValue.Size = new System.Drawing.Size(60, 20);
+            this.lblPriceValue.TabIndex = 2;
+            this.lblPriceValue.Text = "{price}";
+            // 
+            // lblVendorValue
+            // 
+            this.lblVendorValue.AutoSize = true;
+            this.lblVendorValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVendorValue.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.lblVendorValue.Location = new System.Drawing.Point(142, 486);
+            this.lblVendorValue.Name = "lblVendorValue";
+            this.lblVendorValue.Size = new System.Drawing.Size(75, 20);
+            this.lblVendorValue.TabIndex = 2;
+            this.lblVendorValue.Text = "{vendor}";
             // 
             // ConsignmentShop
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FloralWhite;
-            this.ClientSize = new System.Drawing.Size(929, 699);
+            this.ClientSize = new System.Drawing.Size(929, 682);
             this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.storeProfitValue);
             this.Controls.Add(this.storePayoutLabel);
@@ -268,6 +317,10 @@ namespace ConsignmentShopUI
             this.Controls.Add(this.lblVendor);
             this.Controls.Add(this.lblPrice);
             this.Controls.Add(this.lblDesc);
+            this.Controls.Add(this.lblVendorValue);
+            this.Controls.Add(this.lblPriceValue);
+            this.Controls.Add(this.lblNameValue);
+            this.Controls.Add(this.lblDescValue);
             this.Controls.Add(this.lblName);
             this.Controls.Add(this.shoppingCartListboxLabel);
             this.Controls.Add(this.itemsListboxLabel);
@@ -303,6 +356,10 @@ namespace ConsignmentShopUI
         private System.Windows.Forms.Label lblDesc;
         private System.Windows.Forms.Label lblPrice;
         private System.Windows.Forms.Label lblVendor;
+        private System.Windows.Forms.Label lblDescValue;
+        private System.Windows.Forms.Label lblNameValue;
+        private System.Windows.Forms.Label lblPriceValue;
+        private System.Windows.Forms.Label lblVendorValue;
     }
 }
 

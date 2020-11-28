@@ -45,6 +45,7 @@ namespace ConsignmentShopUI
             this.listBoxVendors = new System.Windows.Forms.ListBox();
             this.groupBoxAddItem = new System.Windows.Forms.GroupBox();
             this.btmAddItem = new System.Windows.Forms.Button();
+            this.btnEdit = new System.Windows.Forms.Button();
             this.groupBoxAddItem.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,9 +66,9 @@ namespace ConsignmentShopUI
             this.btnItemDelete.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Aquamarine;
             this.btnItemDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnItemDelete.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.btnItemDelete.Location = new System.Drawing.Point(565, 372);
+            this.btnItemDelete.Location = new System.Drawing.Point(650, 367);
             this.btnItemDelete.Name = "btnItemDelete";
-            this.btnItemDelete.Size = new System.Drawing.Size(168, 48);
+            this.btnItemDelete.Size = new System.Drawing.Size(155, 48);
             this.btnItemDelete.TabIndex = 4;
             this.btnItemDelete.Text = "Remove Selected";
             this.btnItemDelete.UseVisualStyleBackColor = true;
@@ -221,12 +222,25 @@ namespace ConsignmentShopUI
             this.btmAddItem.UseVisualStyleBackColor = true;
             this.btmAddItem.Click += new System.EventHandler(this.btmAddItem_Click);
             // 
+            // btnEdit
+            // 
+            this.btnEdit.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Aquamarine;
+            this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEdit.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.btnEdit.Location = new System.Drawing.Point(476, 367);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(155, 48);
+            this.btnEdit.TabIndex = 11;
+            this.btnEdit.Text = "Edit Selected";
+            this.btnEdit.UseVisualStyleBackColor = true;
+            // 
             // ItemMaintFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FloralWhite;
             this.ClientSize = new System.Drawing.Size(824, 444);
+            this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.groupBoxAddItem);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -264,5 +278,6 @@ namespace ConsignmentShopUI
         private System.Windows.Forms.ListBox listBoxVendors;
         private System.Windows.Forms.GroupBox groupBoxAddItem;
         private System.Windows.Forms.Button btmAddItem;
+        private System.Windows.Forms.Button btnEdit;
     }
 }
