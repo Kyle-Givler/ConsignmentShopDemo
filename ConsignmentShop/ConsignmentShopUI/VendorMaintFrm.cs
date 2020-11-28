@@ -7,6 +7,7 @@ namespace ConsignmentShopUI
     public partial class VendorMaintFrm : Form
     {
         private readonly BindingList<Vendor> vendors = new BindingList<Vendor>(GlobalConfig.Store.Vendors);
+        private bool editing = false;
 
         public VendorMaintFrm()
         {
@@ -32,10 +33,19 @@ namespace ConsignmentShopUI
                 CommisonRate = double.Parse(textBoxCommison.Text) / 100
             };
 
-            ClearVendorTextBoxes();
-
             GlobalConfig.Store.Vendors.Add(vendor);
             vendors.ResetBindings();
+
+            ClearVendorTextBoxes();
+
+            if (editing)
+            {
+                btnAddIVendor.Text = "Add Vendor";
+                
+                btnEdit.Enabled = true;
+
+                editing = false;
+            }
         }
 
         private void ClearVendorTextBoxes()
@@ -81,6 +91,53 @@ namespace ConsignmentShopUI
             }
 
             return valid;
+        }
+
+        private void btnItemDelete_Click(object sender, System.EventArgs e)
+        {
+            Vendor selectedVendor = (Vendor) listBoxVendors.SelectedItem;
+
+            if(selectedVendor == null)
+            {
+                return;
+            }
+
+            if(selectedVendor.PaymentDue > 0)
+            {
+                MessageBox.Show($"{selectedVendor.FullName} Cannot be deleted until being payed {selectedVendor.PaymentDue:C2}", 
+                    "Vendor must be paid",
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            vendors.Remove(selectedVendor);
+        }
+
+        private void btnEdit_Click(object sender, System.EventArgs e)
+        {
+            editing = true;
+            btnEdit.Enabled = false;
+            btnAddIVendor.Text = "Update Vendor";
+
+            PopulateVendorTextBoxes();
+
+            vendors.Remove((Vendor)listBoxVendors.SelectedItem);
+        }
+
+        private void PopulateVendorTextBoxes()
+        {
+            Vendor selectedVendor = (Vendor)listBoxVendors.SelectedItem;
+
+            if (selectedVendor == null)
+            {
+                return;
+            }
+
+            textBoxFirstName.Text = selectedVendor.FirstName;
+            textBoxLastName.Text = selectedVendor.LastName;
+            textBoxCommison.Text = (selectedVendor.CommisonRate * 100).ToString();
         }
     }
 }

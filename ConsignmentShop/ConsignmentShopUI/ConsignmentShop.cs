@@ -161,6 +161,7 @@ namespace ConsignmentShopUI
         {
             VendorMaintFrm frm = new VendorMaintFrm();
             frm.ShowDialog(this);
+
             vendors.ResetBindings();
         }
     }
