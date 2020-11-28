@@ -59,14 +59,16 @@ namespace ConsignmentShopUI
                 CommisonRate = double.Parse(textBoxCommison.Text) / 100
             };
 
+            GlobalConfig.Connection.SaveVendor(vendor);
             GlobalConfig.Store.Vendors.Add(vendor);
+
             vendors.ResetBindings();
 
             ClearVendorTextBoxes();
 
             if (editing)
             {
-                btnAddIVendor.Text = "Add Vendor";
+                btnAddVendor.Text = "Add Vendor";
                 
                 btnEdit.Enabled = true;
 
@@ -138,6 +140,7 @@ namespace ConsignmentShopUI
                 return;
             }
 
+            //TODO Delete from database
             vendors.Remove(selectedVendor);
         }
 
@@ -145,11 +148,12 @@ namespace ConsignmentShopUI
         {
             editing = true;
             btnEdit.Enabled = false;
-            btnAddIVendor.Text = "Update Vendor";
+            btnAddVendor.Text = "Update Vendor";
 
             PopulateVendorTextBoxes();
 
             vendors.Remove((Vendor)listBoxVendors.SelectedItem);
+            //TODO Update database
         }
 
         private void PopulateVendorTextBoxes()

@@ -40,6 +40,13 @@ namespace ConsignmentShopLibrary.DataAccess
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
             {
                 items = connection.Query<Item>("dbo.spItemGetAll").ToList();
+
+                foreach (var item in items)
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@Id", item.OwnerId);
+                    item.Owner = connection.Query<Vendor>("dbo.spVendorGetById", p, commandType: CommandType.StoredProcedure).First();
+                }
             }
 
             return items;

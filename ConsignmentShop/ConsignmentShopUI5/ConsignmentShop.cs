@@ -37,8 +37,8 @@ namespace ConsignmentShopUI
     public partial class ConsignmentShop : Form
     {
         readonly BindingList<Item> shoppingCart = new BindingList<Item>();
-        readonly BindingList<Vendor> vendors = new BindingList<Vendor>(GlobalConfig.Store.Vendors);
-        readonly BindingList<Item> items = new BindingList<Item>(GlobalConfig.Store.Items);
+        readonly BindingList<Vendor> vendors = new BindingList<Vendor>();
+        readonly BindingList<Item> items = new BindingList<Item>();
 
         private decimal storeProfit = 0;
 
@@ -63,6 +63,40 @@ namespace ConsignmentShopUI
         }
 
         private void SetupData()
+        {
+            SetupVendorBindings();
+            SetupItemBindings();
+        }
+
+        private void SetupVendorBindings()
+        {
+            GlobalConfig.Store.Vendors = GlobalConfig.Connection.LoadAllVendors();
+
+            vendors.Clear();
+
+            foreach (var v in GlobalConfig.Store.Vendors)
+            {
+                vendors.Add(v);
+            }
+
+            vendors.ResetBindings();
+        }
+
+        private void SetupItemBindings()
+        {
+            GlobalConfig.Store.Items = GlobalConfig.Connection.LoadAllItems();
+
+            items.Clear();
+
+            foreach (var it in GlobalConfig.Store.Items)
+            {
+                items.Add(it);
+            }
+
+            items.ResetBindings();
+        }
+
+        private void SetupDemoData()
         {
             GlobalConfig.Store.Vendors.Add(new Vendor { FirstName = "Bill", LastName = "Smith" });
             GlobalConfig.Store.Vendors.Add(new Vendor { FirstName = "Sue", LastName = "Jones" });
@@ -154,7 +188,8 @@ namespace ConsignmentShopUI
         {
             ItemMaintFrm frm = new ItemMaintFrm();
             frm.ShowDialog();
-            items.ResetBindings();
+
+            SetupItemBindings();
         }
 
         private void itemsListbox_SelectedIndexChanged(object sender, EventArgs e)
@@ -186,7 +221,7 @@ namespace ConsignmentShopUI
             VendorMaintFrm frm = new VendorMaintFrm();
             frm.ShowDialog(this);
 
-            vendors.ResetBindings();
+            SetupVendorBindings();
         }
 
         private void linkLabelGitHub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

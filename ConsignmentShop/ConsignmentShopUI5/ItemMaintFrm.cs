@@ -80,6 +80,8 @@ namespace ConsignmentShopUI
             };
 
             GlobalConfig.Store.Items.Add(newItem);
+            GlobalConfig.Connection.SaveItem(newItem);
+
             items.ResetBindings();
 
             ClearItemInput();
@@ -171,6 +173,7 @@ namespace ConsignmentShopUI
             textBoxPrice.Text = selectedItem.Price.ToString();
 
             listBoxVendors.SelectedItem = selectedItem.Owner;
+            vendors.ResetBindings();
         }
     }
 }

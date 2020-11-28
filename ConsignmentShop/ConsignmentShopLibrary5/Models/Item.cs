@@ -39,13 +39,11 @@ namespace ConsignmentShopLibrary.Models
         public decimal Price { get; set; }
         public bool Sold { get; set; }
         public bool PaymentDistrubuted { get; set; }
+        public int OwnerId { get; set; }
         public Vendor Owner { get; set; }
         public string Display
         {
-            get
-            {
-                return string.Format("{0} - ${1}", Name, Price);
-            }
+            get => $"{ Name } - {Price:C2}";
         }
     }
 }
