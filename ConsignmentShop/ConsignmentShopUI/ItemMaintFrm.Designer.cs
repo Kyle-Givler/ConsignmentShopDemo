@@ -44,7 +44,7 @@ namespace ConsignmentShopUI
             this.label6 = new System.Windows.Forms.Label();
             this.listBoxVendors = new System.Windows.Forms.ListBox();
             this.groupBoxAddItem = new System.Windows.Forms.GroupBox();
-            this.btmAddItem = new System.Windows.Forms.Button();
+            this.btnAddItem = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
             this.groupBoxAddItem.SuspendLayout();
             this.SuspendLayout();
@@ -194,7 +194,7 @@ namespace ConsignmentShopUI
             // 
             // groupBoxAddItem
             // 
-            this.groupBoxAddItem.Controls.Add(this.btmAddItem);
+            this.groupBoxAddItem.Controls.Add(this.btnAddItem);
             this.groupBoxAddItem.Controls.Add(this.lblDesc);
             this.groupBoxAddItem.Controls.Add(this.listBoxVendors);
             this.groupBoxAddItem.Controls.Add(this.lblName);
@@ -209,18 +209,18 @@ namespace ConsignmentShopUI
             this.groupBoxAddItem.TabStop = false;
             this.groupBoxAddItem.Text = "New Item";
             // 
-            // btmAddItem
+            // btnAddItem
             // 
-            this.btmAddItem.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Aquamarine;
-            this.btmAddItem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btmAddItem.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.btmAddItem.Location = new System.Drawing.Point(126, 318);
-            this.btmAddItem.Name = "btmAddItem";
-            this.btmAddItem.Size = new System.Drawing.Size(168, 48);
-            this.btmAddItem.TabIndex = 3;
-            this.btmAddItem.Text = "Add Item";
-            this.btmAddItem.UseVisualStyleBackColor = true;
-            this.btmAddItem.Click += new System.EventHandler(this.btmAddItem_Click);
+            this.btnAddItem.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Aquamarine;
+            this.btnAddItem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddItem.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.btnAddItem.Location = new System.Drawing.Point(126, 318);
+            this.btnAddItem.Name = "btnAddItem";
+            this.btnAddItem.Size = new System.Drawing.Size(168, 48);
+            this.btnAddItem.TabIndex = 3;
+            this.btnAddItem.Text = "Add Item";
+            this.btnAddItem.UseVisualStyleBackColor = true;
+            this.btnAddItem.Click += new System.EventHandler(this.btmAddItem_Click);
             // 
             // btnEdit
             // 
@@ -233,6 +233,7 @@ namespace ConsignmentShopUI
             this.btnEdit.TabIndex = 11;
             this.btnEdit.Text = "Edit Selected";
             this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // ItemMaintFrm
             // 
@@ -277,7 +278,7 @@ namespace ConsignmentShopUI
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ListBox listBoxVendors;
         private System.Windows.Forms.GroupBox groupBoxAddItem;
-        private System.Windows.Forms.Button btmAddItem;
+        private System.Windows.Forms.Button btnAddItem;
         private System.Windows.Forms.Button btnEdit;
     }
 }

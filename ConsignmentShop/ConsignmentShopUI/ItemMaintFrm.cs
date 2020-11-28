@@ -6,8 +6,10 @@ namespace ConsignmentShopUI
 {
     public partial class ItemMaintFrm : Form
     {
-        readonly BindingList<Item> items = new BindingList<Item>(GlobalConfig.Store.Items);
-        readonly BindingList<Vendor> vendors = new BindingList<Vendor>(GlobalConfig.Store.Vendors);
+        private readonly BindingList<Item> items = new BindingList<Item>(GlobalConfig.Store.Items);
+        private readonly BindingList<Vendor> vendors = new BindingList<Vendor>(GlobalConfig.Store.Vendors);
+
+        private bool editing = false;
 
         public ItemMaintFrm()
         {
@@ -55,6 +57,15 @@ namespace ConsignmentShopUI
             items.ResetBindings();
 
             ClearItemInput();
+
+            if(editing)
+            {
+                btnAddItem.Text = "Add Item";
+
+                btnEdit.Enabled = true;
+
+                editing = false;
+            }
         }
 
         private void ClearItemInput()
@@ -99,6 +110,40 @@ namespace ConsignmentShopUI
             }
 
             return valid;
+        }
+
+        private void btnEdit_Click(object sender, System.EventArgs e)
+        {
+            Item selectedItem = (Item)allItemsListBox.SelectedItem;
+
+            if(selectedItem == null)
+            {
+                return;
+            }
+
+            editing = true;
+
+            PopulateItemTextBoxes();
+            items.Remove(selectedItem);
+
+            btnAddItem.Text = "Update Item";
+            btnEdit.Enabled = false;
+        }
+
+        private void PopulateItemTextBoxes()
+        {
+            Item selectedItem = (Item)allItemsListBox.SelectedItem;
+
+            if(selectedItem == null)
+            {
+                return;
+            }
+
+            textBoxName.Text = selectedItem.Name;
+            textBoxDesc.Text = selectedItem.Description;
+            textBoxPrice.Text = selectedItem.Price.ToString();
+
+            listBoxVendors.SelectedItem = selectedItem.Owner;
         }
     }
 }
