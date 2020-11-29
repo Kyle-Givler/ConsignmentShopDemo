@@ -39,7 +39,7 @@ namespace ConsignmentShopLibrary.DataAccess
 
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
             {
-                items = connection.Query<Item>("dbo.spItemGetAll").ToList();
+                items = connection.Query<Item>("dbo.spItemGetAll", CommandType.StoredProcedure).ToList();
 
                 //foreach (var item in items)
                 //{
@@ -142,6 +142,35 @@ namespace ConsignmentShopLibrary.DataAccess
                 connection.Execute("dbo.spVendorInsert", p, commandType: CommandType.StoredProcedure);
 
                 vendor.Id = p.Get<int>("@Id");
+            }
+        }
+
+        public void UpdateStoreBank(decimal storeBank, decimal storeProfit)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
+            {
+                var p = new DynamicParameters();
+
+                p.Add("@StoreBank", GlobalConfig.Store.StoreBank);
+                p.Add(@"StoreProfit", GlobalConfig.Store.StoreProfit);
+
+                connection.Execute("dbo.spUpdateStoreBank", p, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public void LoadStoreBank()
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
+            {
+                var p = new DynamicParameters();
+
+                p.Add("@StoreBank", 0, dbType: DbType.Decimal, direction: ParameterDirection.Output);
+                p.Add("@StoreProfit", 0, dbType: DbType.Decimal, direction: ParameterDirection.Output);
+
+                connection.Execute("dbo.spStoreBankGet", p, commandType: CommandType.StoredProcedure);
+
+                GlobalConfig.Store.StoreBank = p.Get<decimal>("@StoreBank");
+                GlobalConfig.Store.StoreProfit = p.Get<decimal>("@StoreProfit");
             }
         }
     }

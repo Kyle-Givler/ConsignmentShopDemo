@@ -30,15 +30,15 @@ namespace ConsignmentShopLibrary.DataAccess
 {
     public interface IDataConnection
     {
+        void UpdateStoreBank(decimal storeBank, decimal storeProfit);
+        void LoadStoreBank();
+
         void SaveVendor(Vendor vendor);
         void UpdateVendor(Vendor vendor);
-
         List<Vendor> LoadAllVendors();
 
         void SaveItem(Item item);
-
         void UpdateItem(Item item);
-
         List<Item> LoadAllItems();
 
     }

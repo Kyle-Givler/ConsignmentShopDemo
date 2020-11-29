@@ -32,6 +32,8 @@ namespace ConsignmentShopLibrary.Models
         public string Name { get; set; }
         public List<Vendor> Vendors { get; set; }
         public List<Item> Items { get; set; }
+        public decimal StoreBank { get; set; }
+        public decimal StoreProfit { get; set; }
 
         public Store()
         {

@@ -142,7 +142,7 @@ namespace ConsignmentShopUI
 
             if(selectedVendor.PaymentDue > 0)
             {
-                MessageBox.Show($"{selectedVendor.FullName} Cannot be deleted until being payed {selectedVendor.PaymentDue:C2}", 
+                MessageBox.Show($"{selectedVendor.FullName} cannot be deleted until being payed {selectedVendor.PaymentDue:C2}", 
                     "Vendor must be paid",
                     MessageBoxButtons.OK, 
                     MessageBoxIcon.Warning);

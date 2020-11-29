@@ -41,8 +41,6 @@ namespace ConsignmentShopUI
         readonly BindingList<Vendor> vendors = new BindingList<Vendor>();
         readonly BindingList<Item> items = new BindingList<Item>();
 
-        private decimal storeProfit = 0;
-
         public ConsignmentShop()
         {
             InitializeComponent();
@@ -65,8 +63,16 @@ namespace ConsignmentShopUI
 
         private void SetupData()
         {
+            GlobalConfig.Connection.LoadStoreBank();
+
             SetupVendorBindings();
             SetupItemBindings();
+            UpdateBankData();
+        }
+
+        private void UpdateBankData()
+        {
+            storeProfitValue.Text = $"{ GlobalConfig.Store.StoreProfit:C2}";
         }
 
         private void SetupVendorBindings()
@@ -157,11 +163,12 @@ namespace ConsignmentShopUI
 
         private void makePurchase_Click(object sender, EventArgs e)
         {
+            // TODO Update DB stuff here (Bank/Profit/Vendor stuff)
             foreach (Item item in shoppingCart)
             {
                 item.Sold = true;
                 item.Owner.PaymentDue += (decimal)item.Owner.CommisonRate * item.Price;
-                storeProfit += (1 - (decimal)item.Owner.CommisonRate) * item.Price;
+                GlobalConfig.Store.StoreProfit += (1 - (decimal)item.Owner.CommisonRate) * item.Price;
 
                 GlobalConfig.Connection.UpdateItem(item);
                 GlobalConfig.Connection.UpdateVendor(item.Owner);
@@ -171,7 +178,7 @@ namespace ConsignmentShopUI
 
             vendors.ResetBindings();
 
-            storeProfitValue.Text = string.Format("{0:C2}", storeProfit);
+            UpdateBankData();
 
             ClearItemLabels();
         }
