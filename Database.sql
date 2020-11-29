@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [ConsignmentDemo]    Script Date: 11/28/2020 4:08:13 PM ******/
+/****** Object:  Database [ConsignmentDemo]    Script Date: 11/29/2020 3:14:00 PM ******/
 CREATE DATABASE [ConsignmentDemo]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -82,7 +82,7 @@ ALTER DATABASE [ConsignmentDemo] SET QUERY_STORE = OFF
 GO
 USE [ConsignmentDemo]
 GO
-/****** Object:  Table [dbo].[Items]    Script Date: 11/28/2020 4:08:14 PM ******/
+/****** Object:  Table [dbo].[Items]    Script Date: 11/29/2020 3:14:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -101,7 +101,7 @@ CREATE TABLE [dbo].[Items](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StoreBank]    Script Date: 11/28/2020 4:08:14 PM ******/
+/****** Object:  Table [dbo].[StoreBank]    Script Date: 11/29/2020 3:14:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -111,7 +111,7 @@ CREATE TABLE [dbo].[StoreBank](
 	[StoreProfit] [money] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Vendors]    Script Date: 11/28/2020 4:08:14 PM ******/
+/****** Object:  Table [dbo].[Vendors]    Script Date: 11/29/2020 3:14:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -137,7 +137,7 @@ REFERENCES [dbo].[Vendors] ([Id])
 GO
 ALTER TABLE [dbo].[Items] CHECK CONSTRAINT [FK_Items_Vendors]
 GO
-/****** Object:  StoredProcedure [dbo].[spItemGetAll]    Script Date: 11/28/2020 4:08:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[spItemGetAll]    Script Date: 11/29/2020 3:14:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -154,7 +154,7 @@ BEGIN
 	dbo.Items;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[spItemInsert]    Script Date: 11/28/2020 4:08:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[spItemInsert]    Script Date: 11/29/2020 3:14:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -179,13 +179,13 @@ BEGIN
 	select @Id = SCOPE_IDENTITY();
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SpItemUpdate]    Script Date: 11/28/2020 4:08:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[spItemUpdate]    Script Date: 11/29/2020 3:14:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[SpItemUpdate]
+CREATE PROCEDURE [dbo].[spItemUpdate]
 	@Id int,
 	@Name nvarchar(200),
 	@Description nvarchar(2000),
@@ -204,7 +204,7 @@ BEGIN
 	WHERE Id = @Id;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[spStoreBankGet]    Script Date: 11/28/2020 4:08:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[spStoreBankGet]    Script Date: 11/29/2020 3:14:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -225,7 +225,7 @@ BEGIN
 	SELECT @StoreProfit = StoreProfit from StoreBank;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[spStoreBankUpdate]    Script Date: 11/28/2020 4:08:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[spStoreBankUpdate]    Script Date: 11/29/2020 3:14:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -246,7 +246,22 @@ BEGIN
 		SET StoreBank = @StoreBank, StoreProfit = @StoreProfit;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[spVendorGetAll]    Script Date: 11/28/2020 4:08:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[spVendorDeleteById]    Script Date: 11/29/2020 3:14:00 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[spVendorDeleteById] 
+	@id int
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DELETE FROM Vendors WHERE Id = @id;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[spVendorGetAll]    Script Date: 11/29/2020 3:14:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -263,7 +278,7 @@ BEGIN
 	SELECT * from dbo.Vendors;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[spVendorGetById]    Script Date: 11/28/2020 4:08:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[spVendorGetById]    Script Date: 11/29/2020 3:14:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -282,7 +297,7 @@ BEGIN
 	where Vendors.Id = @id;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[spVendorInsert]    Script Date: 11/28/2020 4:08:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[spVendorInsert]    Script Date: 11/29/2020 3:14:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -306,7 +321,7 @@ BEGIN
 	select @Id = SCOPE_IDENTITY();
 END
 GO
-/****** Object:  StoredProcedure [dbo].[spVendorUpdate]    Script Date: 11/28/2020 4:08:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[spVendorUpdate]    Script Date: 11/29/2020 3:14:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

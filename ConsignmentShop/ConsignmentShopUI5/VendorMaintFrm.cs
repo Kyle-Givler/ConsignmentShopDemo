@@ -46,7 +46,7 @@ namespace ConsignmentShopUI
             vendors.ResetBindings();
         }
 
-        private void btnAddIVendor_Click(object sender, System.EventArgs e)
+        private void btnAddVendor_Click(object sender, System.EventArgs e)
         {
             Vendor output = null;
 
@@ -150,8 +150,8 @@ namespace ConsignmentShopUI
                 return;
             }
 
-            //TODO Delete from database
             vendors.Remove(selectedVendor);
+            GlobalConfig.Connection.RemoveVendor(selectedVendor);
         }
 
         private void btnEdit_Click(object sender, System.EventArgs e)

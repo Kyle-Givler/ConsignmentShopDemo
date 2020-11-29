@@ -173,5 +173,17 @@ namespace ConsignmentShopLibrary.DataAccess
                 GlobalConfig.Store.StoreProfit = p.Get<decimal>("@StoreProfit");
             }
         }
+
+        public void RemoveVendor(Vendor vendor)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
+            {
+                var p = new DynamicParameters();
+
+                p.Add("@Id", vendor.Id);
+
+                connection.Execute("dbo.spVendorDeleteById", p, commandType: CommandType.StoredProcedure);
+            }
+        }
     }
 }

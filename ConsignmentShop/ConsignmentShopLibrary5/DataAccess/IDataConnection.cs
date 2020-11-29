@@ -36,6 +36,7 @@ namespace ConsignmentShopLibrary.DataAccess
         void SaveVendor(Vendor vendor);
         void UpdateVendor(Vendor vendor);
         List<Vendor> LoadAllVendors();
+        void RemoveVendor(Vendor vendor);
 
         void SaveItem(Item item);
         void UpdateItem(Item item);
