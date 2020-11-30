@@ -64,6 +64,7 @@ namespace ConsignmentShopUI
             }
 
             items.Remove(selectedItem);
+            GlobalConfig.Connection.RemoveItem(selectedItem);
         }
 
         private void btmAddItem_Click(object sender, System.EventArgs e)

@@ -185,5 +185,17 @@ namespace ConsignmentShopLibrary.DataAccess
                 connection.Execute("dbo.spVendorDeleteById", p, commandType: CommandType.StoredProcedure);
             }
         }
+
+        public void RemoveItem(Item item)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
+            {
+                var p = new DynamicParameters();
+
+                p.Add("@Id", item.Id);
+
+                connection.Execute("dbo.spItemDeleteById", p, commandType: CommandType.StoredProcedure);
+            }
+        }
     }
 }
