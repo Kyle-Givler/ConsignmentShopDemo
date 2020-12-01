@@ -33,7 +33,7 @@ namespace ConsignmentShopUI
 {
     public partial class ItemMaintFrm : Form
     {
-        private readonly BindingList<Item> items = new BindingList<Item>();
+        private BindingList<Item> items;
         private readonly BindingList<Vendor> vendors = new BindingList<Vendor>(GlobalConfig.Store.Vendors);
 
         private bool editing = false;
@@ -45,33 +45,33 @@ namespace ConsignmentShopUI
 
             UpdateItems();
 
-            allItemsListBox.DataSource = items;
-            allItemsListBox.DisplayMember = "Display";
-            allItemsListBox.ValueMember = "Display";
-            items.ResetBindings();
-
             listBoxVendors.DataSource = vendors;
             listBoxVendors.DisplayMember = "FullName";
             listBoxVendors.ValueMember = "FullName";
-            vendors.ResetBindings();
         }
 
         private void UpdateItems()
         {
-            items.Clear();
-
             if (radioButtonAll.Checked)
             {
-                GlobalConfig.Store.Items.ForEach(x => items.Add(x));
+                items = new BindingList<Item>(GlobalConfig.Store.Items);
             }
             else if (radioButtonSold.Checked)
             {
-                GlobalConfig.Store.Items.Where(x => x.Sold).ToList().ForEach(x => items.Add(x));
+                items = new BindingList<Item>(ItemHelper.GetSoldItems());
             }
             else if (radioButtonUnsold.Checked)
             {
-                GlobalConfig.Store.Items.Where(x => !x.Sold).ToList().ForEach(x => items.Add(x));
+                items = new BindingList<Item>(ItemHelper.GetUnsoldItems());
             }
+
+            // Annoying but it causes the listbox to actually update
+            // Seems this has to be done if the datasource is replaced by a new object
+            allItemsListBox.DataSource = null;
+
+            allItemsListBox.DataSource = items;
+            allItemsListBox.DisplayMember = "Display";
+            allItemsListBox.ValueMember = "Display";
 
             items.ResetBindings();
         }

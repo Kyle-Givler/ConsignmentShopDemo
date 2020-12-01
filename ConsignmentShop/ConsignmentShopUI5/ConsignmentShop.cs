@@ -31,41 +31,30 @@ using ConsignmentShopLibrary.Models;
 using System.Diagnostics;
 using System.Linq;
 
-// TODO Save to DB / load from DB
-
 namespace ConsignmentShopUI
 {
     public partial class ConsignmentShop : Form
     {
-        readonly BindingList<Item> shoppingCart = new BindingList<Item>();
-        readonly BindingList<Vendor> vendors = new BindingList<Vendor>();
-        readonly BindingList<Item> items = new BindingList<Item>();
+        private readonly BindingList<Item> shoppingCart = new BindingList<Item>();
+        private readonly BindingList<Vendor> vendors = new BindingList<Vendor>(GlobalConfig.Store.Vendors);
+        private BindingList<Item> items;
 
         public ConsignmentShop()
         {
             InitializeComponent();
+
             SetupData();
-
-            itemsListbox.DataSource = items;
-            itemsListbox.DisplayMember = "Display";
-            itemsListbox.ValueMember = "Display";
-
-            shoppingCartListBox.DataSource = shoppingCart;
-            shoppingCartListBox.DisplayMember = "Display";
-            shoppingCartListBox.ValueMember = "Display";
-
-            vendorListBox.DataSource = vendors;
-            vendorListBox.DisplayMember = "Display";
-            vendorListBox.ValueMember = "Display";
-
-            lblStoreName.Text = GlobalConfig.Store.Name;
 
             UpdateTotal();
         }
 
         private void SetupData()
         {
-            GlobalConfig.Connection.LoadStoreBank();
+            shoppingCartListBox.DataSource = shoppingCart;
+            shoppingCartListBox.DisplayMember = "Display";
+            shoppingCartListBox.ValueMember = "Display";
+
+            lblStoreName.Text = GlobalConfig.Store.Name;
 
             SetupVendorBindings();
             SetupItemBindings();
@@ -79,30 +68,23 @@ namespace ConsignmentShopUI
 
         private void SetupVendorBindings()
         {
-            GlobalConfig.Store.Vendors = GlobalConfig.Connection.LoadAllVendors();
-
-            vendors.Clear();
-
-            foreach (var v in GlobalConfig.Store.Vendors)
-            {
-                vendors.Add(v);
-            }
+            vendorListBox.DataSource = vendors;
+            vendorListBox.DisplayMember = "Display";
+            vendorListBox.ValueMember = "Display";
 
             vendors.ResetBindings();
         }
 
         private void SetupItemBindings()
         {
-            GlobalConfig.Store.Items = GlobalConfig.Connection.LoadAllItems();
+            items = new BindingList<Item>(ItemHelper.GetUnsoldItems());
 
-            items.Clear();
+            // This seems to be needed when the list changes
+            itemsListbox.DataSource = null; 
 
-            var unsoldItems = GlobalConfig.Store.Items.Where(x => !x.Sold).ToList();
-
-            foreach (var it in unsoldItems)
-            {
-                items.Add(it);
-            }
+            itemsListbox.DataSource = items;
+            itemsListbox.DisplayMember = "Display";
+            itemsListbox.ValueMember = "Display";
 
             items.ResetBindings();
         }
@@ -157,8 +139,8 @@ namespace ConsignmentShopUI
                 return;
             }
 
-            items.Remove(selectedItem);
-            shoppingCart.Add(selectedItem);
+            items.Remove(selectedItem); // Remove from available items
+            shoppingCart.Add(selectedItem); // Add to shopping cart
 
             itemsListbox_SelectedIndexChanged(this, EventArgs.Empty);
 
@@ -179,25 +161,22 @@ namespace ConsignmentShopUI
 
         private void makePurchase_Click(object sender, EventArgs e)
         {
-            // TODO Update DB stuff here (Bank/Profit/Vendor stuff)
             foreach (Item item in shoppingCart)
             {
                 item.Sold = true;
                 item.Owner.PaymentDue += (decimal)item.Owner.CommisonRate * item.Price;
+
                 GlobalConfig.Store.StoreProfit += (1 - (decimal)item.Owner.CommisonRate) * item.Price;
 
                 GlobalConfig.Connection.UpdateItem(item);
                 GlobalConfig.Connection.UpdateVendor(item.Owner);
+                GlobalConfig.Connection.UpdateStoreBank(GlobalConfig.Store.StoreBank, GlobalConfig.Store.StoreProfit);
             }
 
             shoppingCart.Clear();
-
             vendors.ResetBindings();
-
             UpdateBankData();
-
             ClearItemLabels();
-
             UpdateTotal();
         }
 
