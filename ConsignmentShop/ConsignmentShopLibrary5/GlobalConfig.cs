@@ -43,14 +43,23 @@ namespace ConsignmentShopLibrary
             Configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json", false, true).Build();
         }
 
-        public static void InitializeConnection(DatabaseType db)
+        public static void Initialize(DatabaseType db)
         {
+            // Set database type
             if(db == DatabaseType.MSSQL)
             {
                 SQLConnector sql = new SQLConnector();
                 Connection = sql;
                 DBType = db;
             }
+
+            // Maybe store in the DB later
+            GlobalConfig.Store = new Store() { Name = GlobalConfig.Configuration.GetSection("Store:Name").Value };
+
+            // Load stuff from DB
+            GlobalConfig.Connection.LoadStoreBank(); // Load banking info
+            GlobalConfig.Store.Vendors = GlobalConfig.Connection.LoadAllVendors(); // Load vendors
+            GlobalConfig.Store.Items = GlobalConfig.Connection.LoadAllItems(); // Load items
         }
 
         public static string ConnectionString()
