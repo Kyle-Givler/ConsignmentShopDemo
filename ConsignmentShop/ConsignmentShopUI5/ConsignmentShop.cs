@@ -59,6 +59,8 @@ namespace ConsignmentShopUI
             vendorListBox.ValueMember = "Display";
 
             lblStoreName.Text = GlobalConfig.Store.Name;
+
+            UpdateTotal();
         }
 
         private void SetupData()
@@ -159,6 +161,20 @@ namespace ConsignmentShopUI
             shoppingCart.Add(selectedItem);
 
             itemsListbox_SelectedIndexChanged(this, EventArgs.Empty);
+
+            UpdateTotal();
+        }
+
+        private void UpdateTotal()
+        {
+            decimal total = 0;
+
+            foreach (var item in shoppingCart)
+            {
+                total += item.Price;
+            }
+
+            lblTotal.Text = $"Total: {total:C2}";
         }
 
         private void makePurchase_Click(object sender, EventArgs e)
@@ -181,6 +197,8 @@ namespace ConsignmentShopUI
             UpdateBankData();
 
             ClearItemLabels();
+
+            UpdateTotal();
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
@@ -194,6 +212,8 @@ namespace ConsignmentShopUI
 
             items.Add(selectedItem);
             shoppingCart.Remove(selectedItem);
+
+            UpdateTotal();
         }
 
         private void btnItemMaint_Click(object sender, EventArgs e)
