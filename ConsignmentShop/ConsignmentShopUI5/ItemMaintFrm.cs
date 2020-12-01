@@ -33,7 +33,7 @@ namespace ConsignmentShopUI
 {
     public partial class ItemMaintFrm : Form
     {
-        private readonly BindingList<Item> items = new BindingList<Item>(GlobalConfig.Store.Items);
+        private readonly BindingList<Item> items = new BindingList<Item>();
         private readonly BindingList<Vendor> vendors = new BindingList<Vendor>(GlobalConfig.Store.Vendors);
 
         private bool editing = false;
@@ -42,6 +42,8 @@ namespace ConsignmentShopUI
         public ItemMaintFrm()
         {
             InitializeComponent();
+
+            UpdateItems();
 
             allItemsListBox.DataSource = items;
             allItemsListBox.DisplayMember = "Display";
@@ -54,6 +56,27 @@ namespace ConsignmentShopUI
             vendors.ResetBindings();
         }
 
+        private void UpdateItems()
+        {
+            if (radioButtonAll.Checked)
+            {
+                items.Clear();
+                GlobalConfig.Store.Items.ForEach(x => items.Add(x));
+            }
+            else if (radioButtonSold.Checked)
+            {
+                items.Clear();
+                GlobalConfig.Store.Items.Where(x => x.Sold).ToList().ForEach(x => items.Add(x));
+            }
+            else if (radioButtonUnsold.Checked)
+            {
+                items.Clear();
+                GlobalConfig.Store.Items.Where(x => !x.Sold).ToList().ForEach(x => items.Add(x));
+            }
+
+            items.ResetBindings();
+        }
+
         private void btnItemDelete_Click(object sender, System.EventArgs e)
         {
             Item selectedItem = (Item)allItemsListBox.SelectedItem;
@@ -63,8 +86,9 @@ namespace ConsignmentShopUI
                 return;
             }
 
-            items.Remove(selectedItem);
+            GlobalConfig.Store.Items.Remove(selectedItem);
             GlobalConfig.Connection.RemoveItem(selectedItem);
+            UpdateItems();
         }
 
         private void btmAddItem_Click(object sender, System.EventArgs e)
@@ -106,7 +130,8 @@ namespace ConsignmentShopUI
                 GlobalConfig.Connection.SaveItem(output);
             }
 
-            items.Add(output);
+            GlobalConfig.Store.Items.Add(output);
+            UpdateItems();
             ClearItemInput();
         }
 
@@ -190,6 +215,31 @@ namespace ConsignmentShopUI
 
             listBoxVendors.SelectedItem = selectedItem.Owner;
             vendors.ResetBindings();
+        }
+
+        private void radioButtonOption_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateItems();
+        }
+
+        private void btnDeleteSold_Click(object sender, System.EventArgs e)
+        {
+            var result = MessageBox.Show("Are you sure you want to delete all sold items?\nThis action cannot be undone!", 
+                "Delete All Sold", 
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (result == DialogResult.No)
+            {
+                return;
+            }
+            else
+            {
+                GlobalConfig.Store.Items.Where(x => x.Sold).ToList().ForEach(x => GlobalConfig.Connection.RemoveItem(x));
+                GlobalConfig.Store.Items.Where(x => x.Sold).ToList().ForEach(x => GlobalConfig.Store.Items.Remove(x));
+
+                UpdateItems();
+            }
         }
     }
 }
