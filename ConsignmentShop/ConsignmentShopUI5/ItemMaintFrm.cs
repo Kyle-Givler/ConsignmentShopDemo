@@ -58,19 +58,18 @@ namespace ConsignmentShopUI
 
         private void UpdateItems()
         {
+            items.Clear();
+
             if (radioButtonAll.Checked)
             {
-                items.Clear();
                 GlobalConfig.Store.Items.ForEach(x => items.Add(x));
             }
             else if (radioButtonSold.Checked)
             {
-                items.Clear();
                 GlobalConfig.Store.Items.Where(x => x.Sold).ToList().ForEach(x => items.Add(x));
             }
             else if (radioButtonUnsold.Checked)
             {
-                items.Clear();
                 GlobalConfig.Store.Items.Where(x => !x.Sold).ToList().ForEach(x => items.Add(x));
             }
 
@@ -88,6 +87,7 @@ namespace ConsignmentShopUI
 
             GlobalConfig.Store.Items.Remove(selectedItem);
             GlobalConfig.Connection.RemoveItem(selectedItem);
+
             UpdateItems();
         }
 
@@ -140,6 +140,8 @@ namespace ConsignmentShopUI
             textBoxName.Text = string.Empty;
             textBoxDesc.Text = string.Empty;
             textBoxPrice.Text = string.Empty;
+
+            checkBoxSold.Checked = false;
         }
 
         private bool validateData()
@@ -193,7 +195,9 @@ namespace ConsignmentShopUI
             editing = true;
 
             PopulateItemTextBoxes();
-            items.Remove(selectedItem);
+            //items.Remove(selectedItem);
+            GlobalConfig.Store.Items.Remove(selectedItem);
+            UpdateItems();
 
             btnAddItem.Text = "Update Item";
             btnEdit.Enabled = false;
