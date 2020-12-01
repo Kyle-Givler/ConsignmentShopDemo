@@ -154,7 +154,7 @@ namespace ConsignmentShopLibrary.DataAccess
                 p.Add("@StoreBank", GlobalConfig.Store.StoreBank);
                 p.Add(@"StoreProfit", GlobalConfig.Store.StoreProfit);
 
-                connection.Execute("dbo.spUpdateStoreBank", p, commandType: CommandType.StoredProcedure);
+                connection.Execute("dbo.spStoreBankUpdate", p, commandType: CommandType.StoredProcedure);
             }
         }
 
