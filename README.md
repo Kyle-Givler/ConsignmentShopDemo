@@ -4,8 +4,7 @@ https://www.youtube.com/watch?v=YxewTI4H2mY
 
 This project starts with the Consignment Shop Demo project presented in the above Tim Corey Video.
 
-I am currently seeking employment as a devleoper.
-
+I am currently seeking employment as a developer.
 This project shows my ability to understand, work with, and implement the following:
 
 Work with and extend an existing project.
