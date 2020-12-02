@@ -158,7 +158,6 @@ namespace ConsignmentShopUI
             this.btnEdit.TabIndex = 18;
             this.btnEdit.Text = "Edit Selected";
             this.btnEdit.UseVisualStyleBackColor = true;
-            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // btnItemDelete
             // 
@@ -222,7 +221,7 @@ namespace ConsignmentShopUI
             this.btnPayVendor.TabIndex = 18;
             this.btnPayVendor.Text = "Pay Vendor";
             this.btnPayVendor.UseVisualStyleBackColor = true;
-            this.btnPayVendor.Click += new System.EventHandler(this.btnEdit_Click);
+            this.btnPayVendor.Click += new System.EventHandler(this.btnPayVendor_Click);
             // 
             // VendorMaintFrm
             // 

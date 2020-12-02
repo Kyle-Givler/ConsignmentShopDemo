@@ -40,9 +40,17 @@ namespace ConsignmentShopUI
         {
             InitializeComponent();
 
+            UpdateVendors();
+        }
+
+        private void UpdateVendors()
+        {
+            listBoxVendors.DataSource = null;
+
             listBoxVendors.DataSource = vendors;
             listBoxVendors.DisplayMember = "Display";
             listBoxVendors.ValueMember = "Display";
+
             vendors.ResetBindings();
         }
 
@@ -141,6 +149,7 @@ namespace ConsignmentShopUI
                 return;
             }
 
+            // Can't delete a vendor if we owe them money!
             if (selectedVendor.PaymentDue > 0)
             {
                 MessageBox.Show($"{selectedVendor.FullName} cannot be deleted until being payed {selectedVendor.PaymentDue:C2}",
@@ -151,8 +160,7 @@ namespace ConsignmentShopUI
                 return;
             }
 
-
-
+            // Gonna delete them from the DB!
             var result = MessageBox.Show($"Delete vendor: {selectedVendor.FullName}?\nThis action cannot be undone!",
                 "Delete Vendor?",
                 MessageBoxButtons.YesNo,
@@ -165,25 +173,6 @@ namespace ConsignmentShopUI
 
             vendors.Remove(selectedVendor);
             GlobalConfig.Connection.RemoveVendor(selectedVendor);
-        }
-
-        private void btnEdit_Click(object sender, System.EventArgs e)
-        {
-            Vendor selectedVendor = (Vendor)listBoxVendors.SelectedItem;
-            editingVendor = selectedVendor;
-
-            if (editingVendor == null)
-            {
-                return;
-            }
-
-            editing = true;
-
-            PopulateVendorTextBoxes();
-            vendors.Remove(selectedVendor);
-
-            btnAddVendor.Text = "Update Vendor";
-            btnEdit.Enabled = false;
         }
 
         private void PopulateVendorTextBoxes()
@@ -199,6 +188,46 @@ namespace ConsignmentShopUI
             textBoxLastName.Text = selectedVendor.LastName;
             textBoxCommison.Text = (selectedVendor.CommisonRate * 100).ToString();
             textboxOwed.Text = $"{selectedVendor.PaymentDue:C2}";
+        }
+
+        private void btnPayVendor_Click(object sender, System.EventArgs e)
+        {
+            Vendor selectedVendor = (Vendor)listBoxVendors.SelectedItem;
+
+            if(selectedVendor == null)
+            {
+                return;
+            }
+
+            var itemsOwnedByVendor = ItemHelper.GetSoldItemsByVendor(selectedVendor);
+
+            foreach(Item item in itemsOwnedByVendor)
+            {
+                if(!item.PaymentDistrubuted)
+                {
+                    decimal amountOwed = (decimal)item.Owner.CommisonRate * item.Price;
+
+                    if (GlobalConfig.Store.StoreBank > amountOwed)
+                    {
+                        GlobalConfig.Store.StoreBank -= amountOwed;
+
+                        selectedVendor.PaymentDue -= amountOwed;
+
+                        item.PaymentDistrubuted = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("You can't afford to pay the vendor", "You have no money", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+                    }
+                }
+
+                GlobalConfig.Connection.UpdateItem(item);
+                GlobalConfig.Connection.UpdateVendor(selectedVendor);
+            }
+
+            GlobalConfig.Connection.UpdateStoreBank(GlobalConfig.Store.StoreBank, GlobalConfig.Store.StoreProfit);
+            UpdateVendors();
         }
     }
 }

@@ -163,16 +163,16 @@ namespace ConsignmentShopUI
             this.storePayoutLabel.ForeColor = System.Drawing.Color.RoyalBlue;
             this.storePayoutLabel.Location = new System.Drawing.Point(31, 549);
             this.storePayoutLabel.Name = "storePayoutLabel";
-            this.storePayoutLabel.Size = new System.Drawing.Size(106, 20);
+            this.storePayoutLabel.Size = new System.Drawing.Size(155, 20);
             this.storePayoutLabel.TabIndex = 7;
-            this.storePayoutLabel.Text = "Store Profit:";
+            this.storePayoutLabel.Text = "Total Gross Profit:";
             // 
             // storeProfitValue
             // 
             this.storeProfitValue.AutoSize = true;
             this.storeProfitValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.storeProfitValue.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.storeProfitValue.Location = new System.Drawing.Point(142, 549);
+            this.storeProfitValue.Location = new System.Drawing.Point(192, 549);
             this.storeProfitValue.Name = "storeProfitValue";
             this.storeProfitValue.Size = new System.Drawing.Size(54, 20);
             this.storeProfitValue.TabIndex = 8;
@@ -209,7 +209,7 @@ namespace ConsignmentShopUI
             this.btnItemMaint.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Aquamarine;
             this.btnItemMaint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnItemMaint.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.btnItemMaint.Location = new System.Drawing.Point(219, 577);
+            this.btnItemMaint.Location = new System.Drawing.Point(262, 577);
             this.btnItemMaint.Name = "btnItemMaint";
             this.btnItemMaint.Size = new System.Drawing.Size(168, 48);
             this.btnItemMaint.TabIndex = 4;
@@ -343,7 +343,7 @@ namespace ConsignmentShopUI
             this.lblStoreBankValue.AutoSize = true;
             this.lblStoreBankValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblStoreBankValue.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.lblStoreBankValue.Location = new System.Drawing.Point(330, 549);
+            this.lblStoreBankValue.Location = new System.Drawing.Point(373, 549);
             this.lblStoreBankValue.Name = "lblStoreBankValue";
             this.lblStoreBankValue.Size = new System.Drawing.Size(54, 20);
             this.lblStoreBankValue.TabIndex = 12;
@@ -354,7 +354,7 @@ namespace ConsignmentShopUI
             this.lblStoreBank.AutoSize = true;
             this.lblStoreBank.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblStoreBank.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.lblStoreBank.Location = new System.Drawing.Point(219, 549);
+            this.lblStoreBank.Location = new System.Drawing.Point(262, 549);
             this.lblStoreBank.Name = "lblStoreBank";
             this.lblStoreBank.Size = new System.Drawing.Size(99, 20);
             this.lblStoreBank.TabIndex = 11;

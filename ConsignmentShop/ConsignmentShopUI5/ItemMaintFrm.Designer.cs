@@ -52,6 +52,7 @@ namespace ConsignmentShopUI
             this.radioButtonSold = new System.Windows.Forms.RadioButton();
             this.radioButtonAll = new System.Windows.Forms.RadioButton();
             this.radioButtonUnsold = new System.Windows.Forms.RadioButton();
+            this.checkBoxVendorPaid = new System.Windows.Forms.CheckBox();
             this.groupBoxAddItem.SuspendLayout();
             this.groupBoxAllItems.SuspendLayout();
             this.SuspendLayout();
@@ -201,6 +202,7 @@ namespace ConsignmentShopUI
             // 
             // groupBoxAddItem
             // 
+            this.groupBoxAddItem.Controls.Add(this.checkBoxVendorPaid);
             this.groupBoxAddItem.Controls.Add(this.checkBoxSold);
             this.groupBoxAddItem.Controls.Add(this.btnAddItem);
             this.groupBoxAddItem.Controls.Add(this.lblDesc);
@@ -319,6 +321,17 @@ namespace ConsignmentShopUI
             this.radioButtonUnsold.UseVisualStyleBackColor = true;
             this.radioButtonUnsold.CheckedChanged += new System.EventHandler(this.radioButtonOption_CheckedChanged);
             // 
+            // checkBoxVendorPaid
+            // 
+            this.checkBoxVendorPaid.AutoSize = true;
+            this.checkBoxVendorPaid.Enabled = false;
+            this.checkBoxVendorPaid.Location = new System.Drawing.Point(300, 148);
+            this.checkBoxVendorPaid.Name = "checkBoxVendorPaid";
+            this.checkBoxVendorPaid.Size = new System.Drawing.Size(115, 24);
+            this.checkBoxVendorPaid.TabIndex = 11;
+            this.checkBoxVendorPaid.Text = "Vendor Paid";
+            this.checkBoxVendorPaid.UseVisualStyleBackColor = true;
+            // 
             // ItemMaintFrm
             // 
             this.AcceptButton = this.btnAddItem;
@@ -370,5 +383,6 @@ namespace ConsignmentShopUI
         private System.Windows.Forms.RadioButton radioButtonAll;
         private System.Windows.Forms.RadioButton radioButtonUnsold;
         private System.Windows.Forms.Button btnDeleteSold;
+        private System.Windows.Forms.CheckBox checkBoxVendorPaid;
     }
 }

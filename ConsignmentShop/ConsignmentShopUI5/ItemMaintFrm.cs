@@ -28,6 +28,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using ConsignmentShopLibrary.Models;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace ConsignmentShopUI
 {
@@ -142,6 +143,7 @@ namespace ConsignmentShopUI
             textBoxPrice.Text = string.Empty;
 
             checkBoxSold.Checked = false;
+            listBoxVendors.ClearSelected();
         }
 
         private bool validateData()
@@ -215,7 +217,9 @@ namespace ConsignmentShopUI
             textBoxName.Text = selectedItem.Name;
             textBoxDesc.Text = selectedItem.Description;
             textBoxPrice.Text = $"{selectedItem.Price:F2}";
+
             checkBoxSold.Checked = selectedItem.Sold;
+            checkBoxVendorPaid.Checked = selectedItem.PaymentDistrubuted;
 
             listBoxVendors.SelectedItem = selectedItem.Owner;
             vendors.ResetBindings();
@@ -228,7 +232,7 @@ namespace ConsignmentShopUI
 
         private void btnDeleteSold_Click(object sender, System.EventArgs e)
         {
-            var result = MessageBox.Show("Are you sure you want to delete all sold items?\nThis action cannot be undone!", 
+            var result = MessageBox.Show("Are you sure you want to delete all sold items?\n\nOnly items for which the vendor has been paid will be deleted!\n\nThis action cannot be undone!", 
                 "Delete All Sold", 
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning);
@@ -239,8 +243,16 @@ namespace ConsignmentShopUI
             }
             else
             {
-                GlobalConfig.Store.Items.Where(x => x.Sold).ToList().ForEach(x => GlobalConfig.Connection.RemoveItem(x));
-                GlobalConfig.Store.Items.Where(x => x.Sold).ToList().ForEach(x => GlobalConfig.Store.Items.Remove(x));
+                var soldItems = ItemHelper.GetSoldItems();
+
+                foreach(var item in soldItems)
+                {
+                    if(item.PaymentDistrubuted)
+                    {
+                        GlobalConfig.Connection.RemoveItem(item);
+                        GlobalConfig.Store.Items.Remove(item);
+                    }
+                }
 
                 UpdateItems();
             }
