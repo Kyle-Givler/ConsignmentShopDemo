@@ -26,10 +26,12 @@ SOFTWARE.
 // This Program/Demo based on this video: https://www.youtube.com/watch?v=YxewTI4H2mY
 // Very much extended from the video
 
+// TODO make the names of variables more consistant across the project
+// TODO sort the lists, propbably alphabetically 
+
 using System;
 using System.Windows.Forms;
 using ConsignmentShopLibrary;
-using ConsignmentShopLibrary.Models;
 
 namespace ConsignmentShopUI
 {

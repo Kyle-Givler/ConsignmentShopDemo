@@ -41,8 +41,8 @@ namespace ConsignmentShopUI
             InitializeComponent();
 
             listBoxVendors.DataSource = vendors;
-            listBoxVendors.DisplayMember = "FullName";
-            listBoxVendors.ValueMember = "FullName";
+            listBoxVendors.DisplayMember = "Display";
+            listBoxVendors.ValueMember = "Display";
             vendors.ResetBindings();
         }
 
@@ -50,12 +50,12 @@ namespace ConsignmentShopUI
         {
             Vendor output = null;
 
-            if(!ValidateData())
+            if (!ValidateData())
             {
                 return;
             }
 
-            if(editing)
+            if (editing)
             {
                 editingVendor.FirstName = textBoxFirstName.Text;
                 editingVendor.LastName = textBoxLastName.Text;
@@ -91,6 +91,7 @@ namespace ConsignmentShopUI
             textBoxFirstName.Text = string.Empty;
             textBoxLastName.Text = string.Empty;
             textBoxCommison.Text = string.Empty;
+            textboxOwed.Text = string.Empty;
         }
 
         private bool ValidateData()
@@ -99,31 +100,31 @@ namespace ConsignmentShopUI
             bool valid = true;
             double commison = 0;
 
-            if(textBoxFirstName.Text == "")
+            if (textBoxFirstName.Text == "")
             {
                 ErrorMessage += "Please enter a valid first name.\n";
                 valid = false;
             }
 
-            if(textBoxLastName.Text == "")
+            if (textBoxLastName.Text == "")
             {
                 ErrorMessage += "Please enter a valid last name.\n";
                 valid = false;
             }
 
-            if(textBoxCommison.Text == "" || !double.TryParse(textBoxCommison.Text, out commison))
+            if (textBoxCommison.Text == "" || !double.TryParse(textBoxCommison.Text, out commison))
             {
                 ErrorMessage += "Please enter a valid commison.\n";
                 valid = false;
             }
 
-            if(commison < 0 || commison > 100)
+            if (commison < 0 || commison > 100)
             {
                 ErrorMessage += "Commision must be between 0 and 100%\n";
                 valid = false;
             }
 
-            if(!valid)
+            if (!valid)
             {
                 MessageBox.Show(ErrorMessage, "Data Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -133,20 +134,32 @@ namespace ConsignmentShopUI
 
         private void btnItemDelete_Click(object sender, System.EventArgs e)
         {
-            Vendor selectedVendor = (Vendor) listBoxVendors.SelectedItem;
+            Vendor selectedVendor = (Vendor)listBoxVendors.SelectedItem;
 
-            if(selectedVendor == null)
+            if (selectedVendor == null)
             {
                 return;
             }
 
-            if(selectedVendor.PaymentDue > 0)
+            if (selectedVendor.PaymentDue > 0)
             {
-                MessageBox.Show($"{selectedVendor.FullName} cannot be deleted until being payed {selectedVendor.PaymentDue:C2}", 
+                MessageBox.Show($"{selectedVendor.FullName} cannot be deleted until being payed {selectedVendor.PaymentDue:C2}",
                     "Vendor must be paid",
-                    MessageBoxButtons.OK, 
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
 
+                return;
+            }
+
+
+
+            var result = MessageBox.Show($"Delete vendor: {selectedVendor.FullName}?\nThis action cannot be undone!",
+                "Delete Vendor?",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (result != DialogResult.Yes)
+            {
                 return;
             }
 
@@ -159,7 +172,7 @@ namespace ConsignmentShopUI
             Vendor selectedVendor = (Vendor)listBoxVendors.SelectedItem;
             editingVendor = selectedVendor;
 
-            if(editingVendor == null)
+            if (editingVendor == null)
             {
                 return;
             }
@@ -185,6 +198,7 @@ namespace ConsignmentShopUI
             textBoxFirstName.Text = selectedVendor.FirstName;
             textBoxLastName.Text = selectedVendor.LastName;
             textBoxCommison.Text = (selectedVendor.CommisonRate * 100).ToString();
+            textboxOwed.Text = $"{selectedVendor.PaymentDue:C2}";
         }
     }
 }

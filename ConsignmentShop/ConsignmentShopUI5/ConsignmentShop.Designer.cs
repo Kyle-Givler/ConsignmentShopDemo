@@ -54,6 +54,8 @@ namespace ConsignmentShopUI
             this.linkLabelGitHub = new System.Windows.Forms.LinkLabel();
             this.lblStoreName = new System.Windows.Forms.Label();
             this.lblTotal = new System.Windows.Forms.Label();
+            this.lblStoreBankValue = new System.Windows.Forms.Label();
+            this.lblStoreBank = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // headerText
@@ -170,7 +172,7 @@ namespace ConsignmentShopUI
             this.storeProfitValue.AutoSize = true;
             this.storeProfitValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.storeProfitValue.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.storeProfitValue.Location = new System.Drawing.Point(160, 549);
+            this.storeProfitValue.Location = new System.Drawing.Point(142, 549);
             this.storeProfitValue.Name = "storeProfitValue";
             this.storeProfitValue.Size = new System.Drawing.Size(54, 20);
             this.storeProfitValue.TabIndex = 8;
@@ -336,12 +338,36 @@ namespace ConsignmentShopUI
             this.lblTotal.TabIndex = 10;
             this.lblTotal.Text = "Total: {total}";
             // 
+            // lblStoreBankValue
+            // 
+            this.lblStoreBankValue.AutoSize = true;
+            this.lblStoreBankValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblStoreBankValue.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.lblStoreBankValue.Location = new System.Drawing.Point(330, 549);
+            this.lblStoreBankValue.Name = "lblStoreBankValue";
+            this.lblStoreBankValue.Size = new System.Drawing.Size(54, 20);
+            this.lblStoreBankValue.TabIndex = 12;
+            this.lblStoreBankValue.Text = "$0.00";
+            // 
+            // lblStoreBank
+            // 
+            this.lblStoreBank.AutoSize = true;
+            this.lblStoreBank.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblStoreBank.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.lblStoreBank.Location = new System.Drawing.Point(219, 549);
+            this.lblStoreBank.Name = "lblStoreBank";
+            this.lblStoreBank.Size = new System.Drawing.Size(99, 20);
+            this.lblStoreBank.TabIndex = 11;
+            this.lblStoreBank.Text = "Store Bank";
+            // 
             // ConsignmentShop
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FloralWhite;
             this.ClientSize = new System.Drawing.Size(929, 682);
+            this.Controls.Add(this.lblStoreBankValue);
+            this.Controls.Add(this.lblStoreBank);
             this.Controls.Add(this.lblTotal);
             this.Controls.Add(this.linkLabelGitHub);
             this.Controls.Add(this.btnRemove);
@@ -403,6 +429,8 @@ namespace ConsignmentShopUI
         private System.Windows.Forms.LinkLabel linkLabelGitHub;
         private System.Windows.Forms.Label lblStoreName;
         private System.Windows.Forms.Label lblTotal;
+        private System.Windows.Forms.Label lblStoreBankValue;
+        private System.Windows.Forms.Label lblStoreBank;
     }
 }
 

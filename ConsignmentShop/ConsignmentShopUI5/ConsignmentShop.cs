@@ -64,6 +64,7 @@ namespace ConsignmentShopUI
         private void UpdateBankData()
         {
             storeProfitValue.Text = $"{ GlobalConfig.Store.StoreProfit:C2}";
+            lblStoreBankValue.Text = $"{ GlobalConfig.Store.StoreBank:C2}";
         }
 
         private void SetupVendorBindings()
@@ -167,6 +168,7 @@ namespace ConsignmentShopUI
                 item.Owner.PaymentDue += (decimal)item.Owner.CommisonRate * item.Price;
 
                 GlobalConfig.Store.StoreProfit += (1 - (decimal)item.Owner.CommisonRate) * item.Price;
+                GlobalConfig.Store.StoreBank += item.Price;
 
                 GlobalConfig.Connection.UpdateItem(item);
                 GlobalConfig.Connection.UpdateVendor(item.Owner);
