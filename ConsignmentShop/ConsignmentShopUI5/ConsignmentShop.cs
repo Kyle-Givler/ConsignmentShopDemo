@@ -235,6 +235,7 @@ namespace ConsignmentShopUI
             frm.ShowDialog(this);
 
             SetupVendorBindings();
+            UpdateBankData();
         }
 
         private void linkLabelGitHub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
