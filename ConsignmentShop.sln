@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsignmentShopUI", "ConsignmentShopUI5\ConsignmentShopUI.csproj", "{29071841-4808-4779-A013-899B703A4E87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsignmentShopUI", "ConsignmentShopUI\ConsignmentShopUI.csproj", "{29071841-4808-4779-A013-899B703A4E87}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsignmentShopLibrary", "ConsignmentShopLibrary5\ConsignmentShopLibrary.csproj", "{F0569860-8752-423B-96AB-0732BACE57FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsignmentShopLibrary", "ConsignmentShopLibrary\ConsignmentShopLibrary.csproj", "{F0569860-8752-423B-96AB-0732BACE57FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

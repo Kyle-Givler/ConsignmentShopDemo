@@ -15,6 +15,10 @@ SQL Server
 
 Dapper
 
+Seperate Core logic from the UI into a library
+
+Use NuGet packages
+
 The original video created a small demo application with a single form with hardcoded sample items and vendors. This project shows my ability to work with and extend an existing codebase. It demonstrates that I am able to work with SQL Server, stored procedures and Dapper.
 
 Please feel free to contact me if interested in talking about this project, C#, or employment oppertunities. Thanks for reading!

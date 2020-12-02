@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ConsignmentShopLibrary5\ConsignmentShopLibrary.csproj" />
+    <ProjectReference Include="..\ConsignmentShopLibrary\ConsignmentShopLibrary.csproj" />
   </ItemGroup>
 
   <ItemGroup>
