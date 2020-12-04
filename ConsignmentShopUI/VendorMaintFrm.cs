@@ -207,7 +207,6 @@ namespace ConsignmentShopUI
                 return;
             }
 
-            //var itemsOwnedByVendor = ItemHelper.GetSoldItemsByVendor(selectedVendor);
             var itemsOwnedByVendor = GlobalConfig.Connection.LoadSoldItemsByVendor(selectedVendor);
 
             foreach(Item item in itemsOwnedByVendor)
