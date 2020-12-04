@@ -36,16 +36,25 @@ namespace ConsignmentShopUI
     public partial class ConsignmentShop : Form
     {
         private readonly BindingList<Item> shoppingCart = new BindingList<Item>();
-        private readonly BindingList<Vendor> vendors = new BindingList<Vendor>(GlobalConfig.Store.Vendors);
-        private BindingList<Item> items;
+        private readonly BindingList<Vendor> vendors = new BindingList<Vendor>();
+        private readonly BindingList<Item> items = new BindingList<Item>();
+        private readonly Store store = new Store();
 
         public ConsignmentShop()
         {
             InitializeComponent();
 
+            SetupStore();
+
             SetupData();
 
             UpdateTotal();
+        }
+
+        private void SetupStore()
+        {
+            store.Name = GlobalConfig.Configuration.GetSection("Store:Name").Value;
+            GlobalConfig.Connection.LoadStoreBank(store);
         }
 
         private void SetupData()
@@ -54,7 +63,7 @@ namespace ConsignmentShopUI
             shoppingCartListBox.DisplayMember = "Display";
             shoppingCartListBox.ValueMember = "Display";
 
-            lblStoreName.Text = GlobalConfig.Store.Name;
+            lblStoreName.Text = store.Name;
 
             SetupVendorBindings();
             SetupItemBindings();
@@ -63,12 +72,19 @@ namespace ConsignmentShopUI
 
         private void UpdateBankData()
         {
-            storeProfitValue.Text = $"{ GlobalConfig.Store.StoreProfit:C2}";
-            lblStoreBankValue.Text = $"{ GlobalConfig.Store.StoreBank:C2}";
+            storeProfitValue.Text = $"{ store.StoreProfit:C2}";
+            lblStoreBankValue.Text = $"{ store.StoreBank:C2}";
         }
 
         private void SetupVendorBindings()
         {
+            vendors.Clear();
+
+            foreach(Vendor v in GlobalConfig.Connection.LoadAllVendors())
+            {
+                vendors.Add(v);
+            }
+
             vendorListBox.DataSource = vendors;
             vendorListBox.DisplayMember = "Display";
             vendorListBox.ValueMember = "Display";
@@ -78,10 +94,12 @@ namespace ConsignmentShopUI
 
         private void SetupItemBindings()
         {
-            items = new BindingList<Item>(ItemHelper.GetUnsoldItems());
+            items.Clear();
 
-            // This seems to be needed when the list changes
-            itemsListbox.DataSource = null; 
+            foreach(Item itm in GlobalConfig.Connection.LoadUnsoldItems())
+            {
+                items.Add(itm);
+            }
 
             itemsListbox.DataSource = items;
             itemsListbox.DisplayMember = "Display";
@@ -92,39 +110,39 @@ namespace ConsignmentShopUI
 
         private void SetupDemoData()
         {
-            GlobalConfig.Store.Vendors.Add(new Vendor { FirstName = "Bill", LastName = "Smith" });
-            GlobalConfig.Store.Vendors.Add(new Vendor { FirstName = "Sue", LastName = "Jones" });
+            vendors.Add(new Vendor { FirstName = "Bill", LastName = "Smith" });
+            vendors.Add(new Vendor { FirstName = "Sue", LastName = "Jones" });
 
-            GlobalConfig.Store.Items.Add(new Item
+            items.Add(new Item
             {
                 Name = "Moby Dick",
                 Description = "A book about a whale",
                 Price = 4.50M,
-                Owner = GlobalConfig.Store.Vendors[0]
+                Owner = vendors[0]
             });
 
-            GlobalConfig.Store.Items.Add(new Item
+            items.Add(new Item
             {
                 Name = "A Tale of Two Cities",
                 Description = "A book about a revolution",
                 Price = 3.80M,
-                Owner = GlobalConfig.Store.Vendors[1]
+                Owner = vendors[1]
             });
 
-            GlobalConfig.Store.Items.Add(new Item
+            items.Add(new Item
             {
                 Name = "Harry Potter Book 1",
                 Description = "A book about a boy",
                 Price = 5.20M,
-                Owner = GlobalConfig.Store.Vendors[1]
+                Owner = vendors[1]
             });
 
-            GlobalConfig.Store.Items.Add(new Item
+            items.Add(new Item
             {
                 Name = "Jane Eyre",
                 Description = "A book about a girl",
                 Price = 1.50M,
-                Owner = GlobalConfig.Store.Vendors[0]
+                Owner = vendors[0]
             });
 
             vendors.ResetBindings();
@@ -167,18 +185,22 @@ namespace ConsignmentShopUI
                 item.Sold = true;
                 item.Owner.PaymentDue += (decimal)item.Owner.CommisonRate * item.Price;
 
-                GlobalConfig.Store.StoreProfit += (1 - (decimal)item.Owner.CommisonRate) * item.Price;
-                GlobalConfig.Store.StoreBank += item.Price;
+                store.StoreProfit += (1 - (decimal)item.Owner.CommisonRate) * item.Price;
+                store.StoreBank += item.Price;
 
                 GlobalConfig.Connection.UpdateItem(item);
                 GlobalConfig.Connection.UpdateVendor(item.Owner);
-                GlobalConfig.Connection.UpdateStoreBank(GlobalConfig.Store.StoreBank, GlobalConfig.Store.StoreProfit);
+                GlobalConfig.Connection.UpdateStoreBank(store);
             }
 
             shoppingCart.Clear();
+
             vendors.ResetBindings();
+
             UpdateBankData();
+
             ClearItemLabels();
+
             UpdateTotal();
         }
 
@@ -231,7 +253,7 @@ namespace ConsignmentShopUI
 
         private void btnVenderMaint_Click(object sender, EventArgs e)
         {
-            VendorMaintFrm frm = new VendorMaintFrm();
+            VendorMaintFrm frm = new VendorMaintFrm(store);
             frm.ShowDialog(this);
 
             SetupVendorBindings();

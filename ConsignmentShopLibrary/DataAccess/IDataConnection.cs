@@ -35,12 +35,14 @@ namespace ConsignmentShopLibrary.DataAccess
         /// </summary>
         /// <param name="storeBank">Amount of money to set the store bank to</param>
         /// <param name="storeProfit">Amount to set the total gross profit to</param>
-        void UpdateStoreBank(decimal storeBank, decimal storeProfit);
+        void UpdateStoreBank(Store store);
 
         /// <summary>
         /// Load the gross profit and store bank amounts
         /// </summary>
-        void LoadStoreBank();
+        void LoadStoreBank(Store store);
+
+
 
         /// <summary>
         /// Save vendor to DB
@@ -66,6 +68,8 @@ namespace ConsignmentShopLibrary.DataAccess
         /// <param name="vendor">The vendor to delete</param>
         void RemoveVendor(Vendor vendor);
 
+
+
         /// <summary>
         /// Save an item to the database
         /// </summary>
@@ -83,6 +87,12 @@ namespace ConsignmentShopLibrary.DataAccess
         /// </summary>
         /// <returns>A list of all items</returns>
         List<Item> LoadAllItems();
+
+        List<Item> LoadUnsoldItems();
+
+        List<Item> LoadSoldItems();
+
+        List<Item> LoadSoldItemsByVendor(Vendor vendor);
 
         /// <summary>
         /// Delete an item from the database

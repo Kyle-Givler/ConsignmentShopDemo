@@ -34,8 +34,8 @@ namespace ConsignmentShopUI
 {
     public partial class ItemMaintFrm : Form
     {
-        private BindingList<Item> items;
-        private readonly BindingList<Vendor> vendors = new BindingList<Vendor>(GlobalConfig.Store.Vendors);
+        private readonly BindingList<Item> items = new BindingList<Item>();
+        private readonly BindingList<Vendor> vendors = new BindingList<Vendor>();
 
         private bool editing = false;
         private Item editingItem = null;
@@ -53,22 +53,29 @@ namespace ConsignmentShopUI
 
         private void UpdateItems()
         {
+            items.Clear();
+
             if (radioButtonAll.Checked)
             {
-                items = new BindingList<Item>(GlobalConfig.Store.Items);
+                foreach (var item in GlobalConfig.Connection.LoadAllItems())
+                {
+                    items.Add(item);
+                }
             }
             else if (radioButtonSold.Checked)
             {
-                items = new BindingList<Item>(ItemHelper.GetSoldItems());
+                foreach (var item in GlobalConfig.Connection.LoadSoldItems())
+                {
+                    items.Add(item);
+                }
             }
             else if (radioButtonUnsold.Checked)
             {
-                items = new BindingList<Item>(ItemHelper.GetUnsoldItems());
+                foreach (var item in GlobalConfig.Connection.LoadUnsoldItems())
+                {
+                    items.Add(item);
+                }
             }
-
-            // Annoying but it causes the listbox to actually update
-            // Seems this has to be done if the datasource is replaced by a new object
-            allItemsListBox.DataSource = null;
 
             allItemsListBox.DataSource = items;
             allItemsListBox.DisplayMember = "Display";
@@ -86,7 +93,6 @@ namespace ConsignmentShopUI
                 return;
             }
 
-            GlobalConfig.Store.Items.Remove(selectedItem);
             GlobalConfig.Connection.RemoveItem(selectedItem);
 
             UpdateItems();
@@ -131,8 +137,8 @@ namespace ConsignmentShopUI
                 GlobalConfig.Connection.SaveItem(output);
             }
 
-            GlobalConfig.Store.Items.Add(output);
             UpdateItems();
+
             ClearItemInput();
         }
 
@@ -197,8 +203,7 @@ namespace ConsignmentShopUI
             editing = true;
 
             PopulateItemTextBoxes();
-            //items.Remove(selectedItem);
-            GlobalConfig.Store.Items.Remove(selectedItem);
+
             UpdateItems();
 
             btnAddItem.Text = "Update Item";
@@ -243,14 +248,13 @@ namespace ConsignmentShopUI
             }
             else
             {
-                var soldItems = ItemHelper.GetSoldItems();
+                var soldItems = GlobalConfig.Connection.LoadUnsoldItems();
 
                 foreach(var item in soldItems)
                 {
                     if(item.PaymentDistrubuted)
                     {
                         GlobalConfig.Connection.RemoveItem(item);
-                        GlobalConfig.Store.Items.Remove(item);
                     }
                 }
 

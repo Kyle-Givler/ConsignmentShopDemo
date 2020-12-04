@@ -39,24 +39,29 @@ namespace ConsignmentShopLibrary.DataAccess
 
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
             {
-                items = connection.Query<Item>("dbo.spItemGetAll", CommandType.StoredProcedure).ToList();
-
-                //foreach (var item in items)
-                //{
-                //    var p = new DynamicParameters();
-                //    p.Add("@Id", item.OwnerId);
-                //    item.Owner = connection.Query<Vendor>("dbo.spVendorGetById", p, commandType: CommandType.StoredProcedure).First();
-                //}
-
-                if(GlobalConfig.Store.Vendors.Count == 0)
-                {
-                    LoadAllVendors();
-                }
-                foreach (var item in items)
-                {
-                    item.Owner = GlobalConfig.Store.Vendors.Where(x => x.Id == item.OwnerId).First();
-                }
+                items = connection.Query<Item>("dbo.spItemGetAll").ToList();
             }
+
+            //using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
+            //{
+            //    items = connection.Query<Item>("dbo.spItemGetAll", CommandType.StoredProcedure).ToList();
+
+            //    //foreach (var item in items)
+            //    //{
+            //    //    var p = new DynamicParameters();
+            //    //    p.Add("@Id", item.OwnerId);
+            //    //    item.Owner = connection.Query<Vendor>("dbo.spVendorGetById", p, commandType: CommandType.StoredProcedure).First();
+            //    //}
+
+            //    if(GlobalConfig.Store.Vendors.Count == 0)
+            //    {
+            //        LoadAllVendors();
+            //    }
+            //    foreach (var item in items)
+            //    {
+            //        item.Owner = GlobalConfig.Store.Vendors.Where(x => x.Id == item.OwnerId).First();
+            //    }
+            //}
 
             return items;
         }
@@ -71,7 +76,7 @@ namespace ConsignmentShopLibrary.DataAccess
                 p.Add("@LastName", vendor.LastName);
                 p.Add("@CommisionRate", vendor.CommisonRate);
                 p.Add("@PaymentDue", vendor.PaymentDue);
-                p.Add("@Id",vendor.Id);
+                p.Add("@Id", vendor.Id);
 
                 connection.Execute("dbo.spVendorUpdate", p, commandType: CommandType.StoredProcedure);
             }
@@ -145,20 +150,20 @@ namespace ConsignmentShopLibrary.DataAccess
             }
         }
 
-        public void UpdateStoreBank(decimal storeBank, decimal storeProfit)
+        public void UpdateStoreBank(Store store)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
             {
                 var p = new DynamicParameters();
 
-                p.Add("@StoreBank", GlobalConfig.Store.StoreBank);
-                p.Add(@"StoreProfit", GlobalConfig.Store.StoreProfit);
+                p.Add("@StoreBank", store.StoreBank);
+                p.Add(@"StoreProfit", store.StoreProfit);
 
                 connection.Execute("dbo.spStoreBankUpdate", p, commandType: CommandType.StoredProcedure);
             }
         }
 
-        public void LoadStoreBank()
+        public void LoadStoreBank(Store store)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
             {
@@ -169,8 +174,8 @@ namespace ConsignmentShopLibrary.DataAccess
 
                 connection.Execute("dbo.spStoreBankGet", p, commandType: CommandType.StoredProcedure);
 
-                GlobalConfig.Store.StoreBank = p.Get<decimal>("@StoreBank");
-                GlobalConfig.Store.StoreProfit = p.Get<decimal>("@StoreProfit");
+                store.StoreBank = p.Get<decimal>("@StoreBank");
+                store.StoreProfit = p.Get<decimal>("@StoreProfit");
             }
         }
 
@@ -196,6 +201,21 @@ namespace ConsignmentShopLibrary.DataAccess
 
                 connection.Execute("dbo.spItemDeleteById", p, commandType: CommandType.StoredProcedure);
             }
+        }
+
+        public List<Item> LoadUnsoldItems()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<Item> LoadSoldItems()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<Item> LoadSoldItemsByVendor(Vendor vendor)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
