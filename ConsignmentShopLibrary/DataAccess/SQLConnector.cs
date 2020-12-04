@@ -235,7 +235,22 @@ namespace ConsignmentShopLibrary.DataAccess
 
         public List<Item> LoadSoldItemsByVendor(Vendor vendor)
         {
-            throw new System.NotImplementedException();
+            List<Item> items;
+
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
+            {
+                var p = new DynamicParameters();
+                p.Add("@OwnerId", vendor.Id);
+
+                items = connection.Query<Item>("dbo.spItemGetSoldByVendor", p, commandType: CommandType.StoredProcedure).ToList();
+
+                foreach (var item in items)
+                {
+                    item.Owner = vendor;
+                }
+            }
+
+            return items;
         }
     }
 }
