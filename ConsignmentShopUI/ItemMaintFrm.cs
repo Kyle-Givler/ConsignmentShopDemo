@@ -46,6 +46,18 @@ namespace ConsignmentShopUI
 
             UpdateItems();
 
+            UpdateVendors();
+        }
+
+        private void UpdateVendors()
+        {
+            vendors.Clear();
+
+            foreach (var vendor in GlobalConfig.Connection.LoadAllVendors())
+            {
+                vendors.Add(vendor);
+            }
+
             listBoxVendors.DataSource = vendors;
             listBoxVendors.DisplayMember = "FullName";
             listBoxVendors.ValueMember = "FullName";
@@ -226,7 +238,14 @@ namespace ConsignmentShopUI
             checkBoxSold.Checked = selectedItem.Sold;
             checkBoxVendorPaid.Checked = selectedItem.PaymentDistrubuted;
 
-            listBoxVendors.SelectedItem = selectedItem.Owner;
+            //There has to be a better way of doing this:
+            var vendor = vendors.Where(x => x.Id == selectedItem.OwnerId).First();
+            listBoxVendors.SelectedItem = vendor; 
+
+            // The below does not work, I think becasue the object reference is not equal
+            //var vendor = selectedItem.Owner;
+            //listBoxVendors.SelectedItem = vendor;
+
             vendors.ResetBindings();
         }
 
