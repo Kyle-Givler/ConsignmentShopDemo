@@ -35,35 +35,23 @@ namespace ConsignmentShopLibrary.DataAccess
     {
         public List<Item> LoadAllItems()
         {
-            List<Item> items;
+            List<Item> allItems;
 
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
             {
-                items = connection.Query<Item>("dbo.spItemGetAll").ToList();
+                allItems = connection.Query<Item>("dbo.spItemGetAll", CommandType.StoredProcedure).ToList();
+
+                foreach (var item in allItems)
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@Id", item.OwnerId);
+
+                    var owner = connection.Query<Vendor>("dbo.spVendorGetById", p, commandType: CommandType.StoredProcedure).First();
+                    item.Owner = owner;
+                }
             }
 
-            //using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
-            //{
-            //    items = connection.Query<Item>("dbo.spItemGetAll", CommandType.StoredProcedure).ToList();
-
-            //    //foreach (var item in items)
-            //    //{
-            //    //    var p = new DynamicParameters();
-            //    //    p.Add("@Id", item.OwnerId);
-            //    //    item.Owner = connection.Query<Vendor>("dbo.spVendorGetById", p, commandType: CommandType.StoredProcedure).First();
-            //    //}
-
-            //    if(GlobalConfig.Store.Vendors.Count == 0)
-            //    {
-            //        LoadAllVendors();
-            //    }
-            //    foreach (var item in items)
-            //    {
-            //        item.Owner = GlobalConfig.Store.Vendors.Where(x => x.Id == item.OwnerId).First();
-            //    }
-            //}
-
-            return items;
+            return allItems;
         }
 
         public void UpdateVendor(Vendor vendor)
@@ -205,12 +193,44 @@ namespace ConsignmentShopLibrary.DataAccess
 
         public List<Item> LoadUnsoldItems()
         {
-            throw new System.NotImplementedException();
+            List<Item> unsoldItems;
+
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
+            {
+                unsoldItems = connection.Query<Item>("dbo.spItemGetUnsold", CommandType.StoredProcedure).ToList();
+
+                foreach (var item in unsoldItems)
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@Id", item.OwnerId);
+
+                    var owner = connection.Query<Vendor>("dbo.spVendorGetById", p, commandType: CommandType.StoredProcedure).First();
+                    item.Owner = owner;
+                }
+            }
+
+            return unsoldItems;
         }
 
         public List<Item> LoadSoldItems()
         {
-            throw new System.NotImplementedException();
+            List<Item> soldItems;
+
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
+            {
+                soldItems = connection.Query<Item>("dbo.spItemGetSold", CommandType.StoredProcedure).ToList();
+
+                foreach (var item in soldItems)
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@Id", item.OwnerId);
+
+                    var owner = connection.Query<Vendor>("dbo.spVendorGetById", p, commandType: CommandType.StoredProcedure).First();
+                    item.Owner = owner;
+                }
+            }
+
+            return soldItems;
         }
 
         public List<Item> LoadSoldItemsByVendor(Vendor vendor)
