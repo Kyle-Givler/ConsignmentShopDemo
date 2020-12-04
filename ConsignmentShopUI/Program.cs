@@ -28,9 +28,8 @@ SOFTWARE.
 
 // TODO make the names of variables more consistant across the project
 // TODO sort the lists, probably alphabetically 
-// TODO some of the logic can probably be pulled out of the forms and added to the library
 // TODO ASP.net frontend / other UIs
-// TODO Support multiple stores
+// TODO Support multiple stores / save store(s) in db (Requires changing how the banking info is stored)
 
 using System;
 using System.Windows.Forms;
