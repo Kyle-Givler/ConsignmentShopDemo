@@ -79,5 +79,6 @@
     <Build Include="dbo\Stored Procedures\spVendors_Insert.sql" />
     <Build Include="dbo\Stored Procedures\spVendors_Update.sql" />
     <Build Include="dbo\Stored Procedures\spStores_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\spItems_GetByVendorId.sql" />
   </ItemGroup>
 </Project>
