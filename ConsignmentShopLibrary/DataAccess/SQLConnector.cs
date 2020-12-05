@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Data;
 using ConsignmentShopLibrary.Models;
 using System.Linq;
+using System;
 
 namespace ConsignmentShopLibrary.DataAccess
 {
@@ -39,14 +40,14 @@ namespace ConsignmentShopLibrary.DataAccess
 
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
             {
-                allItems = connection.Query<Item>("dbo.spItemGetAll", CommandType.StoredProcedure).ToList();
+                allItems = connection.Query<Item>("dbo.spItems_GetAll", CommandType.StoredProcedure).ToList();
 
                 foreach (var item in allItems)
                 {
                     var p = new DynamicParameters();
                     p.Add("@Id", item.OwnerId);
 
-                    var owner = connection.Query<Vendor>("dbo.spVendorGetById", p, commandType: CommandType.StoredProcedure).First();
+                    var owner = connection.Query<Vendor>("dbo.spVendors_Get", p, commandType: CommandType.StoredProcedure).First();
                     item.Owner = owner;
                 }
             }
@@ -62,11 +63,11 @@ namespace ConsignmentShopLibrary.DataAccess
 
                 p.Add("@FirstName", vendor.FirstName);
                 p.Add("@LastName", vendor.LastName);
-                p.Add("@CommisionRate", vendor.CommisonRate);
+                p.Add("@CommissionRate", vendor.CommissionRate);
                 p.Add("@PaymentDue", vendor.PaymentDue);
                 p.Add("@Id", vendor.Id);
 
-                connection.Execute("dbo.spVendorUpdate", p, commandType: CommandType.StoredProcedure);
+                connection.Execute("dbo.spVendors_Update", p, commandType: CommandType.StoredProcedure);
             }
         }
 
@@ -76,7 +77,7 @@ namespace ConsignmentShopLibrary.DataAccess
 
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
             {
-                vendors = connection.Query<Vendor>("dbo.spVendorGetAll").ToList();
+                vendors = connection.Query<Vendor>("dbo.spVendors_GetAll").ToList();
             }
 
             return vendors;
@@ -96,7 +97,7 @@ namespace ConsignmentShopLibrary.DataAccess
                 p.Add("@PaymentDistributed", item.PaymentDistributed);
                 p.Add("@Id", 0, DbType.Int32, direction: ParameterDirection.Output);
 
-                connection.Execute("dbo.spItemInsert", p, commandType: CommandType.StoredProcedure);
+                connection.Execute("dbo.spItems_Insert", p, commandType: CommandType.StoredProcedure);
 
                 item.Id = p.Get<int>("@Id");
             }
@@ -116,7 +117,7 @@ namespace ConsignmentShopLibrary.DataAccess
                 p.Add("@PaymentDistributed", item.PaymentDistributed);
                 p.Add("@Id", item.Id);
 
-                connection.Execute("dbo.spItemUpdate", p, commandType: CommandType.StoredProcedure);
+                connection.Execute("dbo.spItems_Update", p, commandType: CommandType.StoredProcedure);
             }
         }
 
@@ -128,42 +129,77 @@ namespace ConsignmentShopLibrary.DataAccess
 
                 p.Add("@FirstName", vendor.FirstName);
                 p.Add("@LastName", vendor.LastName);
-                p.Add("@CommisionRate", vendor.CommisonRate);
+                p.Add("@CommissionRate", vendor.CommissionRate);
                 p.Add("@PaymentDue", vendor.PaymentDue);
                 p.Add("@Id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-                connection.Execute("dbo.spVendorInsert", p, commandType: CommandType.StoredProcedure);
+                connection.Execute("dbo.spVendors_Insert", p, commandType: CommandType.StoredProcedure);
 
                 vendor.Id = p.Get<int>("@Id");
             }
         }
 
-        public void UpdateStoreBank(Store store)
+        public void SaveStore(Store store)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
             {
                 var p = new DynamicParameters();
 
+                p.Add("@Id", 0, DbType.Int32, direction: ParameterDirection.Output);
+                p.Add("@Name", store.Name);
                 p.Add("@StoreBank", store.StoreBank);
                 p.Add(@"StoreProfit", store.StoreProfit);
 
-                connection.Execute("dbo.spStoreBankUpdate", p, commandType: CommandType.StoredProcedure);
+                connection.Execute("dbo.spStores_Insert", p, commandType: CommandType.StoredProcedure);
+
+                store.Id = p.Get<int>("@Id");
             }
         }
 
-        public void LoadStoreBank(Store store)
+        public void UpdateStore(Store store)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
             {
                 var p = new DynamicParameters();
 
-                p.Add("@StoreBank", 0, dbType: DbType.Decimal, direction: ParameterDirection.Output);
-                p.Add("@StoreProfit", 0, dbType: DbType.Decimal, direction: ParameterDirection.Output);
+                p.Add("@Id", store.Id);
+                p.Add("@Name", store.Name);
+                p.Add("@StoreBank", store.StoreBank);
+                p.Add(@"StoreProfit", store.StoreProfit);
 
-                connection.Execute("dbo.spStoreBankGet", p, commandType: CommandType.StoredProcedure);
+                connection.Execute("dbo.spStores_Update", p, commandType: CommandType.StoredProcedure);
+            }
+        }
 
-                store.StoreBank = p.Get<decimal>("@StoreBank");
-                store.StoreProfit = p.Get<decimal>("@StoreProfit");
+        public Store LoadStore(string name)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
+            {
+                var p = new DynamicParameters();
+
+                p.Add("@Name", name);
+
+                var stores = connection.Query<Store>("dbo.spStores_Get", p, commandType: CommandType.StoredProcedure).ToList();
+
+                if (stores.Count == 0)
+                {
+                    Store store = new Store();
+
+                    store.Name = name;
+                    store.StoreBank = 0;
+                    store.StoreProfit = 0;
+
+                    SaveStore(store);
+
+                    return store;
+                }
+
+                if (stores.Count > 1)
+                {
+                    throw new Exception($"Multiple stores named {name} exit.");
+                }
+
+                return stores.First();
             }
         }
 
@@ -175,7 +211,7 @@ namespace ConsignmentShopLibrary.DataAccess
 
                 p.Add("@Id", vendor.Id);
 
-                connection.Execute("dbo.spVendorDeleteById", p, commandType: CommandType.StoredProcedure);
+                connection.Execute("dbo.spVendors_Delete", p, commandType: CommandType.StoredProcedure);
             }
         }
 
@@ -187,7 +223,7 @@ namespace ConsignmentShopLibrary.DataAccess
 
                 p.Add("@Id", item.Id);
 
-                connection.Execute("dbo.spItemDeleteById", p, commandType: CommandType.StoredProcedure);
+                connection.Execute("dbo.spItems_Delete", p, commandType: CommandType.StoredProcedure);
             }
         }
 
@@ -197,14 +233,14 @@ namespace ConsignmentShopLibrary.DataAccess
 
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
             {
-                unsoldItems = connection.Query<Item>("dbo.spItemGetUnsold", CommandType.StoredProcedure).ToList();
+                unsoldItems = connection.Query<Item>("dbo.spItems_GetUnsold", CommandType.StoredProcedure).ToList();
 
                 foreach (var item in unsoldItems)
                 {
                     var p = new DynamicParameters();
                     p.Add("@Id", item.OwnerId);
 
-                    var owner = connection.Query<Vendor>("dbo.spVendorGetById", p, commandType: CommandType.StoredProcedure).First();
+                    var owner = connection.Query<Vendor>("dbo.spVendors_Get", p, commandType: CommandType.StoredProcedure).First();
                     item.Owner = owner;
                 }
             }
@@ -218,14 +254,14 @@ namespace ConsignmentShopLibrary.DataAccess
 
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
             {
-                soldItems = connection.Query<Item>("dbo.spItemGetSold", CommandType.StoredProcedure).ToList();
+                soldItems = connection.Query<Item>("dbo.spItems_GetSold", CommandType.StoredProcedure).ToList();
 
                 foreach (var item in soldItems)
                 {
                     var p = new DynamicParameters();
                     p.Add("@Id", item.OwnerId);
 
-                    var owner = connection.Query<Vendor>("dbo.spVendorGetById", p, commandType: CommandType.StoredProcedure).First();
+                    var owner = connection.Query<Vendor>("dbo.spVendors_Get", p, commandType: CommandType.StoredProcedure).First();
                     item.Owner = owner;
                 }
             }
@@ -242,7 +278,7 @@ namespace ConsignmentShopLibrary.DataAccess
                 var p = new DynamicParameters();
                 p.Add("@OwnerId", vendor.Id);
 
-                items = connection.Query<Item>("dbo.spItemGetSoldByVendor", p, commandType: CommandType.StoredProcedure).ToList();
+                items = connection.Query<Item>("dbo.spItems_GetSoldByVendorId", p, commandType: CommandType.StoredProcedure).ToList();
 
                 foreach (var item in items)
                 {

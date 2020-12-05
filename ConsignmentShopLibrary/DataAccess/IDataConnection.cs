@@ -35,13 +35,14 @@ namespace ConsignmentShopLibrary.DataAccess
         /// </summary>
         /// <param name="storeBank">Amount of money to set the store bank to</param>
         /// <param name="storeProfit">Amount to set the total gross profit to</param>
-        void UpdateStoreBank(Store store);
+        void SaveStore(Store store);
 
         /// <summary>
         /// Load the gross profit and store bank amounts
         /// </summary>
-        void LoadStoreBank(Store store);
+        Store LoadStore(string name);
 
+        void UpdateStore(Store store);
 
 
         /// <summary>
