@@ -26,15 +26,14 @@ SOFTWARE.
 using ConsignmentShopLibrary.DataAccess;
 using Microsoft.Extensions.Configuration;
 using System;
-using ConsignmentShopLibrary.Models;
 
 namespace ConsignmentShopLibrary
 {
     public static class GlobalConfig
     {
         public enum DatabaseType { MSSQL };
+
         public static IDataConnection Connection { get; private set; }
-        public static Store Store { get; set; }
         public static IConfiguration Configuration { get; private set; }
         public static DatabaseType DBType { get; private set; }
 
@@ -52,14 +51,6 @@ namespace ConsignmentShopLibrary
                 Connection = sql;
                 DBType = db;
             }
-
-            // Maybe store in the DB later
-            GlobalConfig.Store = new Store() { Name = GlobalConfig.Configuration.GetSection("Store:Name").Value };
-
-            // Load stuff from DB
-            GlobalConfig.Connection.LoadStoreBank(); // Load banking info
-            GlobalConfig.Store.Vendors = GlobalConfig.Connection.LoadAllVendors(); // Load vendors
-            GlobalConfig.Store.Items = GlobalConfig.Connection.LoadAllItems(); // Load items
         }
 
         public static string ConnectionString()

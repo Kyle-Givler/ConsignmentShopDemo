@@ -38,7 +38,7 @@ namespace ConsignmentShopLibrary.Models
         public string Description { get; set; }
         public decimal Price { get; set; }
         public bool Sold { get; set; }
-        public bool PaymentDistrubuted { get; set; }
+        public bool PaymentDistributed { get; set; }
         public int OwnerId { get; set; }
         public Vendor Owner { get; set; }
         public string Display
