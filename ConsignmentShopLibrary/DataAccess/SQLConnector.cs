@@ -288,5 +288,25 @@ namespace ConsignmentShopLibrary.DataAccess
 
             return items;
         }
+
+        public List<Item> LoadItemsByVendor(Vendor vendor)
+        {
+            List<Item> items;
+
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnectionString()))
+            {
+                var p = new DynamicParameters();
+                p.Add("@OwnerId", vendor.Id);
+
+                items = connection.Query<Item>("dbo.spItems_GetByVendorId", p, commandType: CommandType.StoredProcedure).ToList();
+
+                foreach (var item in items)
+                {
+                    item.Owner = vendor;
+                }
+            }
+
+            return items;
+        }
     }
 }

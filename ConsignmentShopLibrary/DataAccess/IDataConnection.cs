@@ -95,6 +95,8 @@ namespace ConsignmentShopLibrary.DataAccess
 
         List<Item> LoadSoldItemsByVendor(Vendor vendor);
 
+        List<Item> LoadItemsByVendor(Vendor vendor);
+
         /// <summary>
         /// Delete an item from the database
         /// </summary>
