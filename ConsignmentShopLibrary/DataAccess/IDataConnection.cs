@@ -30,17 +30,74 @@ namespace ConsignmentShopLibrary.DataAccess
 {
     public interface IDataConnection
     {
-        void UpdateStoreBank(decimal storeBank, decimal storeProfit);
-        void LoadStoreBank();
+        /// <summary>
+        /// Update the amount of money in the storeBank and the total gross profit
+        /// </summary>
+        /// <param name="storeBank">Amount of money to set the store bank to</param>
+        /// <param name="storeProfit">Amount to set the total gross profit to</param>
+        void UpdateStoreBank(Store store);
 
+        /// <summary>
+        /// Load the gross profit and store bank amounts
+        /// </summary>
+        void LoadStoreBank(Store store);
+
+
+
+        /// <summary>
+        /// Save vendor to DB
+        /// </summary>
+        /// <param name="vendor">The vendor to save</param>
         void SaveVendor(Vendor vendor);
+
+        /// <summary>
+        /// Update an exiting vendor
+        /// </summary>
+        /// <param name="vendor">The vendor to update</param>
         void UpdateVendor(Vendor vendor);
+
+        /// <summary>
+        /// Retreive a list of all vendors
+        /// </summary>
+        /// <returns>List of all vendors</returns>
         List<Vendor> LoadAllVendors();
+
+        /// <summary>
+        /// Delete a vendor from the Database
+        /// </summary>
+        /// <param name="vendor">The vendor to delete</param>
         void RemoveVendor(Vendor vendor);
 
+
+
+        /// <summary>
+        /// Save an item to the database
+        /// </summary>
+        /// <param name="item">The item to save</param>
         void SaveItem(Item item);
+
+        /// <summary>
+        /// Update an existing Item
+        /// </summary>
+        /// <param name="item">The Item to update</param>
         void UpdateItem(Item item);
+
+        /// <summary>
+        /// Load all items from the Database
+        /// </summary>
+        /// <returns>A list of all items</returns>
         List<Item> LoadAllItems();
+
+        List<Item> LoadUnsoldItems();
+
+        List<Item> LoadSoldItems();
+
+        List<Item> LoadSoldItemsByVendor(Vendor vendor);
+
+        /// <summary>
+        /// Delete an item from the database
+        /// </summary>
+        /// <param name="item"></param>
         void RemoveItem(Item item);
 
     }

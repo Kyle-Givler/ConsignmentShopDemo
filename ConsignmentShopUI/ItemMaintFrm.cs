@@ -28,14 +28,13 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using ConsignmentShopLibrary.Models;
 using System.Linq;
-using System.Collections.Generic;
 
 namespace ConsignmentShopUI
 {
     public partial class ItemMaintFrm : Form
     {
-        private BindingList<Item> items;
-        private readonly BindingList<Vendor> vendors = new BindingList<Vendor>(GlobalConfig.Store.Vendors);
+        private readonly BindingList<Item> items = new BindingList<Item>();
+        private readonly BindingList<Vendor> vendors = new BindingList<Vendor>();
 
         private bool editing = false;
         private Item editingItem = null;
@@ -46,6 +45,18 @@ namespace ConsignmentShopUI
 
             UpdateItems();
 
+            UpdateVendors();
+        }
+
+        private void UpdateVendors()
+        {
+            vendors.Clear();
+
+            foreach (var vendor in GlobalConfig.Connection.LoadAllVendors())
+            {
+                vendors.Add(vendor);
+            }
+
             listBoxVendors.DataSource = vendors;
             listBoxVendors.DisplayMember = "FullName";
             listBoxVendors.ValueMember = "FullName";
@@ -53,22 +64,29 @@ namespace ConsignmentShopUI
 
         private void UpdateItems()
         {
+            items.Clear();
+
             if (radioButtonAll.Checked)
             {
-                items = new BindingList<Item>(GlobalConfig.Store.Items);
+                foreach (var item in GlobalConfig.Connection.LoadAllItems())
+                {
+                    items.Add(item);
+                }
             }
             else if (radioButtonSold.Checked)
             {
-                items = new BindingList<Item>(ItemHelper.GetSoldItems());
+                foreach (var item in GlobalConfig.Connection.LoadSoldItems())
+                {
+                    items.Add(item);
+                }
             }
             else if (radioButtonUnsold.Checked)
             {
-                items = new BindingList<Item>(ItemHelper.GetUnsoldItems());
+                foreach (var item in GlobalConfig.Connection.LoadUnsoldItems())
+                {
+                    items.Add(item);
+                }
             }
-
-            // Annoying but it causes the listbox to actually update
-            // Seems this has to be done if the datasource is replaced by a new object
-            allItemsListBox.DataSource = null;
 
             allItemsListBox.DataSource = items;
             allItemsListBox.DisplayMember = "Display";
@@ -86,7 +104,6 @@ namespace ConsignmentShopUI
                 return;
             }
 
-            GlobalConfig.Store.Items.Remove(selectedItem);
             GlobalConfig.Connection.RemoveItem(selectedItem);
 
             UpdateItems();
@@ -131,8 +148,8 @@ namespace ConsignmentShopUI
                 GlobalConfig.Connection.SaveItem(output);
             }
 
-            GlobalConfig.Store.Items.Add(output);
             UpdateItems();
+
             ClearItemInput();
         }
 
@@ -197,8 +214,7 @@ namespace ConsignmentShopUI
             editing = true;
 
             PopulateItemTextBoxes();
-            //items.Remove(selectedItem);
-            GlobalConfig.Store.Items.Remove(selectedItem);
+
             UpdateItems();
 
             btnAddItem.Text = "Update Item";
@@ -219,9 +235,16 @@ namespace ConsignmentShopUI
             textBoxPrice.Text = $"{selectedItem.Price:F2}";
 
             checkBoxSold.Checked = selectedItem.Sold;
-            checkBoxVendorPaid.Checked = selectedItem.PaymentDistrubuted;
+            checkBoxVendorPaid.Checked = selectedItem.PaymentDistributed;
 
-            listBoxVendors.SelectedItem = selectedItem.Owner;
+            //There has to be a better way of doing this:
+            var vendor = vendors.Where(x => x.Id == selectedItem.OwnerId).First();
+            listBoxVendors.SelectedItem = vendor; 
+
+            // The below does not work, I think becasue the object reference is not equal
+            //var vendor = selectedItem.Owner;
+            //listBoxVendors.SelectedItem = vendor;
+
             vendors.ResetBindings();
         }
 
@@ -243,14 +266,13 @@ namespace ConsignmentShopUI
             }
             else
             {
-                var soldItems = ItemHelper.GetSoldItems();
+                var soldItems = GlobalConfig.Connection.LoadSoldItems();
 
                 foreach(var item in soldItems)
                 {
-                    if(item.PaymentDistrubuted)
+                    if(item.PaymentDistributed)
                     {
                         GlobalConfig.Connection.RemoveItem(item);
-                        GlobalConfig.Store.Items.Remove(item);
                     }
                 }
 

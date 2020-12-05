@@ -3,7 +3,9 @@ This project is based on Tim Corey's Consignment Shop Demo video:
 https://www.youtube.com/watch?v=YxewTI4H2mY
 
 This project starts with the Consignment Shop Demo project presented in the above Tim Corey Video.
-This shows my ability to understand, work with, or implement the following:
+
+I am currently seeking employment as a developer.
+This project shows my ability to understand, work with, and implement the following:
 
 Work with and extend an existing project.
 
@@ -23,4 +25,4 @@ The original video created a small demo application with a single form with hard
 
 Please feel free to contact me if interested in talking about this project, C#, or employment oppertunities. Thanks for reading!
 
-Kyle Givler
+Kyle Givler - https://www.linkedin.com/in/kyle-givler/
