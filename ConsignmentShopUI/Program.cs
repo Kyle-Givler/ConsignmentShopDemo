@@ -28,10 +28,6 @@ SOFTWARE.
 
 // TODO sort the lists, probably alphabetically 
 // TODO ASP.net frontend / other UIs
-// TODO Support multiple stores / save store(s) in db (Requires changing how the banking info is stored)
-// TODO Do not allow a vendor to be deleted if they have any items in the shop
-// TODO Only allow items to be marked unsold again if the Payment has been distributed
-// TODO Add SSDT Project
 
 using System;
 using System.Windows.Forms;
