@@ -104,6 +104,15 @@ namespace ConsignmentShopUI
                 return;
             }
 
+            if(selectedItem.Sold && !selectedItem.PaymentDistributed)
+            {
+                MessageBox.Show($"{selectedItem.Owner.FullName} needs to be paid before this item can be deleted.", "Pay the vendor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                UpdateItems();
+
+                return;
+            }
+
             GlobalConfig.Connection.RemoveItem(selectedItem);
 
             UpdateItems();
@@ -120,6 +129,17 @@ namespace ConsignmentShopUI
 
             if(editing)
             {
+                if(editingItem.Sold && !editingItem.PaymentDistributed)
+                {
+                    MessageBox.Show("{selectedItem.Owner.FullName} needs to be paid before this item can be edited.", "Pay the vendor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    UpdateItems();
+
+                    ClearItemInput();
+
+                    return;
+                }
+
                 editingItem.Name = textBoxName.Text;
                 editingItem.Price = decimal.Parse(textBoxPrice.Text);
                 editingItem.Description = textBoxDesc.Text;

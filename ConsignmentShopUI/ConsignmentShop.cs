@@ -38,7 +38,7 @@ namespace ConsignmentShopUI
         private readonly BindingList<Item> shoppingCart = new BindingList<Item>();
         private readonly BindingList<Vendor> vendors = new BindingList<Vendor>();
         private readonly BindingList<Item> items = new BindingList<Item>();
-        private readonly Store store = new Store();
+        private Store store;
 
         public ConsignmentShop()
         {
@@ -53,8 +53,8 @@ namespace ConsignmentShopUI
 
         private void SetupStore()
         {
-            store.Name = GlobalConfig.Configuration.GetSection("Store:Name").Value;
-            GlobalConfig.Connection.LoadStoreBank(store);
+            string storeName = GlobalConfig.Configuration.GetSection("Store:Name").Value;
+            store = GlobalConfig.Connection.LoadStore(storeName);
         }
 
         private void SetupData()
@@ -183,14 +183,14 @@ namespace ConsignmentShopUI
             foreach (Item item in shoppingCart)
             {
                 item.Sold = true;
-                item.Owner.PaymentDue += (decimal)item.Owner.CommisonRate * item.Price;
+                item.Owner.PaymentDue += (decimal)item.Owner.CommissionRate * item.Price;
 
-                store.StoreProfit += (1 - (decimal)item.Owner.CommisonRate) * item.Price;
+                store.StoreProfit += (1 - (decimal)item.Owner.CommissionRate) * item.Price;
                 store.StoreBank += item.Price;
 
                 GlobalConfig.Connection.UpdateItem(item);
                 GlobalConfig.Connection.UpdateVendor(item.Owner);
-                GlobalConfig.Connection.UpdateStoreBank(store);
+                GlobalConfig.Connection.UpdateStore(store);
             }
 
             shoppingCart.Clear();
