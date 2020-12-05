@@ -28,7 +28,6 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using ConsignmentShopLibrary.Models;
 using System.Linq;
-using System.Collections.Generic;
 
 namespace ConsignmentShopUI
 {
@@ -236,7 +235,7 @@ namespace ConsignmentShopUI
             textBoxPrice.Text = $"{selectedItem.Price:F2}";
 
             checkBoxSold.Checked = selectedItem.Sold;
-            checkBoxVendorPaid.Checked = selectedItem.PaymentDistrubuted;
+            checkBoxVendorPaid.Checked = selectedItem.PaymentDistributed;
 
             //There has to be a better way of doing this:
             var vendor = vendors.Where(x => x.Id == selectedItem.OwnerId).First();
@@ -267,11 +266,11 @@ namespace ConsignmentShopUI
             }
             else
             {
-                var soldItems = GlobalConfig.Connection.LoadUnsoldItems();
+                var soldItems = GlobalConfig.Connection.LoadSoldItems();
 
                 foreach(var item in soldItems)
                 {
-                    if(item.PaymentDistrubuted)
+                    if(item.PaymentDistributed)
                     {
                         GlobalConfig.Connection.RemoveItem(item);
                     }

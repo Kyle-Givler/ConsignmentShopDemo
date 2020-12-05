@@ -211,7 +211,7 @@ namespace ConsignmentShopUI
 
             foreach(Item item in itemsOwnedByVendor)
             {
-                if(!item.PaymentDistrubuted)
+                if(!item.PaymentDistributed)
                 {
                     decimal amountOwed = (decimal)item.Owner.CommisonRate * item.Price;
 
@@ -221,7 +221,7 @@ namespace ConsignmentShopUI
 
                         selectedVendor.PaymentDue -= amountOwed;
 
-                        item.PaymentDistrubuted = true;
+                        item.PaymentDistributed = true;
                     }
                     else
                     {
@@ -237,6 +237,26 @@ namespace ConsignmentShopUI
             GlobalConfig.Connection.UpdateStoreBank(store);
 
             UpdateVendors();
+        }
+
+        private void btnEdit_Click(object sender, System.EventArgs e)
+        {
+            Vendor selectedVendor = (Vendor)listBoxVendors.SelectedItem;
+            editingVendor = selectedVendor;
+
+            if(selectedVendor == null)
+            {
+                return;
+            }
+
+            editing = true;
+
+            PopulateVendorTextBoxes();
+
+            UpdateVendors();
+
+            btnAddVendor.Text = "Update Vendor";
+            btnEdit.Enabled = false;
         }
     }
 }
