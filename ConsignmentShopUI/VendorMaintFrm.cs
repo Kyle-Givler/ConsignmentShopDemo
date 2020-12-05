@@ -75,7 +75,7 @@ namespace ConsignmentShopUI
             {
                 editingVendor.FirstName = textBoxFirstName.Text;
                 editingVendor.LastName = textBoxLastName.Text;
-                editingVendor.CommisonRate = double.Parse(textBoxCommison.Text) / 100;
+                editingVendor.CommissionRate = double.Parse(textBoxCommison.Text) / 100;
 
                 GlobalConfig.Connection.UpdateVendor(editingVendor);
 
@@ -91,7 +91,7 @@ namespace ConsignmentShopUI
                 {
                     FirstName = textBoxFirstName.Text,
                     LastName = textBoxLastName.Text,
-                    CommisonRate = double.Parse(textBoxCommison.Text) / 100
+                    CommissionRate = double.Parse(textBoxCommison.Text) / 100
                 };
 
                 GlobalConfig.Connection.SaveVendor(output);
@@ -157,6 +157,17 @@ namespace ConsignmentShopUI
                 return;
             }
 
+            var items = GlobalConfig.Connection.LoadItemsByVendor(selectedVendor);
+            if (items.Count != 0)
+            {
+                MessageBox.Show($"{selectedVendor.FullName} cannot be deleted because they still have existing items.",
+            "Vendor still has items",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
             // Can't delete a vendor if we owe them money!
             if (selectedVendor.PaymentDue > 0)
             {
@@ -194,7 +205,7 @@ namespace ConsignmentShopUI
 
             textBoxFirstName.Text = selectedVendor.FirstName;
             textBoxLastName.Text = selectedVendor.LastName;
-            textBoxCommison.Text = (selectedVendor.CommisonRate * 100).ToString();
+            textBoxCommison.Text = (selectedVendor.CommissionRate * 100).ToString();
             textboxOwed.Text = $"{selectedVendor.PaymentDue:C2}";
         }
 
@@ -202,18 +213,18 @@ namespace ConsignmentShopUI
         {
             Vendor selectedVendor = (Vendor)listBoxVendors.SelectedItem;
 
-            if(selectedVendor == null)
+            if (selectedVendor == null)
             {
                 return;
             }
 
             var itemsOwnedByVendor = GlobalConfig.Connection.LoadSoldItemsByVendor(selectedVendor);
 
-            foreach(Item item in itemsOwnedByVendor)
+            foreach (Item item in itemsOwnedByVendor)
             {
-                if(!item.PaymentDistributed)
+                if (!item.PaymentDistributed)
                 {
-                    decimal amountOwed = (decimal)item.Owner.CommisonRate * item.Price;
+                    decimal amountOwed = (decimal)item.Owner.CommissionRate * item.Price;
 
                     if (store.StoreBank > amountOwed)
                     {
@@ -234,7 +245,7 @@ namespace ConsignmentShopUI
                 GlobalConfig.Connection.UpdateVendor(selectedVendor);
             }
 
-            GlobalConfig.Connection.UpdateStoreBank(store);
+            GlobalConfig.Connection.UpdateStore(store);
 
             UpdateVendors();
         }
@@ -244,7 +255,7 @@ namespace ConsignmentShopUI
             Vendor selectedVendor = (Vendor)listBoxVendors.SelectedItem;
             editingVendor = selectedVendor;
 
-            if(selectedVendor == null)
+            if (selectedVendor == null)
             {
                 return;
             }

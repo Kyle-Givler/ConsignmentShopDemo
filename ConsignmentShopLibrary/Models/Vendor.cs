@@ -36,7 +36,7 @@ namespace ConsignmentShopLibrary.Models
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public double CommisonRate { get; set; }
+        public double CommissionRate { get; set; }
         public decimal PaymentDue { get; set; }
         public string Display
         {
@@ -56,7 +56,7 @@ namespace ConsignmentShopLibrary.Models
 
         public Vendor()
         {
-            CommisonRate = .5;
+            CommissionRate = .5;
         }
     }
 }
