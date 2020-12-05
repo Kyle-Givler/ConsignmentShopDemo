@@ -64,7 +64,7 @@
     <Build Include="dbo\Tables\Items.sql" />
     <Build Include="dbo\Tables\Vendors.sql" />
     <Build Include="dbo\Tables\Stores.sql" />
-    <Build Include="dbo\Stored Procedures\spItems_DeleteById.sql" />
+    <Build Include="dbo\Stored Procedures\spItems_Delete.sql" />
     <Build Include="dbo\Stored Procedures\spItems_GetAll.sql" />
     <Build Include="dbo\Stored Procedures\spItems_GetSold.sql" />
     <Build Include="dbo\Stored Procedures\spItems_GetSoldByVendorId.sql" />
@@ -78,5 +78,6 @@
     <Build Include="dbo\Stored Procedures\spVendors_Get.sql" />
     <Build Include="dbo\Stored Procedures\spVendors_Insert.sql" />
     <Build Include="dbo\Stored Procedures\spVendors_Update.sql" />
+    <Build Include="dbo\Stored Procedures\spStores_Insert.sql" />
   </ItemGroup>
 </Project>

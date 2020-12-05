@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[spStores_Update]
-	@id int,
+	@Id int,
 	@Name nvarchar(100),
 	@StoreBank money,
 	@StoreProfit money

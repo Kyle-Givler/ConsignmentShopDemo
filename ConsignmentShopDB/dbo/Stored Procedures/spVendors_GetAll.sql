@@ -4,7 +4,7 @@ begin
 
 	set nocount on;
 
-	select [Id], [FirstName], [LastName], [CommisionRate], [PaymentDue]
+	select [Id], [FirstName], [LastName], [CommissionRate], [PaymentDue]
 	from Vendors;
 
 end

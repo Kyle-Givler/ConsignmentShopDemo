@@ -1,5 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[spStores_GetStore]
-	@Id int
+﻿CREATE PROCEDURE [dbo].[spStores_Get]
+	@Name nvarchar(100)
 AS
 begin
 
@@ -7,6 +7,6 @@ begin
 
 	select [Id], [Name], [StoreBank], [StoreProfit]
 	from Stores
-	where Id = @Id;
+	where [Name] = @Name;
 
 end

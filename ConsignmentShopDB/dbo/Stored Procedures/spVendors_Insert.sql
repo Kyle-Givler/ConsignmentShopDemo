@@ -3,7 +3,7 @@
 	@LastName varchar(150),
 	@CommissionRate float,
 	@PaymentDue money,
-	@Id int
+	@Id int = 0 output
 AS
 begin
 
