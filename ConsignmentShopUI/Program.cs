@@ -26,10 +26,10 @@ SOFTWARE.
 // This Program/Demo based on this video: https://www.youtube.com/watch?v=YxewTI4H2mY
 // Very much extended from the video
 
-// TODO make the names of variables more consistant across the project
 // TODO sort the lists, probably alphabetically 
 // TODO ASP.net frontend / other UIs
 // TODO Support multiple stores / save store(s) in db (Requires changing how the banking info is stored)
+// TODO Do not allow a vendor to be deleted if they have any items in the shop
 
 using System;
 using System.Windows.Forms;
