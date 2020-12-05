@@ -65,8 +65,8 @@ namespace ConsignmentShopUI
 
             lblStoreName.Text = store.Name;
 
-            SetupVendorBindings();
-            SetupItemBindings();
+            UpdateVendors();
+            UpdateItems();
             UpdateBankData();
         }
 
@@ -76,7 +76,7 @@ namespace ConsignmentShopUI
             lblStoreBankValue.Text = $"{ store.StoreBank:C2}";
         }
 
-        private void SetupVendorBindings()
+        private void UpdateVendors()
         {
             vendors.Clear();
 
@@ -92,7 +92,7 @@ namespace ConsignmentShopUI
             vendors.ResetBindings();
         }
 
-        private void SetupItemBindings()
+        private void UpdateItems()
         {
             items.Clear();
 
@@ -195,13 +195,12 @@ namespace ConsignmentShopUI
 
             shoppingCart.Clear();
 
-            vendors.ResetBindings();
-
+            UpdateVendors();
+            UpdateItems();
             UpdateBankData();
+            UpdateTotal();
 
             ClearItemLabels();
-
-            UpdateTotal();
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
@@ -224,7 +223,7 @@ namespace ConsignmentShopUI
             ItemMaintFrm frm = new ItemMaintFrm();
             frm.ShowDialog();
 
-            SetupItemBindings();
+            UpdateItems();
         }
 
         private void itemsListbox_SelectedIndexChanged(object sender, EventArgs e)
@@ -256,7 +255,7 @@ namespace ConsignmentShopUI
             VendorMaintFrm frm = new VendorMaintFrm(store);
             frm.ShowDialog(this);
 
-            SetupVendorBindings();
+            UpdateVendors();
             UpdateBankData();
         }
 
