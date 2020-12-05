@@ -29,6 +29,7 @@ namespace ConsignmentShopLibrary.Models
 {
     public class Store
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public decimal StoreBank { get; set; }
         public decimal StoreProfit { get; set; }
