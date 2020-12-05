@@ -93,7 +93,7 @@ namespace ConsignmentShopLibrary.DataAccess
                 p.Add("@Price", item.Price);
                 p.Add("@Sold", item.Sold);
                 p.Add("@OwnerId", item.Owner.Id);
-                p.Add("@PaymentDistributed", item.PaymentDistrubuted);
+                p.Add("@PaymentDistributed", item.PaymentDistributed);
                 p.Add("@Id", 0, DbType.Int32, direction: ParameterDirection.Output);
 
                 connection.Execute("dbo.spItemInsert", p, commandType: CommandType.StoredProcedure);
@@ -113,7 +113,7 @@ namespace ConsignmentShopLibrary.DataAccess
                 p.Add("@Price", item.Price);
                 p.Add("@Sold", item.Sold);
                 p.Add("@OwnerId", item.Owner.Id);
-                p.Add("@PaymentDistributed", item.PaymentDistrubuted);
+                p.Add("@PaymentDistributed", item.PaymentDistributed);
                 p.Add("@Id", item.Id);
 
                 connection.Execute("dbo.spItemUpdate", p, commandType: CommandType.StoredProcedure);
