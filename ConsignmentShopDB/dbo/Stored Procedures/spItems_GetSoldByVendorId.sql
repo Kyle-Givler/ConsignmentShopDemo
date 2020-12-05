@@ -7,6 +7,6 @@ begin
 
 	select [Id], [Name], [Description], [Price], [Sold], [OwnerId], [PaymentDistributed] 
 	from dbo.Items
-	where OwnerId = @OwnerId;
+	where OwnerId = @OwnerId and Sold = 1;
 
 end
