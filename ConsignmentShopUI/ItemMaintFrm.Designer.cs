@@ -38,12 +38,10 @@ namespace ConsignmentShopUI
             this.textBoxPrice = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
             this.lblDesc = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.lblPrice = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.listBoxVendors = new System.Windows.Forms.ListBox();
             this.groupBoxAddItem = new System.Windows.Forms.GroupBox();
+            this.checkBoxVendorPaid = new System.Windows.Forms.CheckBox();
             this.checkBoxSold = new System.Windows.Forms.CheckBox();
             this.btnAddItem = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
@@ -52,7 +50,6 @@ namespace ConsignmentShopUI
             this.radioButtonSold = new System.Windows.Forms.RadioButton();
             this.radioButtonAll = new System.Windows.Forms.RadioButton();
             this.radioButtonUnsold = new System.Windows.Forms.RadioButton();
-            this.checkBoxVendorPaid = new System.Windows.Forms.CheckBox();
             this.groupBoxAddItem.SuspendLayout();
             this.groupBoxAllItems.SuspendLayout();
             this.SuspendLayout();
@@ -147,17 +144,6 @@ namespace ConsignmentShopUI
             this.lblDesc.TabIndex = 7;
             this.lblDesc.Text = "Description";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label3.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.label3.Location = new System.Drawing.Point(-527, 163);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(124, 20);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Shopping Cart";
-            // 
             // lblPrice
             // 
             this.lblPrice.AutoSize = true;
@@ -168,28 +154,6 @@ namespace ConsignmentShopUI
             this.lblPrice.Size = new System.Drawing.Size(49, 20);
             this.lblPrice.TabIndex = 7;
             this.lblPrice.Text = "Price";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label5.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.label5.Location = new System.Drawing.Point(-519, 247);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(124, 20);
-            this.label5.TabIndex = 7;
-            this.label5.Text = "Shopping Cart";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label6.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.label6.Location = new System.Drawing.Point(-1057, 283);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(124, 20);
-            this.label6.TabIndex = 7;
-            this.label6.Text = "Shopping Cart";
             // 
             // listBoxVendors
             // 
@@ -218,6 +182,17 @@ namespace ConsignmentShopUI
             this.groupBoxAddItem.TabIndex = 10;
             this.groupBoxAddItem.TabStop = false;
             this.groupBoxAddItem.Text = "New Item";
+            // 
+            // checkBoxVendorPaid
+            // 
+            this.checkBoxVendorPaid.AutoSize = true;
+            this.checkBoxVendorPaid.Enabled = false;
+            this.checkBoxVendorPaid.Location = new System.Drawing.Point(300, 148);
+            this.checkBoxVendorPaid.Name = "checkBoxVendorPaid";
+            this.checkBoxVendorPaid.Size = new System.Drawing.Size(115, 24);
+            this.checkBoxVendorPaid.TabIndex = 11;
+            this.checkBoxVendorPaid.Text = "Vendor Paid";
+            this.checkBoxVendorPaid.UseVisualStyleBackColor = true;
             // 
             // checkBoxSold
             // 
@@ -321,17 +296,6 @@ namespace ConsignmentShopUI
             this.radioButtonUnsold.UseVisualStyleBackColor = true;
             this.radioButtonUnsold.CheckedChanged += new System.EventHandler(this.radioButtonOption_CheckedChanged);
             // 
-            // checkBoxVendorPaid
-            // 
-            this.checkBoxVendorPaid.AutoSize = true;
-            this.checkBoxVendorPaid.Enabled = false;
-            this.checkBoxVendorPaid.Location = new System.Drawing.Point(300, 148);
-            this.checkBoxVendorPaid.Name = "checkBoxVendorPaid";
-            this.checkBoxVendorPaid.Size = new System.Drawing.Size(115, 24);
-            this.checkBoxVendorPaid.TabIndex = 11;
-            this.checkBoxVendorPaid.Text = "Vendor Paid";
-            this.checkBoxVendorPaid.UseVisualStyleBackColor = true;
-            // 
             // ItemMaintFrm
             // 
             this.AcceptButton = this.btnAddItem;
@@ -341,9 +305,6 @@ namespace ConsignmentShopUI
             this.ClientSize = new System.Drawing.Size(824, 444);
             this.Controls.Add(this.groupBoxAllItems);
             this.Controls.Add(this.groupBoxAddItem);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.headerText);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -369,10 +330,7 @@ namespace ConsignmentShopUI
         private System.Windows.Forms.TextBox textBoxPrice;
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Label lblDesc;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblPrice;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ListBox listBoxVendors;
         private System.Windows.Forms.GroupBox groupBoxAddItem;
         private System.Windows.Forms.Button btnAddItem;
