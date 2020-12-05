@@ -75,7 +75,7 @@ namespace ConsignmentShopUI
             {
                 editingVendor.FirstName = textBoxFirstName.Text;
                 editingVendor.LastName = textBoxLastName.Text;
-                editingVendor.CommisonRate = double.Parse(textBoxCommison.Text) / 100;
+                editingVendor.CommissionRate = double.Parse(textBoxCommison.Text) / 100;
 
                 GlobalConfig.Connection.UpdateVendor(editingVendor);
 
@@ -91,7 +91,7 @@ namespace ConsignmentShopUI
                 {
                     FirstName = textBoxFirstName.Text,
                     LastName = textBoxLastName.Text,
-                    CommisonRate = double.Parse(textBoxCommison.Text) / 100
+                    CommissionRate = double.Parse(textBoxCommison.Text) / 100
                 };
 
                 GlobalConfig.Connection.SaveVendor(output);
@@ -194,7 +194,7 @@ namespace ConsignmentShopUI
 
             textBoxFirstName.Text = selectedVendor.FirstName;
             textBoxLastName.Text = selectedVendor.LastName;
-            textBoxCommison.Text = (selectedVendor.CommisonRate * 100).ToString();
+            textBoxCommison.Text = (selectedVendor.CommissionRate * 100).ToString();
             textboxOwed.Text = $"{selectedVendor.PaymentDue:C2}";
         }
 
@@ -213,7 +213,7 @@ namespace ConsignmentShopUI
             {
                 if(!item.PaymentDistributed)
                 {
-                    decimal amountOwed = (decimal)item.Owner.CommisonRate * item.Price;
+                    decimal amountOwed = (decimal)item.Owner.CommissionRate * item.Price;
 
                     if (store.StoreBank > amountOwed)
                     {
@@ -234,7 +234,7 @@ namespace ConsignmentShopUI
                 GlobalConfig.Connection.UpdateVendor(selectedVendor);
             }
 
-            GlobalConfig.Connection.UpdateStoreBank(store);
+            GlobalConfig.Connection.UpdateStore(store);
 
             UpdateVendors();
         }
