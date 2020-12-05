@@ -32,20 +32,28 @@ namespace ConsignmentShopUI
 {
     public partial class VendorMaintFrm : Form
     {
-        private readonly BindingList<Vendor> vendors = new BindingList<Vendor>(GlobalConfig.Store.Vendors);
+        private readonly BindingList<Vendor> vendors = new BindingList<Vendor>();
         private bool editing = false;
         private Vendor editingVendor = null;
+        private Store store;
 
-        public VendorMaintFrm()
+        public VendorMaintFrm(Store store)
         {
             InitializeComponent();
+
+            this.store = store;
 
             UpdateVendors();
         }
 
         private void UpdateVendors()
         {
-            listBoxVendors.DataSource = null;
+            vendors.Clear();
+
+            foreach (var v in GlobalConfig.Connection.LoadAllVendors())
+            {
+                vendors.Add(v);
+            }
 
             listBoxVendors.DataSource = vendors;
             listBoxVendors.DisplayMember = "Display";
@@ -89,8 +97,8 @@ namespace ConsignmentShopUI
                 GlobalConfig.Connection.SaveVendor(output);
             }
 
+            UpdateVendors();
 
-            vendors.Add(output);
             ClearVendorTextBoxes();
         }
 
@@ -171,8 +179,8 @@ namespace ConsignmentShopUI
                 return;
             }
 
-            vendors.Remove(selectedVendor);
             GlobalConfig.Connection.RemoveVendor(selectedVendor);
+            UpdateVendors();
         }
 
         private void PopulateVendorTextBoxes()
@@ -199,21 +207,21 @@ namespace ConsignmentShopUI
                 return;
             }
 
-            var itemsOwnedByVendor = ItemHelper.GetSoldItemsByVendor(selectedVendor);
+            var itemsOwnedByVendor = GlobalConfig.Connection.LoadSoldItemsByVendor(selectedVendor);
 
             foreach(Item item in itemsOwnedByVendor)
             {
-                if(!item.PaymentDistrubuted)
+                if(!item.PaymentDistributed)
                 {
                     decimal amountOwed = (decimal)item.Owner.CommisonRate * item.Price;
 
-                    if (GlobalConfig.Store.StoreBank > amountOwed)
+                    if (store.StoreBank > amountOwed)
                     {
-                        GlobalConfig.Store.StoreBank -= amountOwed;
+                        store.StoreBank -= amountOwed;
 
                         selectedVendor.PaymentDue -= amountOwed;
 
-                        item.PaymentDistrubuted = true;
+                        item.PaymentDistributed = true;
                     }
                     else
                     {
@@ -226,8 +234,29 @@ namespace ConsignmentShopUI
                 GlobalConfig.Connection.UpdateVendor(selectedVendor);
             }
 
-            GlobalConfig.Connection.UpdateStoreBank(GlobalConfig.Store.StoreBank, GlobalConfig.Store.StoreProfit);
+            GlobalConfig.Connection.UpdateStoreBank(store);
+
             UpdateVendors();
+        }
+
+        private void btnEdit_Click(object sender, System.EventArgs e)
+        {
+            Vendor selectedVendor = (Vendor)listBoxVendors.SelectedItem;
+            editingVendor = selectedVendor;
+
+            if(selectedVendor == null)
+            {
+                return;
+            }
+
+            editing = true;
+
+            PopulateVendorTextBoxes();
+
+            UpdateVendors();
+
+            btnAddVendor.Text = "Update Vendor";
+            btnEdit.Enabled = false;
         }
     }
 }

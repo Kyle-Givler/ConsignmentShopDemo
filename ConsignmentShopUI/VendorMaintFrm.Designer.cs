@@ -29,10 +29,10 @@ namespace ConsignmentShopUI
         /// </summary>
         private void InitializeComponent()
         {
-            this.headerText = new System.Windows.Forms.Label();
+            this.lblheaderText = new System.Windows.Forms.Label();
             this.lbFirstlName = new System.Windows.Forms.Label();
             this.textBoxFirstName = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblLastName = new System.Windows.Forms.Label();
             this.textBoxLastName = new System.Windows.Forms.TextBox();
             this.lblCommison = new System.Windows.Forms.Label();
             this.textBoxCommison = new System.Windows.Forms.TextBox();
@@ -48,17 +48,17 @@ namespace ConsignmentShopUI
             this.groupBoxVendors.SuspendLayout();
             this.SuspendLayout();
             // 
-            // headerText
+            // lblheaderText
             // 
-            this.headerText.AutoSize = true;
-            this.headerText.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.headerText.ForeColor = System.Drawing.Color.DarkBlue;
-            this.headerText.Location = new System.Drawing.Point(13, 9);
-            this.headerText.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.headerText.Name = "headerText";
-            this.headerText.Size = new System.Drawing.Size(330, 37);
-            this.headerText.TabIndex = 2;
-            this.headerText.Text = "Vendor Maintenance";
+            this.lblheaderText.AutoSize = true;
+            this.lblheaderText.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblheaderText.ForeColor = System.Drawing.Color.DarkBlue;
+            this.lblheaderText.Location = new System.Drawing.Point(13, 9);
+            this.lblheaderText.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblheaderText.Name = "lblheaderText";
+            this.lblheaderText.Size = new System.Drawing.Size(330, 37);
+            this.lblheaderText.TabIndex = 2;
+            this.lblheaderText.Text = "Vendor Maintenance";
             // 
             // lbFirstlName
             // 
@@ -78,16 +78,16 @@ namespace ConsignmentShopUI
             this.textBoxFirstName.Size = new System.Drawing.Size(290, 26);
             this.textBoxFirstName.TabIndex = 0;
             // 
-            // label1
+            // lblLastName
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label1.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.label1.Location = new System.Drawing.Point(7, 71);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 20);
-            this.label1.TabIndex = 11;
-            this.label1.Text = "Last Name:";
+            this.lblLastName.AutoSize = true;
+            this.lblLastName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblLastName.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.lblLastName.Location = new System.Drawing.Point(7, 71);
+            this.lblLastName.Name = "lblLastName";
+            this.lblLastName.Size = new System.Drawing.Size(100, 20);
+            this.lblLastName.TabIndex = 11;
+            this.lblLastName.Text = "Last Name:";
             // 
             // textBoxLastName
             // 
@@ -158,6 +158,7 @@ namespace ConsignmentShopUI
             this.btnEdit.TabIndex = 18;
             this.btnEdit.Text = "Edit Selected";
             this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // btnItemDelete
             // 
@@ -180,7 +181,7 @@ namespace ConsignmentShopUI
             this.groupBoxVendors.Controls.Add(this.textBoxFirstName);
             this.groupBoxVendors.Controls.Add(this.textBoxLastName);
             this.groupBoxVendors.Controls.Add(this.lblPercent);
-            this.groupBoxVendors.Controls.Add(this.label1);
+            this.groupBoxVendors.Controls.Add(this.lblLastName);
             this.groupBoxVendors.Controls.Add(this.btnAddVendor);
             this.groupBoxVendors.Controls.Add(this.textBoxCommison);
             this.groupBoxVendors.Controls.Add(this.lblCommison);
@@ -235,7 +236,7 @@ namespace ConsignmentShopUI
             this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.btnItemDelete);
             this.Controls.Add(this.listBoxVendors);
-            this.Controls.Add(this.headerText);
+            this.Controls.Add(this.lblheaderText);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "VendorMaintFrm";
@@ -249,10 +250,10 @@ namespace ConsignmentShopUI
 
         #endregion
 
-        private System.Windows.Forms.Label headerText;
+        private System.Windows.Forms.Label lblheaderText;
         private System.Windows.Forms.Label lbFirstlName;
         private System.Windows.Forms.TextBox textBoxFirstName;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblLastName;
         private System.Windows.Forms.TextBox textBoxLastName;
         private System.Windows.Forms.Label lblCommison;
         private System.Windows.Forms.TextBox textBoxCommison;
