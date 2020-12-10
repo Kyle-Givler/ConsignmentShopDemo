@@ -23,15 +23,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace ConsignmentShopLibrary.Models
 {
-    public class Item
+    public class ItemModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -40,7 +34,7 @@ namespace ConsignmentShopLibrary.Models
         public bool Sold { get; set; }
         public bool PaymentDistributed { get; set; }
         public int OwnerId { get; set; }
-        public Vendor Owner { get; set; }
+        public VendorModel Owner { get; set; }
         public string Display
         {
             get => $"{ Name } - {Price:C2}";

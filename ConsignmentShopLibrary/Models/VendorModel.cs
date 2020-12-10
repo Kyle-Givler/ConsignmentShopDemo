@@ -31,7 +31,7 @@ using System.Threading.Tasks;
 
 namespace ConsignmentShopLibrary.Models
 {
-    public class Vendor
+    public class VendorModel
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -54,7 +54,7 @@ namespace ConsignmentShopLibrary.Models
             }
         }
 
-        public Vendor()
+        public VendorModel()
         {
             CommissionRate = .5;
         }

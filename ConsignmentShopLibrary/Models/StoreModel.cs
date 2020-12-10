@@ -27,7 +27,7 @@ using System.Collections.Generic;
 
 namespace ConsignmentShopLibrary.Models
 {
-    public class Store
+    public class StoreModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
