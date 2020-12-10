@@ -186,7 +186,6 @@ namespace ConsignmentShopUI
             // checkBoxVendorPaid
             // 
             this.checkBoxVendorPaid.AutoSize = true;
-            this.checkBoxVendorPaid.Enabled = false;
             this.checkBoxVendorPaid.Location = new System.Drawing.Point(300, 148);
             this.checkBoxVendorPaid.Name = "checkBoxVendorPaid";
             this.checkBoxVendorPaid.Size = new System.Drawing.Size(115, 24);
@@ -310,6 +309,7 @@ namespace ConsignmentShopUI
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "ItemMaintFrm";
             this.Text = "Item Maintance";
+            this.Load += new System.EventHandler(this.ItemMaintFrm_Load);
             this.groupBoxAddItem.ResumeLayout(false);
             this.groupBoxAddItem.PerformLayout();
             this.groupBoxAllItems.ResumeLayout(false);
