@@ -80,8 +80,10 @@ namespace ConsignmentShopUI
             UpdateBankData();
         }
 
-        private void UpdateBankData()
+        private async Task UpdateBankData()
         {
+            store = await storeData.LoadStore(store.Name);
+
             storeProfitValue.Text = $"{ store.StoreProfit:C2}";
             lblStoreBankValue.Text = $"{ store.StoreBank:C2}";
         }

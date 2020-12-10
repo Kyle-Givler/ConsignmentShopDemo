@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -226,34 +227,14 @@ namespace ConsignmentShopUI
                 return;
             }
 
-            var itemsOwnedByVendor = await itemData.LoadSoldItemsByVendor(selectedVendor);
-
-            foreach (ItemModel item in itemsOwnedByVendor)
+            try
             {
-                if (!item.PaymentDistributed)
-                {
-                    decimal amountOwed = (decimal)item.Owner.CommissionRate * item.Price;
-
-                    if (store.StoreBank > amountOwed)
-                    {
-                        store.StoreBank -= amountOwed;
-
-                        selectedVendor.PaymentDue -= amountOwed;
-
-                        item.PaymentDistributed = true;
-                    }
-                    else
-                    {
-                        MessageBox.Show("You can't afford to pay the vendor", "You have no money", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        break;
-                    }
-                }
-
-                itemData.UpdateItem(item);
-                vendorData.UpdateVendor(selectedVendor);
+                await VendorHelper.PayVendor(selectedVendor);
+            } 
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("You can't afford to pay the vendor", "You have no money", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            storeData.UpdateStore(store);
 
             UpdateVendors();
         }
