@@ -50,9 +50,9 @@ namespace ConsignmentShopLibrary.Data
             p.Add("Description", item.Description);
             p.Add("Price", item.Price);
             p.Add("Sold", item.Sold);
-            p.Add("OwnerId", item.OwnerId);
+            p.Add("OwnerId", item.Owner.Id);
             p.Add("PaymentDistributed", item.PaymentDistributed);
-            p.Add("Id", DbType.Int32, direction: ParameterDirection.Output);
+            p.Add("Id", 0, DbType.Int32, direction: ParameterDirection.Output);
 
             await dataAccess.SaveData("dbo.spItems_Insert", p);
 

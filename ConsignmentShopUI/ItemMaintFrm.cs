@@ -133,7 +133,7 @@ namespace ConsignmentShopUI
             UpdateItems();
         }
 
-        private void btmAddItem_Click(object sender, System.EventArgs e)
+        private async void btmAddItem_Click(object sender, System.EventArgs e)
         {
             ItemModel output = null;
 
@@ -180,7 +180,7 @@ namespace ConsignmentShopUI
                     Sold = checkBoxSold.Checked
                 };
 
-                itemData.CreateItem(output);
+                await itemData.CreateItem(output);
             }
 
             UpdateItems();
