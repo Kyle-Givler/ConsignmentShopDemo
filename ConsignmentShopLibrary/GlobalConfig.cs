@@ -53,6 +53,11 @@ namespace ConsignmentShopLibrary
             }
         }
 
+        public static string GetStoreName()
+        {
+            return Configuration.GetSection("Store:Name").Value;
+        }
+
         public static string ConnectionString()
         {
             if (DBType == DatabaseType.MSSQL)

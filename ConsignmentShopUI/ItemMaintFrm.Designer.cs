@@ -186,7 +186,6 @@ namespace ConsignmentShopUI
             // checkBoxVendorPaid
             // 
             this.checkBoxVendorPaid.AutoSize = true;
-            this.checkBoxVendorPaid.Enabled = false;
             this.checkBoxVendorPaid.Location = new System.Drawing.Point(300, 148);
             this.checkBoxVendorPaid.Name = "checkBoxVendorPaid";
             this.checkBoxVendorPaid.Size = new System.Drawing.Size(115, 24);

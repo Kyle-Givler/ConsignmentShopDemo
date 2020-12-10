@@ -68,7 +68,7 @@ namespace ConsignmentShopLibrary.Data
                 Description = item.Description,
                 Price = item.Price,
                 Sold = item.Sold,
-                OwnerId = item.OwnerId,
+                OwnerId = item.Owner.Id,
                 PaymentDistributed = item.PaymentDistributed
             });
         }
@@ -133,7 +133,7 @@ namespace ConsignmentShopLibrary.Data
         {
             foreach (var item in allItems)
             {
-                var owner = await dataAccess.LoadData<VendorModel, dynamic>("dbo.spVendors_Get", new { Id = item.OwnerId });
+                var owner = await dataAccess.LoadData<VendorModel, dynamic>("dbo.spVendors_Get", new { Id = item.OwnerId});
                 item.Owner = owner.First();
             }
         }

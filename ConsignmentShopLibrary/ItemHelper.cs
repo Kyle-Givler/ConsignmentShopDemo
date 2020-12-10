@@ -26,54 +26,33 @@ SOFTWARE.
 
 using ConsignmentShopLibrary.Data;
 using ConsignmentShopLibrary.Models;
-using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ConsignmentShopLibrary
 {
-    public static class VendorHelper
+    public static class ItemHelper
     {
-        public async static Task PayVendor(VendorModel vendor)
+        public async static Task PurchaseItems(List<ItemModel> shoppingCart)
         {
-            if (vendor == null)
-            {
-                throw new ArgumentNullException("vendor", "Vendor cannot be null.");
-            }
-
             IVendorData vendorData = new VendorData(GlobalConfig.Connection);
             IItemData itemData = new ItemData(GlobalConfig.Connection);
             IStoreData storeData = new StoreData(GlobalConfig.Connection);
 
-            string storeName = GlobalConfig.Configuration.GetSection("Store:Name").Value;
-            StoreModel store = await storeData.LoadStore(storeName);
+            StoreModel store = await storeData.LoadStore(GlobalConfig.GetStoreName());
 
-            var itemsOwnedByVendor = await itemData.LoadSoldItemsByVendor(vendor);
-
-            foreach (ItemModel item in itemsOwnedByVendor)
+            foreach (ItemModel item in shoppingCart)
             {
-                if (!item.PaymentDistributed)
-                {
-                    decimal amountOwed = (decimal)item.Owner.CommissionRate * item.Price;
+                item.Sold = true;
+                item.Owner.PaymentDue += (decimal)item.Owner.CommissionRate * item.Price;
 
-                    if (store.StoreBank > amountOwed)
-                    {
-                        store.StoreBank -= amountOwed;
-
-                        vendor.PaymentDue -= amountOwed;
-
-                        item.PaymentDistributed = true;
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException("The store bank does not contain enough money to pay the vendor!");
-                    }
-                }
+                store.StoreProfit += (1 - (decimal)item.Owner.CommissionRate) * item.Price;
+                store.StoreBank += item.Price;
 
                 itemData.UpdateItem(item);
-                vendorData.UpdateVendor(vendor);
+                vendorData.UpdateVendor(item.Owner);
+                storeData.UpdateStore(store);
             }
-
-            storeData.UpdateStore(store);
         }
     }
 }

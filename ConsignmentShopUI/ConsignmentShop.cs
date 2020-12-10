@@ -43,6 +43,7 @@ namespace ConsignmentShopUI
 
         private StoreModel store;
 
+        // Maybe some DI would be helpful for these, will have to look into it more
         private readonly IStoreData storeData = new StoreData(GlobalConfig.Connection);
         private readonly IVendorData vendorData = new VendorData(GlobalConfig.Connection);
         private readonly IItemData itemData = new ItemData(GlobalConfig.Connection);
@@ -155,18 +156,7 @@ namespace ConsignmentShopUI
 
         private async void makePurchase_Click(object sender, EventArgs e)
         {
-            foreach (ItemModel item in shoppingCart)
-            {
-                item.Sold = true;
-                item.Owner.PaymentDue += (decimal)item.Owner.CommissionRate * item.Price;
-
-                store.StoreProfit += (1 - (decimal)item.Owner.CommissionRate) * item.Price;
-                store.StoreBank += item.Price;
-
-                itemData.UpdateItem(item);
-                vendorData.UpdateVendor(item.Owner);
-                storeData.UpdateStore(store);
-            }
+            await ItemHelper.PurchaseItems(shoppingCart.ToList());
 
             shoppingCart.Clear();
 

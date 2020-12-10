@@ -148,7 +148,9 @@ namespace ConsignmentShopUI
                 editingItem.Price = decimal.Parse(textBoxPrice.Text);
                 editingItem.Description = textBoxDesc.Text;
                 editingItem.Owner = (VendorModel)listBoxVendors.SelectedItem;
+                editingItem.OwnerId = editingItem.Owner.Id;
                 editingItem.Sold = checkBoxSold.Checked;
+                editingItem.PaymentDistributed = checkBoxVendorPaid.Checked;
 
                 itemData.UpdateItem(editingItem);
 
@@ -268,7 +270,7 @@ namespace ConsignmentShopUI
             checkBoxVendorPaid.Checked = selectedItem.PaymentDistributed;
 
             //There has to be a better way of doing this:
-            var vendor = vendors.Where(x => x.Id == selectedItem.OwnerId).First();
+            var vendor = vendors.Where(x => x.Id == selectedItem.Owner.Id).First();
             listBoxVendors.SelectedItem = vendor; 
 
             // The below does not work, I think becasue the object reference is not equal

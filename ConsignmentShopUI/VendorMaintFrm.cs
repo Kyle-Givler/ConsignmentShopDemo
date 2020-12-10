@@ -38,9 +38,7 @@ namespace ConsignmentShopUI
         private readonly BindingList<VendorModel> vendors = new BindingList<VendorModel>();
         private bool editing = false;
         private VendorModel editingVendor = null;
-        private StoreModel store;
 
-        private readonly IStoreData storeData = new StoreData(GlobalConfig.Connection);
         private readonly IVendorData vendorData = new VendorData(GlobalConfig.Connection);
         private readonly IItemData itemData = new ItemData(GlobalConfig.Connection);
 
@@ -158,6 +156,7 @@ namespace ConsignmentShopUI
 
         private async void btnItemDelete_Click(object sender, System.EventArgs e)
         {
+            //TODO extract this method to the Library
             VendorModel selectedVendor = (VendorModel)listBoxVendors.SelectedItem;
 
             if (selectedVendor == null)
