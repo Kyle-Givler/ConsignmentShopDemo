@@ -24,20 +24,26 @@ SOFTWARE.
 */
 
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ConsignmentShopLibrary;
+using ConsignmentShopLibrary.Data;
 using ConsignmentShopLibrary.Models;
 
 namespace ConsignmentShopUI
 {
     public partial class VendorMaintFrm : Form
     {
-        private readonly BindingList<Vendor> vendors = new BindingList<Vendor>();
+        private readonly BindingList<VendorModel> vendors = new BindingList<VendorModel>();
         private bool editing = false;
-        private Vendor editingVendor = null;
-        private Store store;
+        private VendorModel editingVendor = null;
+        private StoreModel store;
 
-        public VendorMaintFrm(Store store)
+        private readonly IStoreData storeData = new StoreData(GlobalConfig.Connection);
+        private readonly IVendorData vendorData = new VendorData(GlobalConfig.Connection);
+        private readonly IItemData itemData = new ItemData(GlobalConfig.Connection);
+
+        public VendorMaintFrm(StoreModel store)
         {
             InitializeComponent();
 
@@ -46,11 +52,13 @@ namespace ConsignmentShopUI
             UpdateVendors();
         }
 
-        private void UpdateVendors()
+        private async Task UpdateVendors()
         {
             vendors.Clear();
 
-            foreach (var v in GlobalConfig.Connection.LoadAllVendors())
+            var allVendors = await vendorData.LoadAllVendors();
+
+            foreach (var v in allVendors)
             {
                 vendors.Add(v);
             }
@@ -64,7 +72,7 @@ namespace ConsignmentShopUI
 
         private void btnAddVendor_Click(object sender, System.EventArgs e)
         {
-            Vendor output = null;
+            VendorModel output = null;
 
             if (!ValidateData())
             {
@@ -77,8 +85,6 @@ namespace ConsignmentShopUI
                 editingVendor.LastName = textBoxLastName.Text;
                 editingVendor.CommissionRate = double.Parse(textBoxCommison.Text) / 100;
 
-                GlobalConfig.Connection.UpdateVendor(editingVendor);
-
                 btnAddVendor.Text = "Add Vendor";
                 btnEdit.Enabled = true;
                 editing = false;
@@ -87,14 +93,14 @@ namespace ConsignmentShopUI
             }
             else
             {
-                output = new Vendor()
+                output = new VendorModel()
                 {
                     FirstName = textBoxFirstName.Text,
                     LastName = textBoxLastName.Text,
                     CommissionRate = double.Parse(textBoxCommison.Text) / 100
                 };
 
-                GlobalConfig.Connection.SaveVendor(output);
+                vendorData.UpdateVendor(editingVendor);
             }
 
             UpdateVendors();
@@ -148,16 +154,17 @@ namespace ConsignmentShopUI
             return valid;
         }
 
-        private void btnItemDelete_Click(object sender, System.EventArgs e)
+        private async void btnItemDelete_Click(object sender, System.EventArgs e)
         {
-            Vendor selectedVendor = (Vendor)listBoxVendors.SelectedItem;
+            VendorModel selectedVendor = (VendorModel)listBoxVendors.SelectedItem;
 
             if (selectedVendor == null)
             {
                 return;
             }
 
-            var items = GlobalConfig.Connection.LoadItemsByVendor(selectedVendor);
+            var items = await itemData.LoadItemsByVendor(selectedVendor);
+
             if (items.Count != 0)
             {
                 MessageBox.Show($"{selectedVendor.FullName} cannot be deleted because they still have existing items.",
@@ -190,13 +197,13 @@ namespace ConsignmentShopUI
                 return;
             }
 
-            GlobalConfig.Connection.RemoveVendor(selectedVendor);
+            vendorData.RemoveVendor(selectedVendor);
             UpdateVendors();
         }
 
         private void PopulateVendorTextBoxes()
         {
-            Vendor selectedVendor = (Vendor)listBoxVendors.SelectedItem;
+            VendorModel selectedVendor = (VendorModel)listBoxVendors.SelectedItem;
 
             if (selectedVendor == null)
             {
@@ -209,18 +216,18 @@ namespace ConsignmentShopUI
             textboxOwed.Text = $"{selectedVendor.PaymentDue:C2}";
         }
 
-        private void btnPayVendor_Click(object sender, System.EventArgs e)
+        private async void btnPayVendor_Click(object sender, System.EventArgs e)
         {
-            Vendor selectedVendor = (Vendor)listBoxVendors.SelectedItem;
+            VendorModel selectedVendor = (VendorModel)listBoxVendors.SelectedItem;
 
             if (selectedVendor == null)
             {
                 return;
             }
 
-            var itemsOwnedByVendor = GlobalConfig.Connection.LoadSoldItemsByVendor(selectedVendor);
+            var itemsOwnedByVendor = await itemData.LoadItemsByVendor(selectedVendor);
 
-            foreach (Item item in itemsOwnedByVendor)
+            foreach (ItemModel item in itemsOwnedByVendor)
             {
                 if (!item.PaymentDistributed)
                 {
@@ -241,18 +248,18 @@ namespace ConsignmentShopUI
                     }
                 }
 
-                GlobalConfig.Connection.UpdateItem(item);
-                GlobalConfig.Connection.UpdateVendor(selectedVendor);
+                itemData.UpdateItem(item);
+                vendorData.UpdateVendor(selectedVendor);
             }
 
-            GlobalConfig.Connection.UpdateStore(store);
+            storeData.UpdateStore(store);
 
             UpdateVendors();
         }
 
         private void btnEdit_Click(object sender, System.EventArgs e)
         {
-            Vendor selectedVendor = (Vendor)listBoxVendors.SelectedItem;
+            VendorModel selectedVendor = (VendorModel)listBoxVendors.SelectedItem;
             editingVendor = selectedVendor;
 
             if (selectedVendor == null)

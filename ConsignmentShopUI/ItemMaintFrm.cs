@@ -28,31 +28,42 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using ConsignmentShopLibrary.Models;
 using System.Linq;
+using ConsignmentShopLibrary.Data;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace ConsignmentShopUI
 {
     public partial class ItemMaintFrm : Form
     {
-        private readonly BindingList<Item> items = new BindingList<Item>();
-        private readonly BindingList<Vendor> vendors = new BindingList<Vendor>();
+        private readonly BindingList<ItemModel> items = new BindingList<ItemModel>();
+        private readonly BindingList<VendorModel> vendors = new BindingList<VendorModel>();
+
+        private readonly IStoreData storeData = new StoreData(GlobalConfig.Connection);
+        private readonly IVendorData vendorData = new VendorData(GlobalConfig.Connection);
+        private readonly IItemData itemData = new ItemData(GlobalConfig.Connection);
 
         private bool editing = false;
-        private Item editingItem = null;
+        private ItemModel editingItem = null;
 
         public ItemMaintFrm()
         {
             InitializeComponent();
-
-            UpdateItems();
-
-            UpdateVendors();
         }
 
-        private void UpdateVendors()
+        private async void ItemMaintFrm_Load(object sender, System.EventArgs e)
+        {
+            await UpdateItems();
+            await UpdateVendors();
+        }
+
+        private async Task UpdateVendors()
         {
             vendors.Clear();
 
-            foreach (var vendor in GlobalConfig.Connection.LoadAllVendors())
+            var allVendors = await vendorData.LoadAllVendors();
+
+            foreach (var vendor in allVendors)
             {
                 vendors.Add(vendor);
             }
@@ -62,27 +73,31 @@ namespace ConsignmentShopUI
             listBoxVendors.ValueMember = "FullName";
         }
 
-        private void UpdateItems()
+        private async Task UpdateItems()
         {
             items.Clear();
+            List<ItemModel> currentItems = new List<ItemModel>();
 
             if (radioButtonAll.Checked)
             {
-                foreach (var item in GlobalConfig.Connection.LoadAllItems())
+                currentItems = await itemData.LoadAllItems();
+                foreach (var item in currentItems)
                 {
                     items.Add(item);
                 }
             }
             else if (radioButtonSold.Checked)
             {
-                foreach (var item in GlobalConfig.Connection.LoadSoldItems())
+                currentItems = await itemData.LoadSoldItems();
+                foreach (var item in currentItems)
                 {
                     items.Add(item);
                 }
             }
             else if (radioButtonUnsold.Checked)
             {
-                foreach (var item in GlobalConfig.Connection.LoadUnsoldItems())
+                currentItems = await itemData.LoadUnsoldItems();
+                foreach (var item in currentItems)
                 {
                     items.Add(item);
                 }
@@ -97,7 +112,7 @@ namespace ConsignmentShopUI
 
         private void btnItemDelete_Click(object sender, System.EventArgs e)
         {
-            Item selectedItem = (Item)allItemsListBox.SelectedItem;
+            ItemModel selectedItem = (ItemModel)allItemsListBox.SelectedItem;
 
             if(selectedItem == null)
             {
@@ -113,14 +128,14 @@ namespace ConsignmentShopUI
                 return;
             }
 
-            GlobalConfig.Connection.RemoveItem(selectedItem);
+            itemData.RemoveItem(selectedItem);
 
             UpdateItems();
         }
 
         private void btmAddItem_Click(object sender, System.EventArgs e)
         {
-            Item output = null;
+            ItemModel output = null;
 
             if (!validateData())
             {
@@ -143,10 +158,10 @@ namespace ConsignmentShopUI
                 editingItem.Name = textBoxName.Text;
                 editingItem.Price = decimal.Parse(textBoxPrice.Text);
                 editingItem.Description = textBoxDesc.Text;
-                editingItem.Owner = (Vendor)listBoxVendors.SelectedItem;
+                editingItem.Owner = (VendorModel)listBoxVendors.SelectedItem;
                 editingItem.Sold = checkBoxSold.Checked;
 
-                GlobalConfig.Connection.UpdateItem(editingItem);
+                itemData.UpdateItem(editingItem);
 
                 btnAddItem.Text = "Add Item";
                 btnEdit.Enabled = true;
@@ -156,16 +171,16 @@ namespace ConsignmentShopUI
             }
             else
             {
-                output = new Item()
+                output = new ItemModel()
                 {
                     Name = textBoxName.Text,
                     Price = decimal.Parse(textBoxPrice.Text),
                     Description = textBoxDesc.Text,
-                    Owner = (Vendor)listBoxVendors.SelectedItem,
+                    Owner = (VendorModel)listBoxVendors.SelectedItem,
                     Sold = checkBoxSold.Checked
                 };
 
-                GlobalConfig.Connection.SaveItem(output);
+                itemData.CreateItem(output);
             }
 
             UpdateItems();
@@ -189,7 +204,7 @@ namespace ConsignmentShopUI
             bool valid = true;
             decimal price;
 
-            if ((Vendor)listBoxVendors.SelectedItem == null)
+            if ((VendorModel)listBoxVendors.SelectedItem == null)
             {
                 ErrorMessage += "Please select a valid vendor.\n";
                 valid = false;
@@ -223,7 +238,7 @@ namespace ConsignmentShopUI
 
         private void btnEdit_Click(object sender, System.EventArgs e)
         {
-            Item selectedItem = (Item)allItemsListBox.SelectedItem;
+            ItemModel selectedItem = (ItemModel)allItemsListBox.SelectedItem;
             editingItem = selectedItem;
 
             if(selectedItem == null)
@@ -243,7 +258,7 @@ namespace ConsignmentShopUI
 
         private void PopulateItemTextBoxes()
         {
-            Item selectedItem = (Item)allItemsListBox.SelectedItem;
+            ItemModel selectedItem = (ItemModel)allItemsListBox.SelectedItem;
 
             if(selectedItem == null)
             {
@@ -268,12 +283,23 @@ namespace ConsignmentShopUI
             vendors.ResetBindings();
         }
 
-        private void radioButtonOption_CheckedChanged(object sender, System.EventArgs e)
+        private async void radioButtonOption_CheckedChanged(object sender, System.EventArgs e)
         {
-            UpdateItems();
+            // This event fires twice, once on the new button being checked and once on the old button being unchecked
+            // We only want to react to the new button being checked
+
+            RadioButton rb = sender as RadioButton;
+
+            if(rb != null)
+            {
+                if(rb.Checked)
+                {
+                    await UpdateItems();
+                }
+            }
         }
 
-        private void btnDeleteSold_Click(object sender, System.EventArgs e)
+        private async void btnDeleteSold_Click(object sender, System.EventArgs e)
         {
             var result = MessageBox.Show("Are you sure you want to delete all sold items?\n\nOnly items for which the vendor has been paid will be deleted!\n\nThis action cannot be undone!", 
                 "Delete All Sold", 
@@ -286,13 +312,13 @@ namespace ConsignmentShopUI
             }
             else
             {
-                var soldItems = GlobalConfig.Connection.LoadSoldItems();
+                var soldItems = await itemData.LoadSoldItems();
 
                 foreach(var item in soldItems)
                 {
                     if(item.PaymentDistributed)
                     {
-                        GlobalConfig.Connection.RemoveItem(item);
+                        itemData.RemoveItem(item);
                     }
                 }
 

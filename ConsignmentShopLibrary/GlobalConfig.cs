@@ -33,7 +33,7 @@ namespace ConsignmentShopLibrary
     {
         public enum DatabaseType { MSSQL };
 
-        public static IDataConnection Connection { get; private set; }
+        public static IDataAccess Connection { get; private set; }
         public static IConfiguration Configuration { get; private set; }
         public static DatabaseType DBType { get; private set; }
 
@@ -47,7 +47,7 @@ namespace ConsignmentShopLibrary
             // Set database type
             if(db == DatabaseType.MSSQL)
             {
-                SQLConnector sql = new SQLConnector();
+                SqlDb sql = new SqlDb();
                 Connection = sql;
                 DBType = db;
             }

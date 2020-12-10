@@ -310,6 +310,7 @@ namespace ConsignmentShopUI
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "ItemMaintFrm";
             this.Text = "Item Maintance";
+            this.Load += new System.EventHandler(this.ItemMaintFrm_Load);
             this.groupBoxAddItem.ResumeLayout(false);
             this.groupBoxAddItem.PerformLayout();
             this.groupBoxAllItems.ResumeLayout(false);

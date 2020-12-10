@@ -30,34 +30,44 @@ using System.Windows.Forms;
 using ConsignmentShopLibrary.Models;
 using System.Diagnostics;
 using System.Linq;
+using ConsignmentShopLibrary.Data;
+using System.Threading.Tasks;
 
 namespace ConsignmentShopUI
 {
     public partial class ConsignmentShop : Form
     {
-        private readonly BindingList<Item> shoppingCart = new BindingList<Item>();
-        private readonly BindingList<Vendor> vendors = new BindingList<Vendor>();
-        private readonly BindingList<Item> items = new BindingList<Item>();
-        private Store store;
+        private readonly BindingList<ItemModel> shoppingCart = new BindingList<ItemModel>();
+        private readonly BindingList<VendorModel> vendors = new BindingList<VendorModel>();
+        private readonly BindingList<ItemModel> items = new BindingList<ItemModel>();
+
+        private StoreModel store;
+
+        private readonly IStoreData storeData = new StoreData(GlobalConfig.Connection);
+        private readonly IVendorData vendorData = new VendorData(GlobalConfig.Connection);
+        private readonly IItemData itemData = new ItemData(GlobalConfig.Connection);
 
         public ConsignmentShop()
         {
             InitializeComponent();
+        }
 
-            SetupStore();
+        private async void ConsignmentShop_Load(object sender, EventArgs e)
+        {
+            await SetupStore();
 
-            SetupData();
+            await SetupData();
 
             UpdateTotal();
         }
 
-        private void SetupStore()
+        private async Task SetupStore()
         {
             string storeName = GlobalConfig.Configuration.GetSection("Store:Name").Value;
-            store = GlobalConfig.Connection.LoadStore(storeName);
+            store = await storeData.LoadStore(storeName);
         }
 
-        private void SetupData()
+        private async Task SetupData()
         {
             shoppingCartListBox.DataSource = shoppingCart;
             shoppingCartListBox.DisplayMember = "Display";
@@ -65,8 +75,8 @@ namespace ConsignmentShopUI
 
             lblStoreName.Text = store.Name;
 
-            UpdateVendors();
-            UpdateItems();
+            await UpdateVendors();
+            await UpdateItems();
             UpdateBankData();
         }
 
@@ -76,11 +86,13 @@ namespace ConsignmentShopUI
             lblStoreBankValue.Text = $"{ store.StoreBank:C2}";
         }
 
-        private void UpdateVendors()
+        private async Task UpdateVendors()
         {
             vendors.Clear();
 
-            foreach(Vendor v in GlobalConfig.Connection.LoadAllVendors())
+            var allVendors = await vendorData.LoadAllVendors();
+
+            foreach(VendorModel v in allVendors)
             {
                 vendors.Add(v);
             }
@@ -92,11 +104,13 @@ namespace ConsignmentShopUI
             vendors.ResetBindings();
         }
 
-        private void UpdateItems()
+        private async Task UpdateItems()
         {
             items.Clear();
 
-            foreach(Item itm in GlobalConfig.Connection.LoadUnsoldItems())
+            var unsoldItems = await itemData.LoadUnsoldItems();
+
+            foreach(ItemModel itm in unsoldItems)
             {
                 items.Add(itm);
             }
@@ -108,50 +122,9 @@ namespace ConsignmentShopUI
             items.ResetBindings();
         }
 
-        private void SetupDemoData()
-        {
-            vendors.Add(new Vendor { FirstName = "Bill", LastName = "Smith" });
-            vendors.Add(new Vendor { FirstName = "Sue", LastName = "Jones" });
-
-            items.Add(new Item
-            {
-                Name = "Moby Dick",
-                Description = "A book about a whale",
-                Price = 4.50M,
-                Owner = vendors[0]
-            });
-
-            items.Add(new Item
-            {
-                Name = "A Tale of Two Cities",
-                Description = "A book about a revolution",
-                Price = 3.80M,
-                Owner = vendors[1]
-            });
-
-            items.Add(new Item
-            {
-                Name = "Harry Potter Book 1",
-                Description = "A book about a boy",
-                Price = 5.20M,
-                Owner = vendors[1]
-            });
-
-            items.Add(new Item
-            {
-                Name = "Jane Eyre",
-                Description = "A book about a girl",
-                Price = 1.50M,
-                Owner = vendors[0]
-            });
-
-            vendors.ResetBindings();
-            items.ResetBindings();
-        }
-
         private void addToCart_Click(object sender, EventArgs e)
         {
-            Item selectedItem = (Item)itemsListbox.SelectedItem;
+            ItemModel selectedItem = (ItemModel)itemsListbox.SelectedItem;
 
             if(selectedItem == null)
             {
@@ -178,9 +151,9 @@ namespace ConsignmentShopUI
             lblTotal.Text = $"Total: {total:C2}";
         }
 
-        private void makePurchase_Click(object sender, EventArgs e)
+        private async void makePurchase_Click(object sender, EventArgs e)
         {
-            foreach (Item item in shoppingCart)
+            foreach (ItemModel item in shoppingCart)
             {
                 item.Sold = true;
                 item.Owner.PaymentDue += (decimal)item.Owner.CommissionRate * item.Price;
@@ -188,9 +161,9 @@ namespace ConsignmentShopUI
                 store.StoreProfit += (1 - (decimal)item.Owner.CommissionRate) * item.Price;
                 store.StoreBank += item.Price;
 
-                GlobalConfig.Connection.UpdateItem(item);
-                GlobalConfig.Connection.UpdateVendor(item.Owner);
-                GlobalConfig.Connection.UpdateStore(store);
+                itemData.UpdateItem(item);
+                vendorData.UpdateVendor(item.Owner);
+                storeData.UpdateStore(store);
             }
 
             shoppingCart.Clear();
@@ -205,7 +178,7 @@ namespace ConsignmentShopUI
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            Item selectedItem = (Item)shoppingCartListBox.SelectedItem;
+            ItemModel selectedItem = (ItemModel)shoppingCartListBox.SelectedItem;
 
             if(selectedItem == null)
             {
@@ -228,7 +201,7 @@ namespace ConsignmentShopUI
 
         private void itemsListbox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Item selectedItem = (Item)itemsListbox.SelectedItem;
+            ItemModel selectedItem = (ItemModel)itemsListbox.SelectedItem;
 
             if(selectedItem == null)
             {
@@ -262,6 +235,47 @@ namespace ConsignmentShopUI
         private void linkLabelGitHub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start(new ProcessStartInfo("https://github.com/JoyfulReaper") { UseShellExecute = true });
+        }
+
+        private void SetupDemoData()
+        {
+            vendors.Add(new VendorModel { FirstName = "Bill", LastName = "Smith" });
+            vendors.Add(new VendorModel { FirstName = "Sue", LastName = "Jones" });
+
+            items.Add(new ItemModel
+            {
+                Name = "Moby Dick",
+                Description = "A book about a whale",
+                Price = 4.50M,
+                Owner = vendors[0]
+            });
+
+            items.Add(new ItemModel
+            {
+                Name = "A Tale of Two Cities",
+                Description = "A book about a revolution",
+                Price = 3.80M,
+                Owner = vendors[1]
+            });
+
+            items.Add(new ItemModel
+            {
+                Name = "Harry Potter Book 1",
+                Description = "A book about a boy",
+                Price = 5.20M,
+                Owner = vendors[1]
+            });
+
+            items.Add(new ItemModel
+            {
+                Name = "Jane Eyre",
+                Description = "A book about a girl",
+                Price = 1.50M,
+                Owner = vendors[0]
+            });
+
+            vendors.ResetBindings();
+            items.ResetBindings();
         }
     }
 }
