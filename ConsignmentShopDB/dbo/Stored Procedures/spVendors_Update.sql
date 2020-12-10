@@ -11,6 +11,6 @@ begin
 
 	UPDATE Vendors
 	SET FirstName = @FirstName, LastName = @LastName, CommissionRate = @CommissionRate, PaymentDue = @PaymentDue
-	WHERE Id = @id;
+	WHERE Id = @Id;
 
 end

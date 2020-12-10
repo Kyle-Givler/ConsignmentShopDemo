@@ -23,40 +23,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using ConsignmentShopLibrary.Models;
 using System.Threading.Tasks;
 
-namespace ConsignmentShopLibrary.Models
+namespace ConsignmentShopLibrary.Data
 {
-    public class Vendor
+    public interface IStoreData
     {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public double CommissionRate { get; set; }
-        public decimal PaymentDue { get; set; }
-        public string Display
-        {
-            get
-            {
-                return string.Format("{0} {1} - {2:C2}", FirstName, LastName, PaymentDue);
-            }
-        }
-
-        public string FullName
-        {
-            get
-            {
-                return $"{FirstName} {LastName}";
-            }
-        }
-
-        public Vendor()
-        {
-            CommissionRate = .5;
-        }
+        Task<int> CreateStore(StoreModel store);
+        Task<StoreModel> LoadStore(string name);
+        Task<int> UpdateStore(StoreModel store);
     }
 }
