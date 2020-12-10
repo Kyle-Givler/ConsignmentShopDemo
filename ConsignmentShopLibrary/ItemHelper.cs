@@ -23,49 +23,36 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using ConsignmentShopLibrary.DataAccess;
-using Microsoft.Extensions.Configuration;
-using System;
+
+using ConsignmentShopLibrary.Data;
+using ConsignmentShopLibrary.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ConsignmentShopLibrary
 {
-    public static class GlobalConfig
+    public static class ItemHelper
     {
-        public enum DatabaseType { MSSQL };
-
-        public static IDataAccess Connection { get; private set; }
-        public static IConfiguration Configuration { get; private set; }
-        public static DatabaseType DBType { get; private set; }
-
-        static GlobalConfig ()
+        public async static Task PurchaseItems(List<ItemModel> shoppingCart)
         {
-            Configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json", false, true).Build();
-        }
+            IVendorData vendorData = new VendorData(GlobalConfig.Connection);
+            IItemData itemData = new ItemData(GlobalConfig.Connection);
+            IStoreData storeData = new StoreData(GlobalConfig.Connection);
 
-        public static void Initialize(DatabaseType db)
-        {
-            // Set database type
-            if(db == DatabaseType.MSSQL)
+            StoreModel store = await storeData.LoadStore(GlobalConfig.GetStoreName());
+
+            foreach (ItemModel item in shoppingCart)
             {
-                SqlDb sql = new SqlDb();
-                Connection = sql;
-                DBType = db;
+                item.Sold = true;
+                item.Owner.PaymentDue += (decimal)item.Owner.CommissionRate * item.Price;
+
+                store.StoreProfit += (1 - (decimal)item.Owner.CommissionRate) * item.Price;
+                store.StoreBank += item.Price;
+
+                itemData.UpdateItem(item);
+                vendorData.UpdateVendor(item.Owner);
+                storeData.UpdateStore(store);
             }
-        }
-
-        public static string GetStoreName()
-        {
-            return Configuration.GetSection("Store:Name").Value;
-        }
-
-        public static string ConnectionString()
-        {
-            if (DBType == DatabaseType.MSSQL)
-            {
-                return Configuration.GetConnectionString("MSSQL");
-            }
-
-            throw new InvalidOperationException("DBType is not valid");
         }
     }
 }
