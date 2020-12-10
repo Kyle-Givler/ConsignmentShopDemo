@@ -225,7 +225,7 @@ namespace ConsignmentShopUI
                 return;
             }
 
-            var itemsOwnedByVendor = await itemData.LoadItemsByVendor(selectedVendor);
+            var itemsOwnedByVendor = await itemData.LoadSoldItemsByVendor(selectedVendor);
 
             foreach (ItemModel item in itemsOwnedByVendor)
             {

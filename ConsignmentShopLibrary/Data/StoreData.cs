@@ -82,7 +82,13 @@ namespace ConsignmentShopLibrary.Data
 
         public Task<int> UpdateStore(StoreModel store)
         {
-            return dataAccess.SaveData("dbo.spStores_Update", store);
+            return dataAccess.SaveData("dbo.spStores_Update", new
+            {
+                Id = store.Id,
+                Name = store.Name,
+                StoreBank = store.StoreBank,
+                StoreProfit = store.StoreProfit
+            });
         }
     }
 }

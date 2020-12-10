@@ -320,6 +320,10 @@ namespace ConsignmentShopUI
                     {
                         itemData.RemoveItem(item);
                     }
+                    else
+                    {
+                        //MessageBox.Show($"Unable to delete {item.Name}. The vendor must be paid!");
+                    }
                 }
 
                 UpdateItems();

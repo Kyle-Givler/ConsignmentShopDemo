@@ -58,7 +58,14 @@ namespace ConsignmentShopLibrary.Data
 
         public Task<int> UpdateVendor(VendorModel vendor)
         {
-            return dataAccess.SaveData("dbo.spVendors_Update", vendor);
+            return dataAccess.SaveData("dbo.spVendors_Update", new
+            {
+                Id = vendor.Id,
+                FirstName = vendor.FirstName,
+                LastName = vendor.LastName,
+                CommissionRate = vendor.CommissionRate,
+                PaymentDue = vendor.PaymentDue
+            });
         }
 
         public Task<List<VendorModel>> LoadAllVendors()

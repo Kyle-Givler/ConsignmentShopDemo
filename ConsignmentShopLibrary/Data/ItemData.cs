@@ -61,7 +61,16 @@ namespace ConsignmentShopLibrary.Data
 
         public Task<int> UpdateItem(ItemModel item)
         {
-            return dataAccess.SaveData("dbo.spItems_Update", item);
+            return dataAccess.SaveData("dbo.spItems_Update", new
+            {
+                Id = item.Id,
+                Name = item.Name,
+                Description = item.Description,
+                Price = item.Price,
+                Sold = item.Sold,
+                OwnerId = item.OwnerId,
+                PaymentDistributed = item.PaymentDistributed
+            });
         }
 
         public async Task<List<ItemModel>> LoadAllItems()
@@ -93,7 +102,7 @@ namespace ConsignmentShopLibrary.Data
 
         public async Task<List<ItemModel>> LoadSoldItemsByVendor(VendorModel vendor)
         {
-            var soldItems = await dataAccess.LoadData<ItemModel, dynamic>("dbo.spItems_GetSoldByVendorId", vendor);
+            var soldItems = await dataAccess.LoadData<ItemModel, dynamic>("dbo.spItems_GetSoldByVendorId", new { OwnerId = vendor.Id });
 
             foreach (var item in soldItems)
             {
@@ -105,7 +114,7 @@ namespace ConsignmentShopLibrary.Data
 
         public async Task<List<ItemModel>> LoadItemsByVendor(VendorModel vendor)
         {
-            var vendorItems = await dataAccess.LoadData<ItemModel, dynamic>("dbo.spItems_GetByVendorId", vendor);
+            var vendorItems = await dataAccess.LoadData<ItemModel, dynamic>("dbo.spItems_GetByVendorId", new { OwnerId = vendor.Id });
 
             foreach (var item in vendorItems)
             {
@@ -117,7 +126,7 @@ namespace ConsignmentShopLibrary.Data
 
         public Task RemoveItem(ItemModel item)
         {
-            return dataAccess.SaveData("dbo.spItems_Delete", item);
+            return dataAccess.SaveData("dbo.spItems_Delete", new { Id = item.Id });
         }
 
         private async Task AssignOwner(List<ItemModel> allItems)
