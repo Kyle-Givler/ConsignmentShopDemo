@@ -90,6 +90,7 @@ namespace ConsignmentShopUI
                 editing = false;
 
                 output = editingVendor;
+                vendorData.UpdateVendor(output);
             }
             else
             {
@@ -100,7 +101,7 @@ namespace ConsignmentShopUI
                     CommissionRate = double.Parse(textBoxCommison.Text) / 100
                 };
 
-                vendorData.UpdateVendor(editingVendor);
+                vendorData.CreateVendor(output);
             }
 
             UpdateVendors();

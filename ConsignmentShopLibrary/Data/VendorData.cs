@@ -49,7 +49,7 @@ namespace ConsignmentShopLibrary.Data
             p.Add("LastName", vendor.LastName);
             p.Add("CommissionRate", vendor.CommissionRate);
             p.Add("PaymentDue", vendor.PaymentDue);
-            p.Add("Id", DbType.Int32, direction: ParameterDirection.Output);
+            p.Add("Id", 0, DbType.Int32, direction: ParameterDirection.Output);
 
             await dataAccess.SaveData("dbo.spVendors_Insert", p);
 
@@ -75,7 +75,7 @@ namespace ConsignmentShopLibrary.Data
 
         public Task<int> RemoveVendor(VendorModel vendor)
         {
-            return dataAccess.SaveData("dbo.spVendors_Delete", vendor);
+            return dataAccess.SaveData("dbo.spVendors_Delete", new { Id = vendor.Id });
         }
     }
 }
