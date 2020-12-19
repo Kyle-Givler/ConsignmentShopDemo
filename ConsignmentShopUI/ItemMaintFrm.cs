@@ -315,7 +315,7 @@ namespace ConsignmentShopUI
                 {
                     if(item.PaymentDistributed)
                     {
-                        itemData.RemoveItem(item);
+                        await itemData.RemoveItem(item);
                     }
                     else
                     {
