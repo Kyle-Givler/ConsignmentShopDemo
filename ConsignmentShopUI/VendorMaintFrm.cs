@@ -42,6 +42,8 @@ namespace ConsignmentShopUI
         private readonly IVendorData vendorData = new VendorData(GlobalConfig.Connection);
         private readonly IItemData itemData = new ItemData(GlobalConfig.Connection);
 
+        private StoreModel store;
+
         public VendorMaintFrm(StoreModel store)
         {
             InitializeComponent();
@@ -198,7 +200,7 @@ namespace ConsignmentShopUI
                 return;
             }
 
-            vendorData.RemoveVendor(selectedVendor);
+            await vendorData.RemoveVendor(selectedVendor);
             UpdateVendors();
         }
 
