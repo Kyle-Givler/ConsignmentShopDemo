@@ -75,5 +75,32 @@ namespace ConsignmentShopLibrary
 
             storeData.UpdateStore(store);
         }
+
+        public static async Task RemoveVendor(VendorModel vendor)
+        {
+            IVendorData vendorData = new VendorData(GlobalConfig.Connection);
+            IItemData itemData = new ItemData(GlobalConfig.Connection);
+
+            if (vendor == null)
+            {
+                throw new ArgumentNullException("vendor", "Vendor cannot be null.");
+            }
+
+            var items = await itemData.LoadItemsByVendor(vendor);
+
+            // Can't delete vendor if they still have items in the store
+            if (items.Count != 0)
+            {
+                throw new InvalidOperationException($"{vendor.FullName} cannot be deleted because they still have existing items.");
+            }
+
+            // Can't delete a vendor if we owe them money!
+            if (vendor.PaymentDue > 0)
+            {
+                throw new InvalidOperationException($"{vendor.FullName} cannot be deleted until being payed {vendor.PaymentDue:C2}");
+            }
+
+            await vendorData.RemoveVendor(vendor);
+        }
     }
 }

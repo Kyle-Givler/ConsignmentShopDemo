@@ -23,14 +23,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using ConsignmentShopLibrary;
+using ConsignmentShopLibrary.Data;
+using ConsignmentShopLibrary.Models;
 using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ConsignmentShopLibrary;
-using ConsignmentShopLibrary.Data;
-using ConsignmentShopLibrary.Models;
 
 namespace ConsignmentShopUI
 {
@@ -160,7 +160,6 @@ namespace ConsignmentShopUI
 
         private async void btnItemDelete_Click(object sender, System.EventArgs e)
         {
-            //TODO extract this method to the Library
             VendorModel selectedVendor = (VendorModel)listBoxVendors.SelectedItem;
 
             if (selectedVendor == null)
@@ -168,41 +167,25 @@ namespace ConsignmentShopUI
                 return;
             }
 
-            var items = await itemData.LoadItemsByVendor(selectedVendor);
-
-            if (items.Count != 0)
-            {
-                MessageBox.Show($"{selectedVendor.FullName} cannot be deleted because they still have existing items.",
-            "Vendor still has items",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                return;
-            }
-
-            // Can't delete a vendor if we owe them money!
-            if (selectedVendor.PaymentDue > 0)
-            {
-                MessageBox.Show($"{selectedVendor.FullName} cannot be deleted until being payed {selectedVendor.PaymentDue:C2}",
-                    "Vendor must be paid",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                return;
-            }
-
-            // Gonna delete them from the DB!
             var result = MessageBox.Show($"Delete vendor: {selectedVendor.FullName}?\nThis action cannot be undone!",
-                "Delete Vendor?",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning);
+                                        "Delete Vendor?",
+                                        MessageBoxButtons.YesNo,
+                                        MessageBoxIcon.Warning);
 
             if (result != DialogResult.Yes)
             {
                 return;
             }
 
-            await vendorData.RemoveVendor(selectedVendor);
+            try
+            {
+                await VendorHelper.RemoveVendor(selectedVendor);
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
             UpdateVendors();
         }
 
@@ -233,7 +216,7 @@ namespace ConsignmentShopUI
             try
             {
                 await VendorHelper.PayVendor(selectedVendor);
-            } 
+            }
             catch (InvalidOperationException)
             {
                 MessageBox.Show("You can't afford to pay the vendor", "You have no money", MessageBoxButtons.OK, MessageBoxIcon.Error);
