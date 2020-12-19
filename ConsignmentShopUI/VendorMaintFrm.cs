@@ -25,6 +25,7 @@ SOFTWARE.
 
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ConsignmentShopLibrary;
@@ -58,6 +59,7 @@ namespace ConsignmentShopUI
             vendors.Clear();
 
             var allVendors = await vendorData.LoadAllVendors();
+            allVendors = allVendors.OrderBy(x => x.LastName).ToList();
 
             foreach (var v in allVendors)
             {

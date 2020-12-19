@@ -62,6 +62,7 @@ namespace ConsignmentShopUI
             vendors.Clear();
 
             var allVendors = await vendorData.LoadAllVendors();
+            allVendors = allVendors.OrderBy(x => x.LastName).ToList();
 
             foreach (var vendor in allVendors)
             {
@@ -81,6 +82,8 @@ namespace ConsignmentShopUI
             if (radioButtonAll.Checked)
             {
                 currentItems = await itemData.LoadAllItems();
+                currentItems = currentItems.OrderBy(x => x.Name).ToList();
+
                 foreach (var item in currentItems)
                 {
                     items.Add(item);
@@ -89,6 +92,8 @@ namespace ConsignmentShopUI
             else if (radioButtonSold.Checked)
             {
                 currentItems = await itemData.LoadSoldItems();
+                currentItems = currentItems.OrderBy(x => x.Name).ToList();
+
                 foreach (var item in currentItems)
                 {
                     items.Add(item);
@@ -97,6 +102,8 @@ namespace ConsignmentShopUI
             else if (radioButtonUnsold.Checked)
             {
                 currentItems = await itemData.LoadUnsoldItems();
+                currentItems = currentItems.OrderBy(x => x.Name).ToList();
+
                 foreach (var item in currentItems)
                 {
                     items.Add(item);
