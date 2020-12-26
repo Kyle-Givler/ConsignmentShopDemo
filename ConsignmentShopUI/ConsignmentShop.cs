@@ -94,6 +94,7 @@ namespace ConsignmentShopUI
             vendors.Clear();
 
             var allVendors = await vendorData.LoadAllVendors();
+            allVendors = allVendors.OrderBy(x => x.LastName).ToList();
 
             foreach(VendorModel v in allVendors)
             {
@@ -112,8 +113,9 @@ namespace ConsignmentShopUI
             items.Clear();
 
             var unsoldItems = await itemData.LoadUnsoldItems();
+            unsoldItems = unsoldItems.OrderBy(x => x.Name).ToList();
 
-            foreach(ItemModel itm in unsoldItems)
+            foreach (ItemModel itm in unsoldItems)
             {
                 items.Add(itm);
             }

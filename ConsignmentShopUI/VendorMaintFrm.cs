@@ -23,13 +23,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
-using System.ComponentModel;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using ConsignmentShopLibrary;
 using ConsignmentShopLibrary.Data;
 using ConsignmentShopLibrary.Models;
+using System;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ConsignmentShopUI
 {
@@ -58,6 +59,7 @@ namespace ConsignmentShopUI
             vendors.Clear();
 
             var allVendors = await vendorData.LoadAllVendors();
+            allVendors = allVendors.OrderBy(x => x.LastName).ToList();
 
             foreach (var v in allVendors)
             {
@@ -71,7 +73,7 @@ namespace ConsignmentShopUI
             vendors.ResetBindings();
         }
 
-        private void btnAddVendor_Click(object sender, System.EventArgs e)
+        private async void btnAddVendor_Click(object sender, System.EventArgs e)
         {
             VendorModel output = null;
 
@@ -91,6 +93,9 @@ namespace ConsignmentShopUI
                 editing = false;
 
                 output = editingVendor;
+
+                textBoxCommison.Enabled = true;
+
                 vendorData.UpdateVendor(output);
             }
             else
@@ -102,7 +107,7 @@ namespace ConsignmentShopUI
                     CommissionRate = double.Parse(textBoxCommison.Text) / 100
                 };
 
-                vendorData.CreateVendor(output);
+                await vendorData.CreateVendor(output);
             }
 
             UpdateVendors();
@@ -158,7 +163,6 @@ namespace ConsignmentShopUI
 
         private async void btnItemDelete_Click(object sender, System.EventArgs e)
         {
-            //TODO extract this method to the Library
             VendorModel selectedVendor = (VendorModel)listBoxVendors.SelectedItem;
 
             if (selectedVendor == null)
@@ -166,41 +170,25 @@ namespace ConsignmentShopUI
                 return;
             }
 
-            var items = await itemData.LoadItemsByVendor(selectedVendor);
-
-            if (items.Count != 0)
-            {
-                MessageBox.Show($"{selectedVendor.FullName} cannot be deleted because they still have existing items.",
-            "Vendor still has items",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                return;
-            }
-
-            // Can't delete a vendor if we owe them money!
-            if (selectedVendor.PaymentDue > 0)
-            {
-                MessageBox.Show($"{selectedVendor.FullName} cannot be deleted until being payed {selectedVendor.PaymentDue:C2}",
-                    "Vendor must be paid",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                return;
-            }
-
-            // Gonna delete them from the DB!
             var result = MessageBox.Show($"Delete vendor: {selectedVendor.FullName}?\nThis action cannot be undone!",
-                "Delete Vendor?",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning);
+                                        "Delete Vendor?",
+                                        MessageBoxButtons.YesNo,
+                                        MessageBoxIcon.Warning);
 
             if (result != DialogResult.Yes)
             {
                 return;
             }
 
-            await vendorData.RemoveVendor(selectedVendor);
+            try
+            {
+                await VendorHelper.RemoveVendor(selectedVendor);
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
             UpdateVendors();
         }
 
@@ -231,7 +219,7 @@ namespace ConsignmentShopUI
             try
             {
                 await VendorHelper.PayVendor(selectedVendor);
-            } 
+            }
             catch (InvalidOperationException)
             {
                 MessageBox.Show("You can't afford to pay the vendor", "You have no money", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -248,6 +236,11 @@ namespace ConsignmentShopUI
             if (selectedVendor == null)
             {
                 return;
+            }
+
+            if (editingVendor.PaymentDue > 0)
+            {
+                textBoxCommison.Enabled = false;
             }
 
             editing = true;

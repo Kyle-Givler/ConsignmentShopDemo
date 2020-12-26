@@ -2,7 +2,7 @@
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [Name] NVARCHAR(200) NOT NULL, 
-    [Description] NVARCHAR(2000) NOT NULL, 
+    [Description] NVARCHAR(2000) NULL, 
     [Price] MONEY NOT NULL, 
     [Sold] BIT NOT NULL,
     [OwnerId] INT NOT NULL, 

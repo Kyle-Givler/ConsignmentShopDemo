@@ -42,7 +42,8 @@ namespace ConsignmentShopLibrary.Models
         {
             get
             {
-                return string.Format("{0} {1} - {2:C2}", FirstName, LastName, PaymentDue);
+                //return string.Format("{0} {1} {2} - {2:C2}", FirstName, LastName, PaymentDue);
+                return $"{FirstName} {LastName} ({CommissionRate * 100}%) - {PaymentDue:C2}";
             }
         }
 
