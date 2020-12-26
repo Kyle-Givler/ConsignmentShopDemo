@@ -27,6 +27,7 @@ SOFTWARE.
 using ConsignmentShopLibrary.Data;
 using ConsignmentShopLibrary.Models;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ConsignmentShopLibrary
@@ -53,9 +54,14 @@ namespace ConsignmentShopLibrary
             {
                 if (!item.PaymentDistributed)
                 {
+                    //var AmountOwedFromDbList = await GlobalConfig.Connection.QueryRawSQL<decimal>($"select PaymentDue from Vendors where Id = {item.Owner.Id};");
+                    //decimal paymentDueFromDb = AmountOwedFromDbList.First();
+
+                    //item.Owner.PaymentDue = paymentDueFromDb;
+
                     decimal amountOwed = (decimal)item.Owner.CommissionRate * item.Price;
 
-                    if (store.StoreBank > amountOwed)
+                    if (store.StoreBank >= amountOwed)
                     {
                         store.StoreBank -= amountOwed;
 
@@ -69,8 +75,8 @@ namespace ConsignmentShopLibrary
                     }
                 }
 
-                itemData.UpdateItem(item);
-                vendorData.UpdateVendor(vendor);
+                await itemData.UpdateItem(item);
+                await vendorData.UpdateVendor(vendor);
             }
 
             storeData.UpdateStore(store);

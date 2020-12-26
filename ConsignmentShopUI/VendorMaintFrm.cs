@@ -73,7 +73,7 @@ namespace ConsignmentShopUI
             vendors.ResetBindings();
         }
 
-        private void btnAddVendor_Click(object sender, System.EventArgs e)
+        private async void btnAddVendor_Click(object sender, System.EventArgs e)
         {
             VendorModel output = null;
 
@@ -93,6 +93,9 @@ namespace ConsignmentShopUI
                 editing = false;
 
                 output = editingVendor;
+
+                textBoxCommison.Enabled = true;
+
                 vendorData.UpdateVendor(output);
             }
             else
@@ -104,7 +107,7 @@ namespace ConsignmentShopUI
                     CommissionRate = double.Parse(textBoxCommison.Text) / 100
                 };
 
-                vendorData.CreateVendor(output);
+                await vendorData.CreateVendor(output);
             }
 
             UpdateVendors();
@@ -233,6 +236,11 @@ namespace ConsignmentShopUI
             if (selectedVendor == null)
             {
                 return;
+            }
+
+            if (editingVendor.PaymentDue > 0)
+            {
+                textBoxCommison.Enabled = false;
             }
 
             editing = true;
