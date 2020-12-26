@@ -27,6 +27,7 @@ SOFTWARE.
 using ConsignmentShopLibrary.Data;
 using ConsignmentShopLibrary.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ConsignmentShopLibrary
@@ -43,15 +44,20 @@ namespace ConsignmentShopLibrary
 
             foreach (ItemModel item in shoppingCart)
             {
+                var PayementDueFromDbList = await GlobalConfig.Connection.QueryRawSQL<decimal>($"select PaymentDue from Vendors where Id = {item.Owner.Id};");
+                decimal paymentDueFromDb = PayementDueFromDbList.First();
+
+                item.Owner.PaymentDue += paymentDueFromDb;
+
                 item.Sold = true;
                 item.Owner.PaymentDue += (decimal)item.Owner.CommissionRate * item.Price;
 
                 store.StoreProfit += (1 - (decimal)item.Owner.CommissionRate) * item.Price;
                 store.StoreBank += item.Price;
 
-                itemData.UpdateItem(item);
-                vendorData.UpdateVendor(item.Owner);
-                storeData.UpdateStore(store);
+                await itemData.UpdateItem(item);
+                await vendorData.UpdateVendor(item.Owner);
+                await storeData.UpdateStore(store);
             }
         }
     }

@@ -62,6 +62,7 @@ namespace ConsignmentShopUI
             vendors.Clear();
 
             var allVendors = await vendorData.LoadAllVendors();
+            allVendors = allVendors.OrderBy(x => x.LastName).ToList();
 
             foreach (var vendor in allVendors)
             {
@@ -81,6 +82,8 @@ namespace ConsignmentShopUI
             if (radioButtonAll.Checked)
             {
                 currentItems = await itemData.LoadAllItems();
+                currentItems = currentItems.OrderBy(x => x.Name).ToList();
+
                 foreach (var item in currentItems)
                 {
                     items.Add(item);
@@ -89,6 +92,8 @@ namespace ConsignmentShopUI
             else if (radioButtonSold.Checked)
             {
                 currentItems = await itemData.LoadSoldItems();
+                currentItems = currentItems.OrderBy(x => x.Name).ToList();
+
                 foreach (var item in currentItems)
                 {
                     items.Add(item);
@@ -97,6 +102,8 @@ namespace ConsignmentShopUI
             else if (radioButtonUnsold.Checked)
             {
                 currentItems = await itemData.LoadUnsoldItems();
+                currentItems = currentItems.OrderBy(x => x.Name).ToList();
+
                 foreach (var item in currentItems)
                 {
                     items.Add(item);
@@ -193,7 +200,7 @@ namespace ConsignmentShopUI
         {
             string ErrorMessage = string.Empty;
             bool valid = true;
-            decimal price;
+            decimal price = 0;
 
             if ((VendorModel)listBoxVendors.SelectedItem == null)
             {
@@ -207,15 +214,21 @@ namespace ConsignmentShopUI
                 ErrorMessage += "Please enter a valid name.\n";
             }
 
-            if (textBoxDesc.Text == "")
-            {
-                valid = false;
-                ErrorMessage += "Please enter a valid description.\n";
-            }
+            //if (textBoxDesc.Text == "")
+            //{
+            //    valid = false;
+            //    ErrorMessage += "Please enter a valid description.\n";
+            //}
 
             if (textBoxPrice.Text == "" || !decimal.TryParse(textBoxPrice.Text, out price))
             {
                 ErrorMessage += "Please enter a valid price.\n";
+                valid = false;
+            }
+
+            if(price < 0)
+            {
+                ErrorMessage += "Price must be positive.\n";
                 valid = false;
             }
 
@@ -325,6 +338,26 @@ namespace ConsignmentShopUI
 
                 UpdateItems();
             }
+        }
+
+        private void allItemsListBox_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            UpdateSelectedItemInfo();
+        }
+
+        private void UpdateSelectedItemInfo()
+        {
+            ItemModel item = (ItemModel)allItemsListBox.SelectedItem;
+
+            if (item == null)
+            {
+                return;
+            }
+
+            lblNameValue.Text = item.Name;
+            textBoxSelectedDesc.Text = item.Description;
+            lblPriceValue.Text = $"{item.Price:C2}";
+            lblVendorValue.Text = item.Owner.FullName;
         }
     }
 }

@@ -26,7 +26,6 @@ SOFTWARE.
 // This Program/Demo based on this video: https://www.youtube.com/watch?v=YxewTI4H2mY
 // Very much extended from the video
 
-// TODO sort the lists, probably alphabetically 
 // TODO ASP.net frontend / other UIs
 
 using System;
