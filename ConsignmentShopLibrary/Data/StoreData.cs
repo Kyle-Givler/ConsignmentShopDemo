@@ -46,7 +46,7 @@ namespace ConsignmentShopLibrary.Data
         {
             var rows = await dataAccess.LoadData<StoreModel, dynamic>("dbo.SpStores_Get", new { Name = name });
 
-            if(!rows.Any())
+            if (!rows.Any())
             {
                 StoreModel store = new StoreModel { Name = name, StoreBank = 0, StoreProfit = 0 };
 
@@ -55,7 +55,7 @@ namespace ConsignmentShopLibrary.Data
                 return store;
             }
 
-            if(rows.Count() > 1)
+            if (rows.Count > 1)
             {
                 throw new Exception($"Multiple stores named {name} exit.");
             }
@@ -65,7 +65,14 @@ namespace ConsignmentShopLibrary.Data
 
         public async Task<int> CreateStore(StoreModel store)
         {
-            // TODO do not allow inserting if the name already exisits
+            string sql = "select count(id) from Stores where name = @Name";
+            var resList = await dataAccess.QueryRawSQL<int, dynamic>(sql, new { Name = store.Name });
+            int res = resList.First();
+
+            if(res != 0)
+            {
+                throw new ArgumentException("A store with the same name already exists.", nameof(store));
+            }
 
             DynamicParameters p = new DynamicParameters();
 

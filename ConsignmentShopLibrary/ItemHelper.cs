@@ -44,7 +44,7 @@ namespace ConsignmentShopLibrary
 
             foreach (ItemModel item in shoppingCart)
             {
-                var PayementDueFromDbList = await GlobalConfig.Connection.QueryRawSQL<decimal>($"select PaymentDue from Vendors where Id = {item.Owner.Id};");
+                var PayementDueFromDbList = await GlobalConfig.Connection.QueryRawSQL<decimal, dynamic>($"select PaymentDue from Vendors where Id = {item.Owner.Id};", new { });
                 decimal paymentDueFromDb = PayementDueFromDbList.First();
 
                 item.Owner.PaymentDue += paymentDueFromDb;
