@@ -55,7 +55,7 @@ namespace ConsignmentShopLibrary.Data
                 return store;
             }
 
-            if (rows.Count() > 1)
+            if (rows.Count > 1)
             {
                 throw new Exception($"Multiple stores named {name} exit.");
             }
@@ -71,7 +71,7 @@ namespace ConsignmentShopLibrary.Data
 
             if(res != 0)
             {
-                throw new ArgumentException("A store with the same name already exists.", "store");
+                throw new ArgumentException("A store with the same name already exists.", nameof(store));
             }
 
             DynamicParameters p = new DynamicParameters();

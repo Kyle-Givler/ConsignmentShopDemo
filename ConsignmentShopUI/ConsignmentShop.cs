@@ -44,6 +44,7 @@ namespace ConsignmentShopUI
         private StoreModel store;
 
         // Maybe some DI would be helpful for these, will have to look into it more
+        //TODO look into Dependency Injection
         private readonly IStoreData storeData = new StoreData(GlobalConfig.Connection);
         private readonly IVendorData vendorData = new VendorData(GlobalConfig.Connection);
         private readonly IItemData itemData = new ItemData(GlobalConfig.Connection);
@@ -231,7 +232,7 @@ namespace ConsignmentShopUI
                 return;
             }
 
-            VendorMaintFrm frm = new VendorMaintFrm(store);
+            VendorMaintFrm frm = new VendorMaintFrm();
             frm.ShowDialog(this);
 
             await UpdateVendors();
