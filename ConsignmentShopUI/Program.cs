@@ -27,6 +27,8 @@ SOFTWARE.
 // Very much extended from the video
 
 // TODO ASP.net frontend / other UIs
+// TODO Disable buttons when something is in the shopping cart
+// TODO Show if payment distrubuted in item maintanace
 
 using System;
 using System.Windows.Forms;
