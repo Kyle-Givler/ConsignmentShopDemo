@@ -217,13 +217,14 @@ namespace ConsignmentShopUI
             lblVendorValue.Text = string.Empty;
         }
 
-        private void btnVenderMaint_Click(object sender, EventArgs e)
+        private async void btnVenderMaint_Click(object sender, EventArgs e)
         {
             VendorMaintFrm frm = new VendorMaintFrm(store);
             frm.ShowDialog(this);
 
-            UpdateVendors();
-            UpdateBankData();
+            await UpdateVendors();
+            await UpdateItems();
+            await UpdateBankData();
         }
 
         private void linkLabelGitHub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
