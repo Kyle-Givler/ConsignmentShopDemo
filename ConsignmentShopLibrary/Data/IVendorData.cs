@@ -31,9 +31,31 @@ namespace ConsignmentShopLibrary.Data
 {
     public interface IVendorData
     {
+        /// <summary>
+        /// Save vendor to database
+        /// </summary>
+        /// <param name="vendor">The vendor to save</param>
+        /// <returns>The id of the vendor</returns>
         Task<int> CreateVendor(VendorModel vendor);
+
+        /// <summary>
+        /// Load all vendors from the database
+        /// </summary>
+        /// <returns>A List of all vendors from the database</returns>
         Task<List<VendorModel>> LoadAllVendors();
+
+        /// <summary>
+        /// Remove a vendor from the database
+        /// </summary>
+        /// <param name="vendor">The vendor to remove</param>
+        /// <returns>The number of rows affacted</returns>
         Task<int> RemoveVendor(VendorModel vendor);
+
+        /// <summary>
+        /// Update vendor information in the database
+        /// </summary>
+        /// <param name="vendor">The vendor to update</param>
+        /// <returns>The number of rows affacted</returns>
         Task<int> UpdateVendor(VendorModel vendor);
     }
 }

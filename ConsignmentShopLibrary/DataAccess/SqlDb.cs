@@ -29,14 +29,22 @@ namespace ConsignmentShopLibrary.DataAccess
             }
         }
 
-        public async Task<List<T>> QueryRawSQL<T>(string sql)
+        public async Task<List<T>> QueryRawSQL<T, U>(string sql, U parameters)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnectionString()))
             {
-                var res = await connection.QueryAsync<T>(sql);
+                var res = await connection.QueryAsync<T>(sql, parameters);
                 return res.ToList();
             }
         }
 
+        public async Task<int> ExecuteRawSQL<T, U>(string sql, U parameters)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnectionString()))
+            {
+                var res = await connection.ExecuteAsync(sql, parameters);
+                return res;
+            }
+        }
     }
 }

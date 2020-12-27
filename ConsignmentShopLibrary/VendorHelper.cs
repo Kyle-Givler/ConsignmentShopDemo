@@ -38,7 +38,7 @@ namespace ConsignmentShopLibrary
         {
             if (vendor == null)
             {
-                throw new ArgumentNullException("vendor", "Vendor cannot be null.");
+                throw new ArgumentNullException(nameof(vendor), "Vendor cannot be null.");
             }
 
             IVendorData vendorData = new VendorData(GlobalConfig.Connection);
@@ -89,7 +89,7 @@ namespace ConsignmentShopLibrary
 
             if (vendor == null)
             {
-                throw new ArgumentNullException("vendor", "Vendor cannot be null.");
+                throw new ArgumentNullException(nameof(vendor), "Vendor cannot be null.");
             }
 
             var items = await itemData.LoadItemsByVendor(vendor);

@@ -29,7 +29,6 @@ using Dapper;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace ConsignmentShopLibrary.Data
 {
