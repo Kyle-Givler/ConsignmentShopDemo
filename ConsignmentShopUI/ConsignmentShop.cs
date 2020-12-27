@@ -187,6 +187,12 @@ namespace ConsignmentShopUI
 
         private void btnItemMaint_Click(object sender, EventArgs e)
         {
+            if (shoppingCart.Count > 0)
+            {
+                MessageBox.Show("Item maintenance cannnot be performed during a transaction.");
+                return;
+            }
+
             ItemMaintFrm frm = new ItemMaintFrm();
             frm.ShowDialog();
 
@@ -219,6 +225,12 @@ namespace ConsignmentShopUI
 
         private async void btnVenderMaint_Click(object sender, EventArgs e)
         {
+            if(shoppingCart.Count > 0)
+            {
+                MessageBox.Show("Vendor maintenance cannnot be performed during a transaction.");
+                return;
+            }
+
             VendorMaintFrm frm = new VendorMaintFrm(store);
             frm.ShowDialog(this);
 
