@@ -30,8 +30,25 @@ namespace ConsignmentShopLibrary.Data
 {
     public interface IStoreData
     {
+        /// <summary>
+        /// Save a store to the database
+        /// </summary>
+        /// <param name="store">The store to save</param>
+        /// <returns>The id of the store</returns>
         Task<int> CreateStore(StoreModel store);
+
+        /// <summary>
+        /// Load a store from the database
+        /// </summary>
+        /// <param name="name">The name of the store to load</param>
+        /// <returns></returns>
         Task<StoreModel> LoadStore(string name);
+
+        /// <summary>
+        /// Update a store in the database
+        /// </summary>
+        /// <param name="store">The store to update</param>
+        /// <returns>The number of rows affected</returns>
         Task<int> UpdateStore(StoreModel store);
     }
 }

@@ -23,15 +23,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Collections.Generic;
-
 namespace ConsignmentShopLibrary.Models
 {
     public class StoreModel
     {
+        /// <summary>
+        /// The id of this store's database row
+        /// </summary>
         public int Id { get; set; }
+
+        /// <summary>
+        /// The name of the store
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// The total amount in the store's bank account
+        /// </summary>
         public decimal StoreBank { get; set; }
+
+        /// <summary>
+        /// The total profit of the store
+        /// </summary>
         public decimal StoreProfit { get; set; }
     }
 }

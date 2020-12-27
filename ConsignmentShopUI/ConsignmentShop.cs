@@ -44,6 +44,7 @@ namespace ConsignmentShopUI
         private StoreModel store;
 
         // Maybe some DI would be helpful for these, will have to look into it more
+        //TODO look into Dependency Injection
         private readonly IStoreData storeData = new StoreData(GlobalConfig.Connection);
         private readonly IVendorData vendorData = new VendorData(GlobalConfig.Connection);
         private readonly IItemData itemData = new ItemData(GlobalConfig.Connection);
@@ -187,6 +188,12 @@ namespace ConsignmentShopUI
 
         private void btnItemMaint_Click(object sender, EventArgs e)
         {
+            if (shoppingCart.Count > 0)
+            {
+                MessageBox.Show("Item maintenance cannnot be performed during a transaction.");
+                return;
+            }
+
             ItemMaintFrm frm = new ItemMaintFrm();
             frm.ShowDialog();
 
@@ -217,13 +224,20 @@ namespace ConsignmentShopUI
             lblVendorValue.Text = string.Empty;
         }
 
-        private void btnVenderMaint_Click(object sender, EventArgs e)
+        private async void btnVenderMaint_Click(object sender, EventArgs e)
         {
-            VendorMaintFrm frm = new VendorMaintFrm(store);
+            if(shoppingCart.Count > 0)
+            {
+                MessageBox.Show("Vendor maintenance cannnot be performed during a transaction.");
+                return;
+            }
+
+            VendorMaintFrm frm = new VendorMaintFrm();
             frm.ShowDialog(this);
 
-            UpdateVendors();
-            UpdateBankData();
+            await UpdateVendors();
+            await UpdateItems();
+            await UpdateBankData();
         }
 
         private void linkLabelGitHub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

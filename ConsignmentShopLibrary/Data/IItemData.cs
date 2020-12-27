@@ -31,13 +31,57 @@ namespace ConsignmentShopLibrary.Data
 {
     public interface IItemData
     {
+        /// <summary>
+        /// Save an item to the database
+        /// </summary>
+        /// <param name="item">The item to save in the database</param>
+        /// <returns>The id of the item</returns>
         Task<int> CreateItem(ItemModel item);
+
+        /// <summary>
+        /// Load all items from the database
+        /// </summary>
+        /// <returns>All items in the dateabase</returns>
         Task<List<ItemModel>> LoadAllItems();
+
+        /// <summary>
+        /// Load items owned be a specific Vendor from the database
+        /// </summary>
+        /// <param name="vendor">The vendor for which to load items</param>
+        /// <returns>All items owned by vendor</returns>
         Task<List<ItemModel>> LoadItemsByVendor(VendorModel vendor);
+
+        /// <summary>
+        /// Load all sold items from the database
+        /// </summary>
+        /// <returns>List of all sold items</returns>
         Task<List<ItemModel>> LoadSoldItems();
+
+        /// <summary>
+        /// Loads all sold items by vendor
+        /// </summary>
+        /// <param name="vendor">The vendor for which to load sold items</param>
+        /// <returns>All sold items owned by the given vendor</returns>
         Task<List<ItemModel>> LoadSoldItemsByVendor(VendorModel vendor);
+
+        /// <summary>
+        /// Load all unsold items from the database
+        /// </summary>
+        /// <returns>List of all unsold items</returns>
         Task<List<ItemModel>> LoadUnsoldItems();
+
+        /// <summary>
+        /// Remove an item from the database
+        /// </summary>
+        /// <param name="item">The item to remove</param>
+        /// <returns>The number of rows affected</returns>
         Task RemoveItem(ItemModel item);
+
+        /// <summary>
+        /// Update an item stored in the database
+        /// </summary>
+        /// <param name="item">The item to update</param>
+        /// <returns>The number of rows affected</returns>
         Task<int> UpdateItem(ItemModel item);
     }
 }

@@ -41,15 +41,11 @@ namespace ConsignmentShopUI
         private VendorModel editingVendor = null;
 
         private readonly IVendorData vendorData = new VendorData(GlobalConfig.Connection);
-        private readonly IItemData itemData = new ItemData(GlobalConfig.Connection);
 
-        private StoreModel store;
 
-        public VendorMaintFrm(StoreModel store)
+        public VendorMaintFrm()
         {
             InitializeComponent();
-
-            this.store = store;
 
             UpdateVendors();
         }
