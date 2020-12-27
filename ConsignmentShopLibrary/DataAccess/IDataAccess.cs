@@ -9,6 +9,8 @@ namespace ConsignmentShopLibrary.DataAccess
 
         Task<int> SaveData<T>(string storedProcedure, T parameters);
 
-        Task<List<T>> QueryRawSQL<T>(string sql);
+        Task<List<T>> QueryRawSQL<T, U>(string sql, U parameters);
+
+        Task<int> ExecuteRawSQL<T, U>(string sql, U parameters);
     }
 }
