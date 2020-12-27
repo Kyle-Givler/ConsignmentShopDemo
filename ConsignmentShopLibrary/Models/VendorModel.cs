@@ -23,21 +23,38 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace ConsignmentShopLibrary.Models
 {
     public class VendorModel
     {
+        /// <summary>
+        /// Id of database row
+        /// </summary>
         public int Id { get; set; }
+
+        /// <summary>
+        /// Vendor's First Name
+        /// </summary>
         public string FirstName { get; set; }
+
+        /// <summary>
+        /// Vendor's Last Name
+        /// </summary>
         public string LastName { get; set; }
+
+        /// <summary>
+        /// Commission Rate to pay vendor on items sold
+        /// </summary>
         public double CommissionRate { get; set; }
+
+        /// <summary>
+        /// The amount of payment the vendor is due
+        /// </summary>
         public decimal PaymentDue { get; set; }
+
+        /// <summary>
+        /// The Vendor's Display Name
+        /// </summary>
         public string Display
         {
             get
