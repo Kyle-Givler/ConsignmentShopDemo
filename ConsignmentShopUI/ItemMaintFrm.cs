@@ -39,7 +39,6 @@ namespace ConsignmentShopUI
         private readonly BindingList<ItemModel> items = new BindingList<ItemModel>();
         private readonly BindingList<VendorModel> vendors = new BindingList<VendorModel>();
 
-        private readonly IStoreData storeData = new StoreData(GlobalConfig.Connection);
         private readonly IVendorData vendorData = new VendorData(GlobalConfig.Connection);
         private readonly IItemData itemData = new ItemData(GlobalConfig.Connection);
 
@@ -358,6 +357,24 @@ namespace ConsignmentShopUI
             textBoxSelectedDesc.Text = item.Description;
             lblPriceValue.Text = $"{item.Price:C2}";
             lblVendorValue.Text = item.Owner.FullName;
+
+            if(item.Sold)
+            {
+                lblSoldValue.Text = "True";
+            }
+            else
+            {
+                lblSoldValue.Text = "False";
+            }
+
+            if (item.PaymentDistributed)
+            {
+                lblVendorPaidValue.Text = "True";
+            }
+            else
+            {
+                lblVendorPaidValue.Text = "False";
+            }
         }
     }
 }

@@ -27,7 +27,6 @@ SOFTWARE.
 // Very much extended from the video
 
 // TODO ASP.net frontend / other UIs
-// TODO Show if payment distrubuted in item maintanace
 
 using System;
 using System.Windows.Forms;
